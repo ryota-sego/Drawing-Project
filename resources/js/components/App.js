@@ -1,14 +1,32 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useParams,
+  Link,
+  Redirect,
+} from "react-router-dom";
 
 import NavBar from './NavBar'
 import About from './About'
 import User from './User'
 import Top from './Top'
 
-function App() {
+class App extends React.component {
+    
+    constructor(props){
+        super(props);
+        this.state = {
+            user: "",
+            token:"",
+            
+        };
+    }
+    
+    render(){
     return (
     <Router>
         <div>
@@ -21,6 +39,7 @@ function App() {
         </div>
     </Router>
     )
+    }
 }
 
 if (document.getElementById('app')) {

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use Illuminate\Database\Eloquent\Model;
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -20,6 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'description',
+        'icon',
     ];
 
     /**
@@ -30,6 +34,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'token',
+        'token_created_at'
     ];
 
     /**
@@ -40,4 +46,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    //コメント関連
+    
+    public function comments()
+    {
+        return $this->hasMany('Comment');
+    }
+    
+    //イラスト関連
+    
+    public function illusts()
+    {
+        return $this->hasMany('Illust');
+    }
+    
+    //お気に入り関連
+    
+    public function favorited_illusts(){
+        return $this->belongsToMany(User::class, 'favorites', 'user_id', 'illust_id')->withTimestamps();
+    }
 }
