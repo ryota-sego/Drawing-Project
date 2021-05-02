@@ -2242,28 +2242,42 @@ function Top() {
       password = _useState6[0],
       setPassword = _useState6[1];
 
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
+      _useState8 = _slicedToArray(_useState7, 2),
+      aemail = _useState8[0],
+      asetEmail = _useState8[1];
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
+      _useState10 = _slicedToArray(_useState9, 2),
+      apassword = _useState10[0],
+      asetPassword = _useState10[1];
+
   var try_register = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(e) {
-      var response;
+      var response, a;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               e.preventDefault();
-              _context.next = 3;
+              response = {};
+              _context.next = 4;
               return axios__WEBPACK_IMPORTED_MODULE_3___default().post('api/signup', {
                 'name': name,
                 'email': email,
                 'password': password
+              }).then(function (res) {
+                response = res;
+              })["catch"](function (e) {
+                response = e.response;
               });
 
-            case 3:
-              response = _context.sent;
-              console.log(response); //Cookies.set('my_token', response.data.token);
-              //const a = Cookies.get('my_token');
-              //console.log(a);
+            case 4:
+              console.log(response);
+              a = js_cookie__WEBPACK_IMPORTED_MODULE_2___default().get('my_token');
+              console.log(a);
 
-            case 5:
+            case 7:
             case "end":
               return _context.stop();
           }
@@ -2276,22 +2290,31 @@ function Top() {
     };
   }();
 
-  var checkLoggedIn = /*#__PURE__*/function () {
+  var login = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(e) {
-      var response;
+      var response, a;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
               e.preventDefault();
-              _context2.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_3___default().get('api/isLoggedIn');
+              response = {};
+              _context2.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_3___default().post('api/login', {
+                'email': aemail,
+                'password': apassword
+              }).then(function (res) {
+                response = res;
+              })["catch"](function (e) {
+                response = e.response;
+              });
 
-            case 3:
-              response = _context2.sent;
+            case 4:
               console.log(response);
+              a = js_cookie__WEBPACK_IMPORTED_MODULE_2___default().get('my_token');
+              console.log(a);
 
-            case 5:
+            case 7:
             case "end":
               return _context2.stop();
           }
@@ -2299,8 +2322,72 @@ function Top() {
       }, _callee2);
     }));
 
-    return function checkLoggedIn(_x2) {
+    return function login(_x2) {
       return _ref2.apply(this, arguments);
+    };
+  }();
+
+  var logout = /*#__PURE__*/function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3(e) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              e.preventDefault();
+              response = {};
+              _context3.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_3___default().get('api/logout').then(function (res) {
+                response = res;
+              })["catch"](function (e) {
+                response = e.response;
+              });
+
+            case 4:
+              console.log(response);
+
+            case 5:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    return function logout(_x3) {
+      return _ref3.apply(this, arguments);
+    };
+  }();
+
+  var checkLoggedIn = /*#__PURE__*/function () {
+    var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4(e) {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              e.preventDefault();
+              response = {};
+              _context4.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_3___default().get('api/isLoggedIn').then(function (res) {
+                response = res;
+              })["catch"](function (e) {
+                response = e.response;
+              });
+
+            case 4:
+              console.log(response);
+
+            case 5:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }));
+
+    return function checkLoggedIn(_x4) {
+      return _ref4.apply(this, arguments);
     };
   }();
 
@@ -2344,10 +2431,43 @@ function Top() {
         children: "Register!!"
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
-      name: "login",
-      value: "login",
+      name: "logout",
       type: "submit",
-      onClick: checkLoggedIn
+      onClick: logout,
+      children: "logout"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("form", {
+      className: "main_form",
+      target: "sendPhoto",
+      onSubmit: login,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
+        name: "name",
+        children: "namehere:"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+        type: "text",
+        name: "email",
+        value: aemail,
+        onChange: function onChange(e) {
+          return asetEmail(e.target.value);
+        }
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
+        name: "password",
+        children: "passhere:"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+        type: "text",
+        name: "password",
+        value: apassword,
+        onChange: function onChange(e) {
+          return asetPassword(e.target.value);
+        }
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+        type: "submit",
+        children: "Login!!"
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+      name: "checklogin",
+      type: "submit",
+      onClick: checkLoggedIn,
+      children: "checkLoggedIn"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("iframe", {
       name: "sendPhoto"
     })]

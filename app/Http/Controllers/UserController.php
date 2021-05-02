@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\User;
@@ -14,17 +15,16 @@ class UserController extends Controller
     // Auth 関係
     
     //signin/login状態の管理には、token(cookie)、id(user)を利用する。
-    
+    // dbtableを編集した後は、必ずsave()!!
     // $request->cookie('cookie_name') == Cookie::get('cookie_name')
     
     public function signup(Request $request){
-        
+
         $request->validate([
             'name' => 'max:20|required',
-            'email' => 'unique:App\Models\User,email|required',
+            'email' => 'unique:users,email|required',
             'password' => 'required|max:255|min:5',
             ]);
-        
         
         $user = new User; //new User
         if ($user) { //ユーザが存在すか確認
@@ -37,15 +37,11 @@ class UserController extends Controller
             
             $user->save(); //ユーザのデータを上書き保存
             
-            Cookie::queue('my_token', $token);//クッキーにトークンを追加
-            
-            return [ //ユーザ情報を返す
-                "user" => [
-                    "name" => $user->name,
-                    "icon" => null,
-                    "description" => null,
-                    ]
-                ];  
+            $cookie = cookie('my_token', $token);//cookieを作成
+
+            return response([ //ユーザ情報を返す
+                'user' => $user,
+                ])->cookie($cookie);
         }else{ //ifではじかれると、nullを返す。
             return [
                 "user" => null,
@@ -55,14 +51,38 @@ class UserController extends Controller
     
     public function login(Request $request){
         
-        if (Hash::check('plain-text', $hashedPassword)) {
-    
+        $pass = request()->get('password');
+        $user = User::where('email', request()->get('email'))->first();
+        $hashed_pass = $user->password;
+        if (Hash::check($pass, $hashed_pass)){
+            
+            $token = Str::random(255);
+            $user->token = $token;
+            
+            $user->save();
+            
+            $cookie = cookie('my_token', $token);
+            
+            return request(['message' => 'yeah']);
+        }else{
+            return response(['message' => 'ohhhhhhhhhhhh',
+            'pass' => $pass,
+            'hpass' => $hashed_pass,
+            ]);
         }
         
     }
     
     public function logout(Request $request){
-        
+        $user = User::where('token', $request->cookie('my_token'))->first();
+        if ($user){
+            $user->token = null;
+            $user->save();
+            return response(['status' => $user->token])->withoutCookie('my_token');
+        }else{
+            return response(['message' => 'ohhhhhhhhhhhh'
+            ]);
+        }
     }
     
     //forOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUse
