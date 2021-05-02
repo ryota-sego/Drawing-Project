@@ -15,7 +15,7 @@ import About from './About'
 import User from './User'
 import Top from './Top'
 
-class App extends React.component {
+class App extends React.Component {
     
     constructor(props){
         super(props);

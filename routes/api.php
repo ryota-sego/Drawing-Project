@@ -37,7 +37,8 @@ use App\Http\Controllers\UserController;
 //});
 
 Route::post("/signup", [UserController::class, 'signup'])->name('signup');
-
+Route::post("/login", [UserController::class, 'login'])->name('login');
+Route::get("/isLoggedIn", [UserController::class, 'isLoggedIn'])->name('isLoggedIn');
 
 // ログインログインログインログインログインログインログインログインログインログインログインログインログインログインログインログインログインログインログインログインログインログインログインログインログインログイン
 Route::post("/login",function(){ //認証情報を受け取る(メール、ID、パスなど)
@@ -99,11 +100,11 @@ Route::post('/user',function (Request $request) {
 	return response()->json(['users' => $users]);
 });
 
-Route::group(['middleware' => ['auth']], function () {
-    Route::get('/user', function (Request $request) {
-    return $request->user();
-    });
-});
+//Route::group(['middleware' => ['auth']], function () {
+//    Route::get('/user', function (Request $request) {
+//    return $request->user();
+//    });
+//});
 
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->user();

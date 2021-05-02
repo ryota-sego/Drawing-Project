@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export default class WrapDetailPage extends React.component {
+export default class WrapDetailPage extends React.Component {
     
     constructor(props){
         super(props);
