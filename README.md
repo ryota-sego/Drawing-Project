@@ -1,3 +1,9 @@
+要対応
+NavLinkに関連した不具合あり
+
+
+
+
 npm run watchが動かないとき
   
 nvm alias default v12.16.1  
