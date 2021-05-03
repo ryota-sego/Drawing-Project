@@ -69,22 +69,22 @@ function Top() {
         <div>
         <form className='main_form' target="sendPhoto" onSubmit={try_register}>
             <label name='email'>emailhere:</label>
-            <input type='text' name='email' value={email} onChange={e => setEmail(e.target.value)}></input>
+            <input type='text' className="form-input" name='email' value={email} onChange={e => setEmail(e.target.value)}></input>
             <label name='name'>namehere:</label>
-            <input type='text' name='name' value={name} onChange={e => setName(e.target.value)}></input>
+            <input type='text' className="form-input" name='name' value={name} onChange={e => setName(e.target.value)}></input>
             <label name='password' >passhere:</label>
-            <input type='text' name='password' value={password} onChange={e => setPassword(e.target.value)}></input>
-            <button type="submit">Register!!</button>
+            <input type='text' className="form-input" name='password' value={password} onChange={e => setPassword(e.target.value)}></input>
+            <button type="submit" className="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Register!!</button>
         </form>
         <button name='logout' type='submit' onClick={logout}>logout</button>
         <form className='main_form' target="sendPhoto" onSubmit={login}>
             <label name='name'>namehere:</label>
-            <input type='text' name='email' value={aemail} onChange={e => asetEmail(e.target.value)}></input>
+            <input type='text' className="form-input" name='email' value={aemail} onChange={e => asetEmail(e.target.value)}></input>
             <label name='password' >passhere:</label>
-            <input type='text' name='password' value={apassword} onChange={e => asetPassword(e.target.value)}></input>
-            <button type="submit">Login!!</button>
+            <input type='text' className="form-input" name='password' value={apassword} onChange={e => asetPassword(e.target.value)}></input>
+            <button type="submit" className="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Login!!</button>
         </form>
-        <button name='checklogin'type='submit' onClick={checkLoggedIn}>checkLoggedIn</button>
+        <button name='checklogin' className="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type='submit' onClick={checkLoggedIn}>checkLoggedIn</button>
         <iframe name="sendPhoto">
         </iframe>
         </div>

@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
+import Comment from '../post_parts/Comment'
+
 export default class WrapDetailPage extends React.Component {
     
     constructor(props){
         super(props);
-        const [a, setA] = useState();
+        this.state={
+            'id':'',
+            'name':'',
+            'is_loading':'',
+        }
     }
     
     render(){

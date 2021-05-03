@@ -34,7 +34,7 @@ class UserController extends Controller
             
             $token = Str::random(255); //今回のセッション用のトークンを発行
             $user->token = $token; //ユーザのトークンに登録
-            
+            $user->token_created_at = date("Y-m-d H:i:s");
             $user->save(); //ユーザのデータを上書き保存
             
             $cookie = cookie('my_token', $token);//cookieを作成
@@ -58,7 +58,7 @@ class UserController extends Controller
             
             $token = Str::random(255);
             $user->token = $token;
-            
+            $user->token_created_at = date("Y-m-d H:i:s");
             $user->save();
             
             $cookie = cookie('my_token', $token);
@@ -77,6 +77,7 @@ class UserController extends Controller
         $user = User::where('token', $request->cookie('my_token'))->first();
         if ($user){
             $user->token = null;
+            $user->token_created_at = null;
             $user->save();
             return response(['status' => $user->token])->withoutCookie('my_token');
         }else{
@@ -85,20 +86,31 @@ class UserController extends Controller
         }
     }
     
+    public function is_me(Request $request){
+        $token = Cookie::get('my_token');
+        $user = User::where("token",$token)->first();
+        if ($token && $user) {
+            return [
+            "user" => $user
+            ];
+        }else{
+            abort(401);
+        }
+    }
+    
     //forOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUse
     public function isLoggedIn(Request $request){
-        return ['isloggedin' => $this->isTokenExists(Cookie::get('my_token'))];
+        $token = Cookie::get('my_token');
+        if($token == null){
+            return ['isLoggedIn' => false];
+        }
+        return ['isloggedin' => $this->isTokenExists($token)];
     }
 //=============================================================================================================
     //privates
     
     private function isTokenExists(string $token){
-        try{
-            return User::where('token', $token)->get()->first() !== null? true: false;
-        }catch(Throwable $e){
-            report($e);
-            return false;
-        }
+        return User::where('token', $token)->first() !== null;
     }
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
     //illust 関係

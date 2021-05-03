@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 export default class UserDrawingPane extends React.Component {
     
     constructor(props){
         super(props);
-        const [a, setA] = useState();
+        this.state={
+        }
     }
     
     render(){

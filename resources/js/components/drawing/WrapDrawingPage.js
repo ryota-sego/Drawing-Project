@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+
+import SidePane from '../common/SidePane';
 
 export default class WrapDrawingPage extends React.Component {
     
     constructor(props){
         super(props);
-        const [a, setA] = useState();
+        this.state={
+            'pen':'',
+            'color':'',
+            'tool':'',
+        }
     }
     
     render(){

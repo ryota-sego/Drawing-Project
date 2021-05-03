@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 export default class UserFavoritePane extends React.Component {
     
     constructor(props){
         super(props);
-        const [a, setA] = useState();
+       this.state={
+            'pen':'',
+            'color':'',
+            'tool':'',
+        }
     }
     
     render(){
