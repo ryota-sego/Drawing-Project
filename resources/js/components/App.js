@@ -35,7 +35,6 @@ class App extends React.Component {
             'guest': null,
             'user_name': "",
             'comment_type':'timeline',
-            'is_drawing':false,
             'loading':true,
             'count': 0,
             'yes':true,
@@ -44,17 +43,13 @@ class App extends React.Component {
         this.setIsGuest = this.setIsGuest.bind(this);
         this.setCommentType = this.setCommentType.bind(this);
         this.setSidePaneType = this.setSidePaneType.bind(this);
-        this.handleClick = this.handleClick.bind(this);
-    }
-    
-    handleClick(){
-        this.setState((state)=>({count: state.count + 1, yes: !state.yes}));
-        
     }
     
     componentWillUnmount(){
         
     }
+    
+    setIsDrawing
     
     setIsGuest(){
         this.setState((state)=>({guest: Cookies.get('loggedin') == null}));
@@ -89,10 +84,11 @@ class App extends React.Component {
                     <Header isGuest={this.state.guest} setIsGuest={this.setIsGuest} />
                     <Switch>
 {/*drawing page*/}
-                        <Route exact path={["/home", "/"]}>
+                        <Route exact path="/home">
                             <WrapDrawingPage />
                         </Route>
-                        <Route exact path="/test">
+{/*debug page*/}
+                        <Route exact path="/test_aoj30K+I*dm63wpouSKA@">
                             <User handleClick={this.handleClick} count={this.state.count} yes={this.state.yes} />
                         </Route>
                         
@@ -118,15 +114,22 @@ class App extends React.Component {
                         </Route>
 {/*default (drawing page)*/}
                         <Route>
-                            <WrapDrawingPage />
+                            <Redirect to="/home" />
                         </Route>
                     </Switch>
 {/*sahre (footer)*/}
-                    <Footer isDrawing={this.state.is_drawing} />
-                    
+                    <Switch>
+                        <Route path="/home">
+                            <Footer isDrawing={true} />
+                        </Route>
+                        <Route>
+                            <Footer isDrawing={false} />
+                        </Route>
+                    </Switch>
 {/*for only debug use*/}
-                    <Top handleClick={this.handleClick} count={this.state.count} yes={this.state.yes} />
-                    
+                    <Route exact path="/test_aoj30K+I*dm63wpouSKA@">
+                        <Top handleClick={this.handleClick} count={this.state.count} yes={this.state.yes} />
+                    </Route>
                 </div>
             </Router>
                 )
@@ -136,12 +139,12 @@ class App extends React.Component {
         
         return (
             <Router>
-                <div>
+                <div className="relative min-h-screen min-w-screen">
 {/*share (header) styled, not routed, not lastchecked*/}
                     <Header isGuest={this.state.guest} setIsGuest={this.setIsGuest} />
                     <Switch>
 {/*drawing page*/}
-                        <Route exact path={["/home", "/"]}>
+                        <Route exact path="/home">
                             <WrapDrawingPage />
                         </Route>
 {/*timeline page*/}
@@ -162,12 +165,18 @@ class App extends React.Component {
                         </Route>
 {/*default (drawing page)*/}
                         <Route>
-                            <WrapDrawingPage />
+                            <Redirect to="home" />
                         </Route>
                     </Switch>
 {/*sahre (footer)*/}
-                    <Footer isDrawing={this.state.is_drawing} />
-                    
+                    <Switch>
+                        <Route path="/home">
+                            <Footer isDrawing={true} />
+                        </Route>
+                        <Route>
+                            <Footer isDrawing={false} />
+                        </Route>
+                    </Switch>
 {/*for only debug use*/}
                     <Top />
                 </div>

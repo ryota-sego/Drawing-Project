@@ -86,12 +86,8 @@ function RightHeaderComponent(props){
         const clickHandle = async e => {
             e.preventDefault();
             await Api_Logout(props.setIsGuest);
-
-            console.log(props.isGuest);
-            console.log(4);
-            const a = Cookies.get('loggedin');
-            console.log(a);
         }
+        
         console.log(is_guest);
         console.log(3);
         return is_guest === null || is_guest ?
