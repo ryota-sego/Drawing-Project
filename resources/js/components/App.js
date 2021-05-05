@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
+import Cookies from 'js-cookie';
 import {
   BrowserRouter as Router,
   Switch,
@@ -27,19 +27,28 @@ import User from './User'
 import Top from './Top'
 //debugdebugdebugdebugdebugdebugdebugdebugdebug
 
-
 class App extends React.Component {
     
     constructor(props){
         super(props);
         this.state = {
-            'guest': true,
+            'guest': null,
             'user_name': "",
-            'is_drawing': false,
+            'comment_type':'timeline',
+            'is_drawing':false,
+            'loading':true,
+            'count': 0,
+            'yes':true,
         };
+        
+        this.setIsGuest = this.setIsGuest.bind(this);
+        this.setCommentType = this.setCommentType.bind(this);
+        this.setSidePaneType = this.setSidePaneType.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
     
-    componentDidMount(){
+    handleClick(){
+        this.setState((state)=>({count: state.count + 1, yes: !state.yes}));
         
     }
     
@@ -47,12 +56,89 @@ class App extends React.Component {
         
     }
     
+    setIsGuest(){
+        this.setState((state)=>({guest: Cookies.get('loggedin') == null}));
+    }
+    
+    componentDidMount(){
+         this.setState((state)=>({guest: Cookies.get('loggedin') == null}));
+    }
+    
+    setSidePaneType(){
+        this.setState();
+    }
+    
+    setCommentType(){
+        this.setState();
+    }
+    
+    setIsDrawing(){
+        this.setState(
+            {'is_drawing':!this.state.is_drawing}
+        );
+        console.log(this.state.guest);
+    }
+    
     render(){
+        
+        if(this.state.guest || this.state.guest === null){
+            return(
+                <Router>
+                <div>
+{/*share (header) styled, not routed, not lastchecked*/}
+                    <Header isGuest={this.state.guest} setIsGuest={this.setIsGuest} />
+                    <Switch>
+{/*drawing page*/}
+                        <Route exact path={["/home", "/"]}>
+                            <WrapDrawingPage />
+                        </Route>
+                        <Route exact path="/test">
+                            <User handleClick={this.handleClick} count={this.state.count} yes={this.state.yes} />
+                        </Route>
+                        
+                        <Route exact path="/detail">
+                            <Switch>
+{/*detail page*/}
+                                <Route path="/detail/illust">
+                                    <WrapDetailPage />
+                                </Route>
+{/*user page*/}                                                     {/*この辺のルーティングを考える*/}
+                                <Route>
+                                    <WrapUserPage />
+                                </Route>
+                            </Switch>
+                        </Route>
+{/*login page*/}
+                        <Route exact path="/login">
+                            <Login setIsGuest={this.setIsGuest} isGuest={this.state.guest}/>
+                        </Route>
+{/*signup page*/}
+                        <Route exact path="/signup">
+                            <Signup setIsGuest={this.setIsGuest} isGuest={this.state.guest}/>
+                        </Route>
+{/*default (drawing page)*/}
+                        <Route>
+                            <WrapDrawingPage />
+                        </Route>
+                    </Switch>
+{/*sahre (footer)*/}
+                    <Footer isDrawing={this.state.is_drawing} />
+                    
+{/*for only debug use*/}
+                    <Top handleClick={this.handleClick} count={this.state.count} yes={this.state.yes} />
+                    
+                </div>
+            </Router>
+                )
+        }
+        
+        
+        
         return (
             <Router>
                 <div>
-{/*share (header)*/}
-                    <Header is_guest={this.state.guest} />
+{/*share (header) styled, not routed, not lastchecked*/}
+                    <Header isGuest={this.state.guest} setIsGuest={this.setIsGuest} />
                     <Switch>
 {/*drawing page*/}
                         <Route exact path={["/home", "/"]}>
@@ -74,21 +160,13 @@ class App extends React.Component {
                                 </Route>
                             </Switch>
                         </Route>
-{/*login page*/}
-                        <Route path="/login">
-                            <Login />
-                        </Route>
-{/*logout page*/}
-                        <Route path="/signup">
-                            <Signup />
-                        </Route>
 {/*default (drawing page)*/}
                         <Route>
                             <WrapDrawingPage />
                         </Route>
                     </Switch>
 {/*sahre (footer)*/}
-                    <Footer is_drawing={this.state.is_drawing} />
+                    <Footer isDrawing={this.state.is_drawing} />
                     
 {/*for only debug use*/}
                     <Top />

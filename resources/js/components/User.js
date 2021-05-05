@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-function User() {
+function User(props) {
     
     const [d1, setd1] = useState("a");
 
@@ -25,15 +25,23 @@ function User() {
         console.log('hi');
         setd1(response.data.users.one);
     }
-
+    
+    
     return (
-        <div>
+        <Testes count={props.count} handleClick={props.handleClick}/>
+        
+    );
+}
+
+function Testes(props){
+    return(
+    <div>
             <h1>Userページ</h1>
             <ul>
-                <li>{d1}</li>
+                <li>{props.count}</li>
+                <li><button className="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={props.handleClick} /></li>
             </ul>
-        </div>
-    );
+        </div>)
 }
 
 export default User;

@@ -14,12 +14,41 @@ export default class WrapUserPage extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            
+            'isMe':false,
+            'side_pane_type':'detail',
         }
     }
     
     render(){
-    return <h1>WrapUserPageページ</h1>;
+        
+        
+        
+        
+    return (
+        <div>
+/*上の隙間*/
+            <div>
+                
+            </div>
+/*メイン*/            
+            <div>
+                <div>
+                    /*side*/
+                </div>
+                <div>
+                    /*content*/
+                    <div>
+                        /*nav*/
+                    </div>
+                    <div>
+                        /*Panes*/
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        );
     }
     
 }

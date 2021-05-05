@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-function Top() {
+function Top(props) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -65,8 +65,18 @@ function Top() {
         console.log(response);
     }
     
+    if(props.yes){
+        return(<h1>yesyes</h1>);
+    }
+    
     return (
         <div>
+        <div>
+            <h1>DebugPlayGroundページ</h1>
+            <ul>
+                <li>{props.count}</li>
+            </ul>
+        </div>
         <form className='main_form' target="sendPhoto" onSubmit={try_register}>
             <label name='email'>emailhere:</label>
             <input type='text' className="form-input" name='email' value={email} onChange={e => setEmail(e.target.value)}></input>
@@ -90,5 +100,7 @@ function Top() {
         </div>
         );
 }
+
+
 
 export default Top;

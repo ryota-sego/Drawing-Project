@@ -5,9 +5,7 @@ export default class UserFavoritePane extends React.Component {
     constructor(props){
         super(props);
        this.state={
-            'pen':'',
-            'color':'',
-            'tool':'',
+            'is_loading':false,
         }
     }
     

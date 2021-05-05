@@ -37,11 +37,11 @@ class UserController extends Controller
             $user->token_created_at = date("Y-m-d H:i:s");
             $user->save(); //ユーザのデータを上書き保存
             
-            $cookie = cookie('my_token', $token);//cookieを作成
-
+            $cookie = Cookie::make('my_token', $token);//cookieを作成
+            $cookie_2 = Cookie::make('loggedin', true,0,null,null,null,false);
             return response([ //ユーザ情報を返す
                 'user' => $user,
-                ])->cookie($cookie);
+                ])->cookie($cookie)->cookie($cookie_2);
         }else{ //ifではじかれると、nullを返す。
             return [
                 "user" => null,
@@ -61,15 +61,17 @@ class UserController extends Controller
             $user->token_created_at = date("Y-m-d H:i:s");
             $user->save();
             
-            $cookie = cookie('my_token', $token);
+            $cookie = Cookie::make('my_token', $token);//cookieを作成
+            $cookie_2 = Cookie::make('loggedin', true,0,null,null,null,false);
             
-            return request(['message' => 'yeah']);
-        }else{
-            return response(['message' => 'ohhhhhhhhhhhh',
-            'pass' => $pass,
-            'hpass' => $hashed_pass,
-            ]);
+            return response([
+                'message' => 'yeah'
+                ])->cookie($cookie)->cookie($cookie_2);
         }
+        return response(['message' => 'ohhhhhhhhhhhh',
+        'pass' => $pass,
+        'hpass' => $hashed_pass,
+        ]);
         
     }
     
@@ -79,7 +81,7 @@ class UserController extends Controller
             $user->token = null;
             $user->token_created_at = null;
             $user->save();
-            return response(['status' => $user->token])->withoutCookie('my_token');
+            return response(['status' => $user->token])->withoutCookie('my_token')->withoutCookie('loggedin');
         }else{
             return response(['message' => 'ohhhhhhhhhhhh'
             ]);

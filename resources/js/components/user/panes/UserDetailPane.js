@@ -5,6 +5,7 @@ export default class UserDetailPane extends React.Component {
     constructor(props){
         super(props);
         this.state={
+            'is_loading':false,
         }
     }
     
