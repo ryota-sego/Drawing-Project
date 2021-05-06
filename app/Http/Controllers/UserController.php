@@ -43,9 +43,9 @@ class UserController extends Controller
                 'user' => $user,
                 ])->cookie($cookie)->cookie($cookie_2);
         }else{ //ifではじかれると、nullを返す。
-            return [
+            return response([
                 "user" => null,
-                ];
+                ]);
         }
     }
     

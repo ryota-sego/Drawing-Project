@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\IllustController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,3 +24,5 @@ Route::get("/isLoggedIn", [UserController::class, 'isLoggedIn']);
 
 // 自分か他人かチェック自分か他人かチェック自分か他人かチェック自分か他人かチェック(不要？他ルータの機能と統合可能？)
 Route::get("/is_me", [UserController::class, 'is_me']);
+
+Route::post("/store_illust", [IllustController::class, 'store_illust']);

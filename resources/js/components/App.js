@@ -76,7 +76,7 @@ class App extends React.Component {
     
     render(){
         
-        if(this.state.guest || this.state.guest === null){
+        
             return(
                 <Router>
                 <div>
@@ -85,7 +85,11 @@ class App extends React.Component {
                     <Switch>
 {/*drawing page*/}
                         <Route exact path="/home">
-                            <WrapDrawingPage />
+                            <WrapDrawingPage isGuest={this.state.guest}/>
+                        </Route>
+{/*timeline page*/}
+                        <Route path="/timeline">
+                            <WrapTimelinePage />
                         </Route>
 {/*debug page*/}
                         <Route exact path="/test_aoj30K+I*dm63wpouSKA@">
@@ -118,14 +122,7 @@ class App extends React.Component {
                         </Route>
                     </Switch>
 {/*sahre (footer)*/}
-                    <Switch>
-                        <Route path="/home">
-                            <Footer isDrawing={true} />
-                        </Route>
-                        <Route>
-                            <Footer isDrawing={false} />
-                        </Route>
-                    </Switch>
+                    <Footer />
 {/*for only debug use*/}
                     <Route exact path="/test_aoj30K+I*dm63wpouSKA@">
                         <Top handleClick={this.handleClick} count={this.state.count} yes={this.state.yes} />
@@ -133,55 +130,7 @@ class App extends React.Component {
                 </div>
             </Router>
                 )
-        }
         
-        
-        
-        return (
-            <Router>
-                <div className="relative min-h-screen min-w-screen">
-{/*share (header) styled, not routed, not lastchecked*/}
-                    <Header isGuest={this.state.guest} setIsGuest={this.setIsGuest} />
-                    <Switch>
-{/*drawing page*/}
-                        <Route exact path="/home">
-                            <WrapDrawingPage />
-                        </Route>
-{/*timeline page*/}
-                        <Route path="/timeline">
-                            <WrapTimelinePage />
-                        </Route>
-                        <Route path="/detail">
-                            <Switch>
-{/*detail page*/}
-                                <Route path="/detail/illust">
-                                    <WrapDetailPage />
-                                </Route>
-{/*user page*/}                                                     {/*この辺のルーティングを考える*/}
-                                <Route exact path="/detail">
-                                    <WrapUserPage />
-                                </Route>
-                            </Switch>
-                        </Route>
-{/*default (drawing page)*/}
-                        <Route>
-                            <Redirect to="home" />
-                        </Route>
-                    </Switch>
-{/*sahre (footer)*/}
-                    <Switch>
-                        <Route path="/home">
-                            <Footer isDrawing={true} />
-                        </Route>
-                        <Route>
-                            <Footer isDrawing={false} />
-                        </Route>
-                    </Switch>
-{/*for only debug use*/}
-                    <Top />
-                </div>
-            </Router>
-        )
     }
 }
 

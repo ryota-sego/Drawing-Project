@@ -48,9 +48,19 @@ export function Api_Signup(email, name, password, setIsGuest){
                 });
     console.log('yes?');
 }
-
-export const Api_GetPosts = () => {
-    
+// illust     illust     illust     illust     illust     illust     illust     illust     illust     illust    
+export function Api_StoreIllust(drawing){
+    const drawing_to_json = JSON.stringify(drawing);
+    console.log(drawing_to_json)
+    axios.post('api/store_illust',{'drawing':drawing_to_json})
+                .then(res => {
+                    console.log('success');
+                    console.log(res);
+                })
+                .catch(e => {
+                    console.log('nooo')
+                    console.log(e.response)
+                });
 }
 
 export const Api_ = () => {
