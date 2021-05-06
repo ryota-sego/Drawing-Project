@@ -2751,7 +2751,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Api_Login": () => (/* binding */ Api_Login),
 /* harmony export */   "Api_Signup": () => (/* binding */ Api_Signup),
 /* harmony export */   "Api_StoreIllust": () => (/* binding */ Api_StoreIllust),
-/* harmony export */   "Api_": () => (/* binding */ Api_),
+/* harmony export */   "Api_LordIllust": () => (/* binding */ Api_LordIllust),
 /* harmony export */   "Api_1": () => (/* binding */ Api_1),
 /* harmony export */   "Api_2": () => (/* binding */ Api_2),
 /* harmony export */   "Api_3": () => (/* binding */ Api_3)
@@ -2821,7 +2821,17 @@ function Api_StoreIllust(drawing) {
     console.log(e.response);
   });
 }
-var Api_ = function Api_() {};
+var Api_LordIllust = function Api_LordIllust() {
+  axios__WEBPACK_IMPORTED_MODULE_1___default().post('api/store_illust', {
+    'illust_id': 5
+  }).then(function (res) {
+    console.log('success');
+    console.log(res);
+  })["catch"](function (e) {
+    console.log('nooo');
+    console.log(e.response);
+  });
+};
 var Api_1 = function Api_1() {};
 var Api_2 = function Api_2() {};
 var Api_3 = function Api_3() {};

@@ -24,12 +24,16 @@ class Illust extends Model
     
     public function comments()
     {
-        return $this->hasMany('Comment');
+        return $this->hasMany(Comment::class);
     }
     
     //お気に入り関連
     
     public function favorited_users(){
         return $this->belongsToMany(Illust::class, 'favorites', 'illust_id', 'user_id')->withTimestamps();
+    }
+    
+    static function get_illust($id){
+        return Illust::where('id', $id)->first();
     }
 }

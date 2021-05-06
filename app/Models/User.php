@@ -54,12 +54,17 @@ class User extends Authenticatable
         return User::where('token', $token)->first();
     }
     
+    static function is_exists(string $token){
+        return User::where('token', $token)->first() !== null;
+    }
+    
+    
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
     //illust 関係
     
     public function illusts()
     {
-        return $this->hasMany('Illust');
+        return $this->hasMany(Illust::class);
     }
     
     //=============================================================================================================
@@ -80,7 +85,7 @@ class User extends Authenticatable
     
     public function comments()
     {
-        return $this->hasMany('Comment');
+        return $this->hasMany(Comment::class);
     }
     
     //=============================================================================================================

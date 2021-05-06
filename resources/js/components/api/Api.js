@@ -63,8 +63,16 @@ export function Api_StoreIllust(drawing){
                 });
 }
 
-export const Api_ = () => {
-    
+export const Api_LordIllust = () => {
+    axios.post('api/store_illust', {'illust_id': 5})
+                .then(res => {
+                    console.log('success');
+                    console.log(res);
+                })
+                .catch(e => {
+                    console.log('nooo')
+                    console.log(e.response)
+                });
 }
 
 export const Api_1 = () => {

@@ -26,3 +26,4 @@ Route::get("/isLoggedIn", [UserController::class, 'isLoggedIn']);
 Route::get("/is_me", [UserController::class, 'is_me']);
 
 Route::post("/store_illust", [IllustController::class, 'store_illust']);
+Route::get("/load_illust", [IllustController::class, 'load_illust']);
