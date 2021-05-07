@@ -31963,6 +31963,38 @@ video {
   --tw-backdrop-sepia: sepia(100%);
 }
 
+#RED {
+  background-color:rgba(255,0,0,1);
+}
+
+#BLACK {
+  background-color: rgba(0,0,0,1);
+}
+
+#BLUE {
+  background-color: rgba(0,0,255,1);
+}
+
+#WHITE {
+  background-color: rgba(255,255,255,1);
+}
+
+#PURPLE {
+  background-color: rgba(128,0,128,1);
+}
+
+#ORANGE {
+  background-color: rgba(255,165,0,1);
+}
+
+#TURQUOISE {
+  background-color: rgba(64,224,208,1);
+}
+
+#YELLOW {
+  background-color: rgba(255,255,0,1);
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;

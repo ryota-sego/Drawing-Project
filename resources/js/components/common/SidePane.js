@@ -58,10 +58,10 @@ function DrawingSidePane(){
                 </div>
                 <div className="">
                     <ul className="px-2 py-1 flex flex-col justify-items-center items-center">
-                        <li className="box-border w-full bg-white border-2 border-green text-center"><NavLink to="/user" className="inline-block w-full mx-1 my-1 ">link1</NavLink></li>
-                        <li className="box-border w-full bg-white border-2 border-green text-center"><NavLink to="/user/post" className="inline-block w-full mx-1 my-1 ">link2</NavLink></li>
-                        <li className="box-border w-full bg-white border-2 border-green text-center"><NavLink to="/user/favorites" className="inline-block w-full mx-1 my-1 ">link3</NavLink></li>
-                        <li className="box-border w-full bg-white border-2 border-green text-center"><NavLink to="/user/comments" className="inline-block w-full mx-1 my-1 ">link4</NavLink></li>
+                        <li className="box-border w-full bg-white border-2 border-green text-center"><NavLink to="/user" className="inline-block w-full mx-1 my-1 ">詳細</NavLink></li>
+                        <li className="box-border w-full bg-white border-2 border-green text-center"><NavLink to="/user/post" className="inline-block w-full mx-1 my-1 ">投稿一覧</NavLink></li>
+                        <li className="box-border w-full bg-white border-2 border-green text-center"><NavLink to="/user/favorites" className="inline-block w-full mx-1 my-1 ">お気に入り</NavLink></li>
+                        <li className="box-border w-full bg-white border-2 border-green text-center"><NavLink to="/user/comments" className="inline-block w-full mx-1 my-1 ">コメント</NavLink></li>
                     </ul>
                 </div>
             </div>

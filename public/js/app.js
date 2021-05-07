@@ -2206,16 +2206,11 @@ var App = /*#__PURE__*/function (_React$Component) {
                 yes: this.state.yes
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
-              exact: true,
-              path: "/detail",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Switch, {
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
-                  path: "/detail/illust",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_detail_WrapDetailPage__WEBPACK_IMPORTED_MODULE_5__.default, {})
-                }), "                                                     ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_user_WrapUserPage__WEBPACK_IMPORTED_MODULE_8__.default, {})
-                })]
-              })
+              path: "/detail/illust",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_detail_WrapDetailPage__WEBPACK_IMPORTED_MODULE_5__.default, {})
+            }), "                                                     ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
+              path: "/user",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_user_WrapUserPage__WEBPACK_IMPORTED_MODULE_8__.default, {})
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
               exact: true,
               path: "/login",
@@ -3599,28 +3594,28 @@ function DrawingSidePane() {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.NavLink, {
               to: "/user",
               className: "inline-block w-full mx-1 my-1 ",
-              children: "link1"
+              children: "\u8A73\u7D30"
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
             className: "box-border w-full bg-white border-2 border-green text-center",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.NavLink, {
               to: "/user/post",
               className: "inline-block w-full mx-1 my-1 ",
-              children: "link2"
+              children: "\u6295\u7A3F\u4E00\u89A7"
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
             className: "box-border w-full bg-white border-2 border-green text-center",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.NavLink, {
               to: "/user/favorites",
               className: "inline-block w-full mx-1 my-1 ",
-              children: "link3"
+              children: "\u304A\u6C17\u306B\u5165\u308A"
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
             className: "box-border w-full bg-white border-2 border-green text-center",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.NavLink, {
               to: "/user/comments",
               className: "inline-block w-full mx-1 my-1 ",
-              children: "link4"
+              children: "\u30B3\u30E1\u30F3\u30C8"
             })
           })]
         })
@@ -3762,9 +3757,24 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+ //システムTier1（ピクセル単位でのカラーリングではなく、色と位置に応じたカラーリング(消しゴム不可)）
 
 
 
+var GB_COLOR = 'BLACK';
+var GB_TOOL = 'PEN';
+var SAVECANVAS = false;
+var COLORCODE = {
+  RED: 'rgba(255,0,0,1)',
+  BLUE: 'rgba(0,0,255,1)',
+  WHITE: 'rgba(255,255,255,1)',
+  BLACK: 'rgba(0,0,0,1)',
+  PURPLE: 'rgba(128,0,128,1)',
+  ORANGE: 'rgba(255,165,0,1)',
+  TURQUOISE: 'rgba(64,224,208,1)',
+  YELLOW: 'rgba(255,255,0,1)'
+}; // @ const TOOL =[PEN, LINE CIRCLE]
+// p5.color(COLOR)
 
 var WrapDrawingPage = /*#__PURE__*/function (_React$Component) {
   _inherits(WrapDrawingPage, _React$Component);
@@ -3779,14 +3789,18 @@ var WrapDrawingPage = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       'pen': '',
-      'color': '',
+      'color': 'BLACK',
       'tool': '',
       'illust_title': '',
       'illust_created': '',
-      'drawing': []
+      'drawing': [],
+      'canvas': null
     };
     _this.illustStore = _this.illustStore.bind(_assertThisInitialized(_this));
     _this.setDrawing = _this.setDrawing.bind(_assertThisInitialized(_this));
+    _this.setColor = _this.setColor.bind(_assertThisInitialized(_this));
+    _this.setTool = _this.setTool.bind(_assertThisInitialized(_this));
+    _this.saveCanvas = _this.saveCanvas.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3796,7 +3810,32 @@ var WrapDrawingPage = /*#__PURE__*/function (_React$Component) {
       var current_drawing = this.state.drawing;
       this.setState(function (state) {
         drawing: current_drawing.push(line);
+      }); //this.setState((s)=>{return {drawing: s.drawing.push(line)};});
+
+      console.log(this.state.drawing.length);
+    }
+  }, {
+    key: "saveCanvas",
+    value: function saveCanvas() {
+      SAVECANVAS = true;
+    }
+  }, {
+    key: "setColor",
+    value: function setColor(c) {
+      this.setState(function (state) {
+        return {
+          color: c
+        };
       });
+      GB_COLOR = c;
+    }
+  }, {
+    key: "setTool",
+    value: function setTool(t) {
+      this.setState(function (state) {
+        tool: t;
+      });
+      GB_TOOL = t;
     }
   }, {
     key: "illustStore",
@@ -3858,7 +3897,7 @@ var WrapDrawingPage = /*#__PURE__*/function (_React$Component) {
           className: "flex flex-row justify-center md:justify-between content-center border-2 border-red min-width-550",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
             className: "border-white border-3",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(SketchP5, {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Sketch_Memo, {
               setDrawing: this.setDrawing,
               drawing: this.state.drawing
             })
@@ -3869,27 +3908,184 @@ var WrapDrawingPage = /*#__PURE__*/function (_React$Component) {
               is_guest: this.props.isGuest
             })
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+          className: "",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
             children: "Drawing Toolbar"
-          })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Toolbar, {
+            setColor: this.setColor,
+            setTool: this.setTool,
+            color: this.state.color,
+            saveCanvas: this.saveCanvas,
+            illustStore: this.illustStore
+          })]
         })]
       });
     }
   }]);
 
   return WrapDrawingPage;
-}(react__WEBPACK_IMPORTED_MODULE_1__.Component); // =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+= Sketch Component +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component); //=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+= Toolbar Component +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
 
 
-var x = 50;
-var y = 50;
-var flag = true;
+
+var Toolbar = function Toolbar(props) {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    className: "flex flex-wrap w-full flex-row justify-around bg-red-200",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      className: "flex flex-row gap-4",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        className: "",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
+          children: "Colors"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
+          className: "flex justify-center items-center border-4 border-geay-400 gap-1",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              id: "RED",
+              className: "w-4 h-4",
+              onClick: function onClick() {
+                return props.setColor("RED");
+              }
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              id: "BLUE",
+              className: "w-4 h-4",
+              onClick: function onClick() {
+                return props.setColor("BLUE");
+              }
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              id: "WHITE",
+              className: "w-4 h-4",
+              onClick: function onClick() {
+                return props.setColor("WHITE");
+              }
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              id: "BLACK",
+              className: "w-4 h-4",
+              onClick: function onClick() {
+                return props.setColor("BLACK");
+              }
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              id: "PURPLE",
+              className: "w-4 h-4",
+              onClick: function onClick() {
+                return props.setColor("PURPLE");
+              }
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              id: "ORANGE",
+              className: "w-4 h-4",
+              onClick: function onClick() {
+                return props.setColor("ORANGE");
+              }
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              id: "TURQUOISE",
+              className: "w-4 h-4",
+              onClick: function onClick() {
+                return props.setColor("TURQUOISE");
+              }
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              id: "YELLOW",
+              className: "w-4 h-4",
+              onClick: function onClick() {
+                return props.setColor("YELLOW");
+              }
+            })
+          })]
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        className: "",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
+          children: "Tools"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
+          className: "flex justify-center items-center border-4 border-geay-400 gap-1",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              id: "PEN",
+              className: "py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+              onClick: function onClick() {
+                return props.setTool("PEN");
+              },
+              children: "PEN"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              id: "LINE",
+              className: "py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+              onClick: function onClick() {
+                return props.setTool("LINE");
+              },
+              children: "LINE"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              id: "CIRCLE",
+              className: "py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+              onClick: function onClick() {
+                return props.setTool("CIRCLE");
+              },
+              children: "CIRCLE"
+            })
+          })]
+        })]
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      className: "flex-none",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
+        children: "Controlls"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
+        className: "flex justify-center items-center border-4 border-geay-400 gap-1",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+          className: "flex-none",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            id: "PEN",
+            className: "px-4 py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+            onClick: props.saveCanvas,
+            children: "Download to ur local"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+          className: "flex-none",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            id: "LINE",
+            className: "px-4 py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+            onClick: props.illustStore,
+            children: "Upload to our cloud"
+          })
+        })]
+      })]
+    })]
+  });
+}; // =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+= Sketch Component +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+
+var Sketch_Memo = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.memo(function (props) {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(SketchP5, {
+    setDrawing: props.setDrawing,
+    drawing: props.drawing
+  });
+}, function (prevProps, nextProps) {
+  return true;
+});
 
 var SketchP5 = function SketchP5(props) {
+  console.log("render Skt");
   var current_line = [];
   var started = false;
+  var init = true;
 
   var setup = function setup(p5, canvasParentRef) {
     // use parent to render the canvas in this ref
@@ -3897,9 +4093,11 @@ var SketchP5 = function SketchP5(props) {
     var canvas = p5.createCanvas(500, 500).parent(canvasParentRef);
     canvas.mousePressed(startPath);
     canvas.mouseReleased(endPath);
+    started = false;
   };
 
   function startPath() {
+    init = true;
     started = true;
     current_line = [];
   }
@@ -3910,28 +4108,12 @@ var SketchP5 = function SketchP5(props) {
   }
 
   var draw = function draw(p5) {
-    p5.background(255); // NOTE: Do not use setState in the draw function or in functions that are executed
-    // in the draw function...
-    // please use normal variables or class properties for these purposes
-
-    p5.stroke(0);
-    p5.strokeWeight(4);
-    p5.noFill();
-
-    if (started) {
-      var point = {
-        'x': p5.mouseX,
-        'y': p5.mouseY
-      };
-      current_line.push(point);
-      p5.beginShape();
-      current_line.forEach(function (p) {
-        return p5.vertex(p.x, p.y);
-      });
-      p5.endShape();
+    if (SAVECANVAS) {
+      p5.saveCanvas();
+      SAVECANVAS = false;
     }
 
-    p5.stroke(0);
+    p5.background(p5.color(COLORCODE["WHITE"]));
     p5.strokeWeight(4);
     p5.noFill();
 
@@ -3939,9 +4121,48 @@ var SketchP5 = function SketchP5(props) {
       var current_output = props.drawing[i];
       p5.beginShape();
       current_output.forEach(function (p) {
-        return p5.vertex(p.x, p.y);
+        p5.stroke(p.c);
+        p5.vertex(p.x, p.y);
       });
       p5.endShape();
+    }
+
+    p5.stroke(p5.color(COLORCODE[GB_COLOR]));
+    p5.strokeWeight(4);
+    p5.noFill();
+
+    if (started) {
+      if (GB_TOOL === 'PEN') {
+        var point = {
+          'x': p5.mouseX,
+          'y': p5.mouseY,
+          'c': p5.color(p5.color(COLORCODE[GB_COLOR]))
+        };
+        current_line.push(point);
+        p5.beginShape();
+        current_line.forEach(function (p) {
+          return p5.vertex(p.x, p.y);
+        });
+        p5.endShape();
+      } else if (GB_TOOL === 'LINE') {
+        if (init === true) {
+          var _point = {
+            'x': p5.mouseX,
+            'y': p5.mouseY,
+            'c': p5.color(p5.color(COLORCODE[GB_COLOR]))
+          };
+          current_line.push(_point);
+          current_line.push(Object.assign({}, _point));
+          init = false;
+        }
+
+        current_line[1].x = p5.mouseX;
+        current_line[1].y = p5.mouseY;
+        p5.beginShape();
+        p5.vertex(current_line[0].x, current_line[0].y);
+        p5.vertex(current_line[1].x, current_line[1].y);
+        p5.endShape();
+      }
     }
   };
 
@@ -4148,6 +4369,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var WrapUserPage = /*#__PURE__*/function (_React$Component) {
   _inherits(WrapUserPage, _React$Component);
 
@@ -4169,18 +4391,31 @@ var WrapUserPage = /*#__PURE__*/function (_React$Component) {
   _createClass(WrapUserPage, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-        children: ["/*\u4E0A\u306E\u9699\u9593*/", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {}), "/*\u30E1\u30A4\u30F3*/", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      //let location = useLocation();
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+        className: "pb-12 w-full",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          className: "flex flex-row w-full bg-blue-300",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-            children: "/*side*/"
+            className: "flex-none w-1/4  bg-blue-500",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+              children: "sidePane here"
+            })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-            children: ["/*content*/", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-              children: "/*nav*/"
+            className: "w-3/4  bg-blue-500",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+              className: "w-full  bg-blue-800",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+                children: "nav here"
+              })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-              children: "/*Panes*/"
+              className: "h-auto w-full bg-blue-800",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+                children: "Panes here"
+              })
             })]
           })]
-        })]
+        })
       });
     }
   }]);

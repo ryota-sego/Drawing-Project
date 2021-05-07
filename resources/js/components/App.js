@@ -95,19 +95,14 @@ class App extends React.Component {
                         <Route exact path="/test_aoj30K+I*dm63wpouSKA@">
                             <User handleClick={this.handleClick} count={this.state.count} yes={this.state.yes} />
                         </Route>
-                        
-                        <Route exact path="/detail">
-                            <Switch>
 {/*detail page*/}
-                                <Route path="/detail/illust">
-                                    <WrapDetailPage />
-                                </Route>
+                        <Route path="/detail/illust">
+                            <WrapDetailPage />
+                        </Route>
 {/*user page*/}                                                     {/*この辺のルーティングを考える*/}
-                                <Route>
+                                <Route path="/user">
                                     <WrapUserPage />
                                 </Route>
-                            </Switch>
-                        </Route>
 {/*login page*/}
                         <Route exact path="/login">
                             <Login setIsGuest={this.setIsGuest} isGuest={this.state.guest}/>

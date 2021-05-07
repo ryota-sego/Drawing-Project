@@ -1,9 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Sketch from "react-p5";
 
 import SidePane from '../common/SidePane';
 
 import { Api_StoreIllust } from '../api/Api'
+
+//システムTier1（ピクセル単位でのカラーリングではなく、色と位置に応じたカラーリング(消しゴム不可)）
+
+
+let GB_COLOR = 'BLACK';
+let GB_TOOL = 'PEN';
+let SAVECANVAS = false;
+
+const COLORCODE = {
+ RED : 'rgba(255,0,0,1)',
+ BLUE : 'rgba(0,0,255,1)',
+ WHITE : 'rgba(255,255,255,1)',
+ BLACK : 'rgba(0,0,0,1)',
+ PURPLE : 'rgba(128,0,128,1)',
+ ORANGE : 'rgba(255,165,0,1)',
+ TURQUOISE : 'rgba(64,224,208,1)',
+ YELLOW : 'rgba(255,255,0,1)',
+}
+
+// @ const TOOL =[PEN, LINE CIRCLE]
+// p5.color(COLOR)
+
 
 export default class WrapDrawingPage extends React.Component {
     
@@ -11,20 +33,41 @@ export default class WrapDrawingPage extends React.Component {
         super(props);
         this.state={
             'pen':'',
-            'color':'',
+            'color':'BLACK',
             'tool':'',
             'illust_title':'',
             'illust_created':'',
             'drawing':[],
+            'canvas': null,
             
         }
         this.illustStore = this.illustStore.bind(this)
         this.setDrawing = this.setDrawing.bind(this)
+        this.setColor = this.setColor.bind(this)
+        this.setTool = this.setTool.bind(this)
+        this.saveCanvas = this.saveCanvas.bind(this)
     }
     
     setDrawing(line){
     	const current_drawing = this.state.drawing;
-    	this.setState((state)=>{drawing:current_drawing.push(line)});
+    	this.setState((state)=>{drawing: current_drawing.push(line)});
+    	
+    	//this.setState((s)=>{return {drawing: s.drawing.push(line)};});
+    	console.log(this.state.drawing.length);
+    }
+    
+    saveCanvas(){
+    	SAVECANVAS = true;
+    }
+    
+    setColor(c){
+    	this.setState((state)=>{return {color : c};});
+    	GB_COLOR = c;
+    }
+    
+    setTool(t){
+    	this.setState((state)=>{tool:t});
+    	GB_TOOL = t;
     }
     
     async illustStore(){
@@ -50,39 +93,90 @@ export default class WrapDrawingPage extends React.Component {
                 <div className="flex flex-row justify-center md:justify-between content-center border-2 border-red min-width-550">
                     <div className="border-white border-3">
                         {/*DrawingArea*/}
-                        <SketchP5 setDrawing={this.setDrawing} drawing={this.state.drawing}/>
+                        {/*<SketchP5 setDrawing={this.setDrawing} drawing={this.state.drawing} color={this.state.color}/>*/}
+                    	<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing}/>
                     </div>
                     <div className="hidden md:block">
                         {/*SidePaneArea*/}
                         <SidePane side_pane_type={'drawing'} is_guest={this.props.isGuest} />
                     </div>
                 </div>
-                <div>
+                <div className="">
                 	<span>Drawing Toolbar</span>
+                	<Toolbar setColor={this.setColor} setTool={this.setTool} color={this.state.color} saveCanvas={this.saveCanvas} illustStore={this.illustStore}/>
                 </div>
             </div>
 		);
     }
     
 }
-// =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+= Sketch Component +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-let x = 50;
-let y = 50;
-let flag=true
-const SketchP5 = (props) => {
+//=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+= Toolbar Component +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+const Toolbar = (props) => {
 	
+	return(
+		<div className="flex flex-wrap w-full flex-row justify-around bg-red-200">
+			<div className="flex flex-row gap-4">
+				<div className="">
+					<p>Colors</p>
+					<ul className="flex justify-center items-center border-4 border-geay-400 gap-1">
+						<li><button id="RED" className="w-4 h-4" onClick={()=>props.setColor("RED")}></button></li>
+						<li><button id="BLUE" className="w-4 h-4" onClick={()=>props.setColor("BLUE")}></button></li>
+						<li><button id="WHITE" className="w-4 h-4" onClick={()=>props.setColor("WHITE")}></button></li>
+						<li><button id="BLACK" className="w-4 h-4" onClick={()=>props.setColor("BLACK")}></button></li>
+						<li><button id="PURPLE" className="w-4 h-4" onClick={()=>props.setColor("PURPLE")}></button></li>
+						<li><button id="ORANGE" className="w-4 h-4" onClick={()=>props.setColor("ORANGE")}></button></li>
+						<li><button id="TURQUOISE" className="w-4 h-4" onClick={()=>props.setColor("TURQUOISE")}></button></li>
+						<li><button id="YELLOW" className="w-4 h-4" onClick={()=>props.setColor("YELLOW")}></button></li>
+					</ul>
+				</div>
+				<div className="">
+					<p>Tools</p>
+					<ul className="flex justify-center items-center border-4 border-geay-400 gap-1">
+						<li><button id="PEN" className="py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={()=>props.setTool("PEN")}>PEN</button></li>
+						<li><button id="LINE" className="py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={()=>props.setTool("LINE")}>LINE</button></li>
+						<li><button id="CIRCLE" className="py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={()=>props.setTool("CIRCLE")}>CIRCLE</button></li>
+					</ul>
+				</div>
+			</div>
+			<div className="flex-none">
+				<p>Controlls</p>
+				<ul className="flex justify-center items-center border-4 border-geay-400 gap-1">
+					<li className="flex-none"><button id="PEN" className="px-4 py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={props.saveCanvas}>Download to ur local</button></li>
+					<li className="flex-none"><button id="LINE" className="px-4 py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={props.illustStore}>Upload to our cloud</button></li>
+				</ul>
+			</div>
+		</div>
+		);
+}
+
+// =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+= Sketch Component +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+const Sketch_Memo = React.memo(
+	props => {
+		return <SketchP5 setDrawing={props.setDrawing} drawing={props.drawing}/>
+	},(prevProps, nextProps)=>{
+		return true;
+	})
+
+const SketchP5 = (props) => {
+	console.log("render Skt");
     let current_line = [];
     let started = false;
-    
+    let init = true;
+
 	const setup = (p5, canvasParentRef) => {
 		// use parent to render the canvas in this ref
 		// (without that p5 will render the canvas outside of your component)
 		const canvas = p5.createCanvas(500, 500).parent(canvasParentRef);
 		canvas.mousePressed(startPath);
 		canvas.mouseReleased(endPath);
+		started = false;
 	};
 	
+	
+	
 	function startPath(){
+		init = true
 		started = true;
 	    current_line = [];
 	}
@@ -93,33 +187,57 @@ const SketchP5 = (props) => {
 	}
 
 	const draw = (p5) => {
-	    p5.background(255);
-		// NOTE: Do not use setState in the draw function or in functions that are executed
-		// in the draw function...
-		// please use normal variables or class properties for these purposes
-		p5.stroke(0);
-		p5.strokeWeight(4);
-		p5.noFill();
-		if(started){
-		    let point = {
-		        'x': p5.mouseX,
-		        'y': p5.mouseY
-		    }
-		    current_line.push(point)
-		    p5.beginShape();
-    		current_line.forEach(p=>p5.vertex(p.x, p.y))
-    		p5.endShape();
+		if(SAVECANVAS){
+			p5.saveCanvas()
+			SAVECANVAS = false
 		}
-		
-		p5.stroke(0);
-		p5.strokeWeight(4);
+	    p5.background(p5.color(COLORCODE["WHITE"]));
+	    
+	    p5.strokeWeight(4);
 		p5.noFill();
 		for (let i=0; i<props.drawing.length; i++){
 		    let current_output = props.drawing[i]
 		    p5.beginShape();
-    		current_output.forEach(p=>p5.vertex(p.x, p.y))
+    		current_output.forEach(p=> {p5.stroke(p.c); p5.vertex(p.x, p.y)});
     		p5.endShape();
 		}
+		
+		
+		p5.stroke(p5.color(COLORCODE[GB_COLOR]));
+		p5.strokeWeight(4);
+		p5.noFill();
+		if(started){
+			
+			if(GB_TOOL === 'PEN'){
+			    let point = {
+			        'x': p5.mouseX,
+			        'y': p5.mouseY,
+			        'c': p5.color(p5.color(COLORCODE[GB_COLOR])),
+			    }
+			    current_line.push(point)
+			    p5.beginShape();
+				current_line.forEach(p=>p5.vertex(p.x, p.y))
+				p5.endShape();
+			}else if(GB_TOOL === 'LINE'){
+				if(init === true){
+					let point = {
+			        'x': p5.mouseX,
+			        'y': p5.mouseY,
+			        'c': p5.color(p5.color(COLORCODE[GB_COLOR])),
+			    	}
+			    	current_line.push(point)
+			    	current_line.push(Object.assign({}, point))
+			    	init = false;
+				}
+				current_line[1].x = p5.mouseX;
+				current_line[1].y = p5.mouseY;
+			    p5.beginShape();
+			    p5.vertex(current_line[0].x, current_line[0].y)
+				p5.vertex(current_line[1].x, current_line[1].y)
+				p5.endShape();
+			}
+		}
+	
 	};
 	
 

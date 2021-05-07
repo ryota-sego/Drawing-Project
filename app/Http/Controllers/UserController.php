@@ -8,9 +8,18 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\User;
+use App\Http\Controllers\Component;
 
 class UserController extends Controller
 {
+    private $_userComponent;
+    
+    // public function __construct(UserComponent $userComponent)
+    // {
+    //     $this->_userComponent = $userComponent;
+    //     echo $this->_userComponent->foo();
+    // }
+    
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     // Auth 関係
     

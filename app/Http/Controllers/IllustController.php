@@ -35,7 +35,7 @@ class IllustController extends Controller
         }
         
         return response([
-                'drawing' => '',
+                'drawing' => "",
             ]);
     }
 }
