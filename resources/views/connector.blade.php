@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full w-full">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-screen w-full">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -19,7 +19,7 @@
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>
-    <body class="antialiased h-full w-full">
-        <div id="app">
+    <body class="antialiased h-screen w-full">
+        <div id="app" class="h-full w-full">
     </body>
 </html>

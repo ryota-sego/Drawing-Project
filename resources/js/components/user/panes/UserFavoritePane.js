@@ -10,7 +10,13 @@ export default class UserFavoritePane extends React.Component {
     }
     
     render(){
-    return <h1>UserFavoritePane</h1>;
+    return (
+        <div className="w-full h-full bg-white">
+            <div className="pane-share flex flex-wrap justify-start content-start overflow-auto gap-8">
+                <div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div><div className="self-center h-32 w-28"><p>a</p></div>
+            </div>
+        </div>
+    );
     }
     
 }

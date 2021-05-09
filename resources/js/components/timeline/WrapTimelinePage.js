@@ -12,7 +12,10 @@ export default class WrapTimelinePage extends React.Component {
     }
     
     render(){
-    return <h1>WrapTimelineページ</h1>;
+    return (
+        <div id="timeline_page_wrap" className="wrap-page-share w-full h-full">
+            <h1>HelloHello i'm the timeline</h1>
+        </div>);
     }
     
 }

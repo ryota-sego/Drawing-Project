@@ -41,17 +41,17 @@ export default class WrapUserPage extends React.Component {
         let url = this.props.match.url;
 
         return (
-            <div className="pt-0 sm:pt-2 md:pt-12 w-full h-full">
+            <div id="user_page_wrap" className="wrap-page-share pt-0 w-full h-full">
     {/*上の隙間*/}
     {/*メイン*/}            
                 <div className="flex flex-row w-full bg-blue-300 h-full">
-                    <div className="hidden md:block flex-none w-1/4 h-full bg-blue-500">
+                    <div id="user_side_pane" className="hidden md:block flex-none h-full bg-blue-500">
                         {/*side*/}
                         <SidePane side_pane_type="userpage" base_url={`${url}`} user_data={this.props.user_data} />
                     </div>
-                    <div className="w-full bg-blue-500">
+                    <div className="w-full h-full bg-blue-500">
                         {/*content*/}
-                        <div className="w-full bg-blue-800">
+                        <div className="w-full h-auto bg-blue-800">
                             {/*nav*/}
                             <Nav />
                         </div>

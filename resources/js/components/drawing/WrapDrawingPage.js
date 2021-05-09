@@ -76,34 +76,36 @@ export default class WrapDrawingPage extends React.Component {
     
     render(){
         return(
-            <div id="drawingPage" className="px-5 py-3 border-b-2 border-black bg-blue-500">
-		    	<div className="mb-3 border-4 border-black flex">
-		            <div className="w-3/4 flex flex-row justify-around content-center bg-blue-200">
-		                <div className="w-40">
-		                    <p className="px-2 py-3 bg-red-200">illust title</p>
-		                </div>
-		                <div className="w-40">
-		                    <p className="px-2 py-3 bg-red-200">created at</p>
-		                </div>
-		            </div>
-		            <div className="w-1/4 flex flex-row justify-around content-center bg-blue-400">
-		            	<button className="py-3 px-2 bg-red-500" onClick={this.illustStore}>保存する</button>
-		            </div>
-                </div>
-                <div className="flex flex-row justify-center md:justify-between content-center border-2 border-red min-width-550">
-                    <div className="border-white border-3">
-                        {/*DrawingArea*/}
-                        {/*<SketchP5 setDrawing={this.setDrawing} drawing={this.state.drawing} color={this.state.color}/>*/}
-                    	<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing}/>
-                    </div>
-                    <div className="hidden md:block">
-                        {/*SidePaneArea*/}
-                        <SidePane side_pane_type={'drawing'} is_guest={this.props.guest} user_data={this.props.user_data}/>
-                    </div>
-                </div>
-                <div className="">
-                	<span>Drawing Toolbar</span>
-                	<Toolbar setColor={this.setColor} setTool={this.setTool} color={this.state.color} saveCanvas={this.saveCanvas} illustStore={this.illustStore}/>
+            <div id="drawing_page_wrap" className="wrap-page-share border-b-2 w-full h-full border-black">
+            	<div className="px-2 py-4 h-full w-full bg-blue-500">
+			    	<div className=" mb-3 border-4 border-black flex">
+			            <div className="w-3/4 flex flex-row justify-around content-center bg-blue-200">
+			                <div className="w-40">
+			                    <p className="px-2 py-3 bg-red-200">illust title</p>
+			                </div>
+			                <div className="w-40">
+			                    <p className="px-2 py-3 bg-red-200">created at</p>
+			                </div>
+			            </div>
+			            <div className="w-1/4 flex flex-row justify-around content-center bg-blue-400">
+			            	<button className="py-3 px-2 bg-red-500" onClick={this.illustStore}>保存する</button>
+			            </div>
+	                </div>
+	                <div className="flex flex-row justify-center md:justify-between content-center border-2 border-red min-width-550">
+	                    <div className="border-white border-3">
+	                        {/*DrawingArea*/}
+	                        {/*<SketchP5 setDrawing={this.setDrawing} drawing={this.state.drawing} color={this.state.color}/>*/}
+	                    	<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing}/>
+	                    </div>
+	                    <div className="hidden md:block">
+	                        {/*SidePaneArea*/}
+	                        <SidePane side_pane_type={'drawing'} is_guest={this.props.guest} user_data={this.props.user_data}/>
+	                    </div>
+	                </div>
+	                <div className="">
+	                	<span>Drawing Toolbar</span>
+	                	<Toolbar setColor={this.setColor} setTool={this.setTool} color={this.state.color} saveCanvas={this.saveCanvas} illustStore={this.illustStore}/>
+	                </div>
                 </div>
             </div>
 		);

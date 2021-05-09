@@ -14,7 +14,10 @@ export default class WrapDetailPage extends React.Component {
     }
     
     render(){
-    return <h1>WrapDetailPageページ</h1>;
+    return (
+        <div id="detail_page_wrap" className="wrap-page-share w-full h-full">
+            <h1>HelloHello i'm the DetailPage!!</h1>
+        </div>);
     }
     
 }
