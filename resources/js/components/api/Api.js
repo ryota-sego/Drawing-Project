@@ -72,6 +72,11 @@ export function Api_StoreIllust(drawing){
                 });
 }
 
+export function Api_StoreIllust_blob(blobed_drawing){
+    
+    console.log('Api_StoreIllust_blob inside')
+}
+
 export const Api_LordIllust = () => {
     axios.post('api/store_illust', {'illust_id': 5})
                 .then(res => {

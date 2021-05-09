@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Sketch from "react-p5";
-
+import Blob from "cross-blob";
 import SidePane from '../common/SidePane';
 
-import { Api_StoreIllust } from '../api/Api'
+import { Api_StoreIllust, Api_StoreIllust_blob } from '../api/Api'
+
 
 //システムTier1（ピクセル単位でのカラーリングではなく、色と位置に応じたカラーリング(消しゴム不可)）
 
@@ -25,6 +26,21 @@ const COLORCODE = {
 
 // @ const TOOL =[PEN, LINE CIRCLE]
 // p5.color(COLOR)
+const getBlobedCnv = () => {
+	const cnv = document.getElementsByClassName('p5Canvas');
+	const dataurl = cnv[0].toDataURL('image/jpeg');
+	
+	const bin = window.atob(dataurl.replace(/^.*,/, ''));
+	let buffer = new Uint8Array(bin.length);
+	for (let i = 0; i < bin.length; i++) {
+		buffer[i] = bin.charCodeAt(i);
+	}
+	
+	const blob = new Blob([buffer.buffer], {
+        type: 'image/jpeg'
+    });
+	return blob;
+};
 
 
 export default class WrapDrawingPage extends React.Component {
@@ -38,10 +54,12 @@ export default class WrapDrawingPage extends React.Component {
             'illust_title':'',
             'illust_created':'',
             'drawing':[],
+            'drawing_blob':null,
             'canvas': null,
             
         }
         this.illustStore = this.illustStore.bind(this)
+        this.illustStore_blob = this.illustStore_blob.bind(this)
         this.setDrawing = this.setDrawing.bind(this)
         this.setColor = this.setColor.bind(this)
         this.setTool = this.setTool.bind(this)
@@ -58,6 +76,12 @@ export default class WrapDrawingPage extends React.Component {
     
     saveCanvas(){
     	SAVECANVAS = true;
+    }
+    
+    async illustStore_blob(){
+    	const blobed_cnv = getBlobedCnv();
+    	console.log(blobed_cnv);
+    	await Api_StoreIllust_blob(blobed_cnv);
     }
     
     setColor(c){
@@ -85,6 +109,9 @@ export default class WrapDrawingPage extends React.Component {
 			                </div>
 			                <div className="w-40">
 			                    <p className="px-2 py-3 bg-red-200">created at</p>
+			                </div>
+			                <div className="w-40">
+			                    <button className="px-2 py-3 bg-red-200" onClick={this.illustStore_blob}>check</button>
 			                </div>
 			            </div>
 			            <div className="w-1/4 flex flex-row justify-around content-center bg-blue-400">
@@ -175,8 +202,6 @@ const SketchP5 = (props) => {
 		started = false;
 	};
 	
-	
-	
 	function startPath(){
 		init = true
 		started = true;
@@ -243,5 +268,5 @@ const SketchP5 = (props) => {
 	};
 	
 
-	return <Sketch setup={setup} draw={draw} />;
+	return <Sketch id="canvascanvas" setup={setup} draw={draw} />;
 };
