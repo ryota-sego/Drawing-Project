@@ -32,6 +32,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
+        'email_verified_at',
+        'email',
         'password',
         'remember_token',
         'token',
@@ -56,6 +58,14 @@ class User extends Authenticatable
     
     static function is_exists(string $token){
         return User::where('token', $token)->first() !== null;
+    }
+    
+    static function generate_token($user){
+        
+    }
+    
+    static function check_token_update($user){
+        
     }
     
     

@@ -12,6 +12,7 @@ import {
 
 import Header from './common/Header';
 import Footer from './common/Footer';
+import Loading from './common/Loading';
 
 import WrapDetailPage from './detail/WrapDetailPage';
 import WrapDrawingPage from './drawing/WrapDrawingPage';
@@ -20,9 +21,9 @@ import WrapUserPage from './user/WrapUserPage';
 import Login from './auth/Login';
 import Signup from './auth/Signup';
 
+import { Api_LoginWithToken } from "./api/Api"
+
 //debugdebugdebugdebugdebugdebugdebugdebugdebug
-import NavBar from './NavBar'
-import About from './About'
 import User from './User'
 import Top from './Top'
 //debugdebugdebugdebugdebugdebugdebugdebugdebug
@@ -33,84 +34,95 @@ class App extends React.Component {
         super(props);
         this.state = {
             'guest': null,
-            'user_name': "",
+            'user_data':{'id': 'guest',
+                         'name': 'guest',
+                         'icon': 'null',
+                         'description': 'None'},
             'comment_type':'timeline',
-            'loading':true,
+            'sidepane_type':'',
+            'loading':false,
             'count': 0,
             'yes':true,
+            'redirect':true,
         };
         
         this.setIsGuest = this.setIsGuest.bind(this);
         this.setCommentType = this.setCommentType.bind(this);
         this.setSidePaneType = this.setSidePaneType.bind(this);
+        this.setUserData = this.setUserData.bind(this)
     }
     
     componentWillUnmount(){
-        
+
     }
     
-    setIsDrawing
-    
-    setIsGuest(){
-        this.setState((state)=>({guest: Cookies.get('loggedin') == null}));
+    async setLoading(){
+        await this.setState((state)=>({loading: !this.state.loading}));
     }
     
-    componentDidMount(){
-         this.setState((state)=>({guest: Cookies.get('loggedin') == null}));
+    async setIsGuest(data){
+        await this.setState((state)=>({guest: Cookies.get('loggedin') == null,
+                                 user_data: data,
+        }));
+        console.log('hihi')
+        console.log(this.state.user_data)
     }
     
-    setSidePaneType(){
-        this.setState();
+    setUserData(data){
+        this.setState((state)=>({user_data: data}));
     }
     
-    setCommentType(){
-        this.setState();
+    async componentDidMount(){
+        if(Cookies.get('loggedin') != null){
+            await Api_LoginWithToken(this.setIsGuest);
+            console.log('hihi2');
+        }else{
+            await this.setState((state)=>({guest: Cookies.get('loggedin') == null}));
+            console.log('hihinooo');
+        }
+        console.log(this.state.user_data);
     }
     
-    setIsDrawing(){
-        this.setState(
-            {'is_drawing':!this.state.is_drawing}
-        );
-        console.log(this.state.guest);
+    setSidePaneType(type){
+        this.setState((state)=>({sidepane_type: type}));
+    }
+    
+    setCommentType(type){
+        this.setState((state)=>({comment_type: type}));
     }
     
     render(){
+        console.log(this.state.user_data);
+        if(this.state.guest == null){
+            return (<Loading />);
+        }
+        //if(this.state.redirect && this.state.guest == true){
+        //    this.setState((state)=>{redirect: false})
+        //    return (<Redirect to="/home" />)
+        //}
         
-        
-            return(
-                <Router>
-                <div>
+        return(
+            <Router>
+                <div className="h-full w-screen">
 {/*share (header) styled, not routed, not lastchecked*/}
-                    <Header isGuest={this.state.guest} setIsGuest={this.setIsGuest} />
+                    <Header guest={this.state.guest} setIsGuest={this.setIsGuest} user_data={this.state.user_data} />
                     <Switch>
 {/*drawing page*/}
-                        <Route exact path="/home">
-                            <WrapDrawingPage isGuest={this.state.guest}/>
-                        </Route>
+                        <Route exact path="/home" render={(routeProps)=> <WrapDrawingPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
 {/*timeline page*/}
-                        <Route path="/timeline">
-                            <WrapTimelinePage />
-                        </Route>
+                        <Route path="/timeline" render={(routeProps)=> <WrapTimelinePage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
 {/*debug page*/}
                         <Route exact path="/test_aoj30K+I*dm63wpouSKA@">
                             <User handleClick={this.handleClick} count={this.state.count} yes={this.state.yes} />
                         </Route>
 {/*detail page*/}
-                        <Route path="/detail/illust">
-                            <WrapDetailPage />
-                        </Route>
-{/*user page*/}                                                     {/*この辺のルーティングを考える*/}
-                                <Route path="/user">
-                                    <WrapUserPage />
-                                </Route>
+                        <Route path="/detail/illust" render={(routeProps)=> <WrapDetailPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
+{/*user page*/}                                                     
+                        <Route path="/user/:userid" render={(routeProps)=> <WrapUserPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
 {/*login page*/}
-                        <Route exact path="/login">
-                            <Login setIsGuest={this.setIsGuest} isGuest={this.state.guest}/>
-                        </Route>
+                        <Route exact path="/login" render={(routeProps)=> <Login setIsGuest={this.setIsGuest} isGuest={this.state.guest} {...routeProps} />} />
 {/*signup page*/}
-                        <Route exact path="/signup">
-                            <Signup setIsGuest={this.setIsGuest} isGuest={this.state.guest}/>
-                        </Route>
+                        <Route exact path="/signup" render={(routeProps)=> <Signup setIsGuest={this.setIsGuest} isGuest={this.state.guest} {...routeProps} />} />
 {/*default (drawing page)*/}
                         <Route>
                             <Redirect to="/home" />
@@ -124,7 +136,7 @@ class App extends React.Component {
                     </Route>
                 </div>
             </Router>
-                )
+        )
         
     }
 }

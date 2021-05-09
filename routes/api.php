@@ -17,6 +17,7 @@ use App\Http\Controllers\IllustController;
 
 //登録、ログイン、ログアウト
 Route::post("/signup", [UserController::class, 'signup']);
+Route::get("/login_init",[UserController::class, 'login_init']);
 Route::post("/login", [UserController::class, 'login']);
 Route::get("/logout", [UserController::class, 'logout']);
 //forOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUse

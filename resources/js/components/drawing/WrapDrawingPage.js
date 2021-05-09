@@ -98,7 +98,7 @@ export default class WrapDrawingPage extends React.Component {
                     </div>
                     <div className="hidden md:block">
                         {/*SidePaneArea*/}
-                        <SidePane side_pane_type={'drawing'} is_guest={this.props.isGuest} />
+                        <SidePane side_pane_type={'drawing'} is_guest={this.props.guest} user_data={this.props.user_data}/>
                     </div>
                 </div>
                 <div className="">

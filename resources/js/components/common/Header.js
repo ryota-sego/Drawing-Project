@@ -18,21 +18,15 @@ export default class Header extends React.Component{
     
     constructor(props){
         super(props);
-        this.state={
-            'login':null,
-        };
     }
 
     render(){
-        const is_guest = this.props.isGuest
-        console.log(is_guest);
-        console.log(1);
         return(
             <nav className="bg-green-200">
                 <div className="max-w-full mx-0 px-0">
                     <div className="flex justify-between items-center border-b-2 border-gray-100 md:py-2 md:space-x-10">
         {/* ++++++++左寄せの要素++++++++++ */}
-                        <LeftHeaderComponent isGuest={is_guest} />
+                        <LeftHeaderComponent isGuest={this.props.guest} />
         {/* +++++++中央の要素++++++++ */}
                         <div className="bg-red-500 ">
                         
@@ -42,7 +36,7 @@ export default class Header extends React.Component{
                             
                         </div>
         {/* +++++++右寄せの要素++++++++ */}                
-                            <RightHeaderComponent isGuest={is_guest} setIsGuest={this.props.setIsGuest} />
+                            <RightHeaderComponent isGuest={this.props.guest} setIsGuest={this.props.setIsGuest} user_data={this.props.user_data}/>
                     </div>
                 </div>
             </nav>
@@ -53,8 +47,7 @@ export default class Header extends React.Component{
 function LeftHeaderComponent(props){
         
         const is_guest = props.isGuest
-        console.log(is_guest);
-        console.log(2);
+        
         return is_guest === null || is_guest ?
         (
             <div className="flex justify-start items-center pl-2 md:pl-3 bg-red-500">
@@ -106,7 +99,7 @@ function RightHeaderComponent(props){
                     <NavLink to="/login" className="bg-green-800 text-white px-3 py-1 md:py-2 rounded-md text-sm font-medium" onClick={clickHandle}>Log out</NavLink>
                 </div>
                 <div>
-                    <NavLink to="/detail">
+                    <NavLink to={`/user/${props.user_data.id}/detail`}>
                         <img className="h-8 w-auto sm:h-10" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="" />
                     </NavLink>
                 </div>

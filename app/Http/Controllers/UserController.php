@@ -49,20 +49,20 @@ class UserController extends Controller
             $cookie = Cookie::make('my_token', $token);//cookieを作成
             $cookie_2 = Cookie::make('loggedin', true,0,null,null,null,false);
             return response([ //ユーザ情報を返す
-                'user' => $user,
+                'user_data' => $user,
                 ])->cookie($cookie)->cookie($cookie_2);
         }else{ //ifではじかれると、nullを返す。
             return response([
-                "user" => null,
+                "user_data" => null,
                 ]);
         }
     }
     
     public function login(Request $request){
-        
-        $pass = request()->get('password');
+        $pass = request()->password;
         $user = User::where('email', request()->get('email'))->first();
         $hashed_pass = $user->password;
+        
         if (Hash::check($pass, $hashed_pass)){
             
             $token = Str::random(255);
@@ -74,12 +74,34 @@ class UserController extends Controller
             $cookie_2 = Cookie::make('loggedin', true,0,null,null,null,false);
             
             return response([
-                'message' => 'yeah'
+                'user_data' => $user,
                 ])->cookie($cookie)->cookie($cookie_2);
         }
-        return response(['message' => 'ohhhhhhhhhhhh',
-        'pass' => $pass,
-        'hpass' => $hashed_pass,
+        return response(['user_data' => null,
+        ]);
+        
+    }
+    
+    public function login_init(Request $request){
+        $token = Cookie::get('my_token');
+
+        if (User::is_exists($token)){
+            $aa = "asdfghjkllassdfghj";
+            $user = User::get_me($token);
+            
+            $cookie = Cookie::make('my_token', $token);//cookieを作成
+            $cookie_2 = Cookie::make('loggedin', true,0,null,null,null,false);
+            
+            return response([
+                'user_data' => $user,
+                'aa'=> $aa,
+                ])->cookie($cookie)->cookie($cookie_2);
+        }
+        
+        $aa = "asdf";
+        
+        return response(['user_data' => null,
+                        'aa'=> $aa,
         ]);
         
     }

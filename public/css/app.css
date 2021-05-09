@@ -31995,6 +31995,43 @@ video {
   background-color: rgba(255,255,0,1);
 }
 
+#loading_anime {
+  -webkit-animation: rotation 2s ease 0s infinite alternate none running;
+          animation: rotation 2s ease 0s infinite alternate none running;
+}
+
+@-webkit-keyframes rotation {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+
+  50% {
+    transform: scale(0.7) rotate(180deg);
+    background: red;
+  }
+
+  100% {
+    transform: scale(1) rotate(360deg);
+    background: blue;
+  }
+}
+
+@keyframes rotation {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+
+  50% {
+    transform: scale(0.7) rotate(180deg);
+    background: red;
+  }
+
+  100% {
+    transform: scale(1) rotate(360deg);
+    background: blue;
+  }
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;

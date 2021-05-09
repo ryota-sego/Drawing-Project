@@ -8,8 +8,7 @@ export function Api_Logout(setIsGuest){
     console.log(Cookies.get());
     axios.get('api/logout')
                 .then(res => {
-                    response = res;
-                    setIsGuest();
+                    setIsGuest(null);
                 })
                 .catch(e => {
                     response = e.response;
@@ -22,9 +21,9 @@ export function Api_Login(email, password, setIsGuest){
     let response = {};
     axios.post('api/login',{'email': email,'password': password})
                 .then(res => {
-                    response = res;
-                    console.log(response);
-                    setIsGuest();
+                    const data = res.data.user_data;
+                    console.log(res);
+                    setIsGuest(data);
                 })
                 .catch(e => {
                     response = e.response;
@@ -34,13 +33,24 @@ export function Api_Login(email, password, setIsGuest){
     
 }
 
+export function Api_LoginWithToken(setIsGuest){
+    axios.get('/api/login_init')
+                .then(res => {
+                    const data = res.data.user_data;
+                    console.log(res);
+                    setIsGuest(data);
+                })
+                .catch(e => {
+                    console.log(e.response);
+                });
+}
+
 export function Api_Signup(email, name, password, setIsGuest){
     let response = {};
     axios.post('api/signup',{'name': name, 'email': email,'password': password})
                 .then(res => {
-                    response = res;
-                    console.log('yes')
-                    setIsGuest();
+                    const data = res.data.user_data;
+                    setIsGuest(data);
                 })
                 .catch(e => {
                     response = e.response;
@@ -51,7 +61,6 @@ export function Api_Signup(email, name, password, setIsGuest){
 // illust     illust     illust     illust     illust     illust     illust     illust     illust     illust    
 export function Api_StoreIllust(drawing){
     const drawing_to_json = JSON.stringify(drawing);
-    console.log(drawing_to_json)
     axios.post('api/store_illust',{'drawing':drawing_to_json})
                 .then(res => {
                     console.log('success');
@@ -75,14 +84,30 @@ export const Api_LordIllust = () => {
                 });
 }
 
-export const Api_1 = () => {
+export const Api_FetchUserData = (id, setUserData) => {
+    axios.get('api/fetch_user_data', {'id': id})
+            .then(res =>{
+                const data = res.data.user_data
+                setUserData(data);
+            })
+            .catch(e=>{
+                console.log('nooo')
+                console.log(e.response)
+            })
+}
+
+export const Api_FetchUserIllusts = (count, id, setUserIllustData) => {
     
 }
 
-export const Api_2 = () => {
+export const Api_FetchUserComments = (count, id, setUserCommentData) => {
     
 }
 
-export const Api_3 = () => {
+export const Api_FetchUserFavorites = (count, id, setUserFavoriteData) => {
+    
+}
+
+export const Api_FetchPosts = (count, id, setTimelinePostData) => {
     
 }
