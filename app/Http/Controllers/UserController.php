@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use App\Http\Controllers\Component;
 
+use Illuminate\Support\Facades\Log;
+
 class UserController extends Controller
 {
     private $_userComponent;
@@ -131,6 +133,16 @@ class UserController extends Controller
         }
     }
     
+    public function fetch_userdata(Request $request){
+        
+        $user = User::where('id', request()->id)->first();
+        if($user){
+            return response(['user_data'=>$user]);
+        }
+        return response(['user' => $user,
+                         'id' => request()->id]);
+    }
+    
     //forOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUse
     public function isLoggedIn(Request $request){
         $token = Cookie::get('my_token');
@@ -138,6 +150,10 @@ class UserController extends Controller
             return ['isLoggedIn' => false];
         }
         return ['isloggedin' => $this->isTokenExists($token)];
+    }
+    
+    public function test(Request $request){
+        return response(["message" => "a"]);
     }
 //=============================================================================================================
     //privates

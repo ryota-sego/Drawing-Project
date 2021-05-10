@@ -26,12 +26,15 @@ export default function SidePane(props) {
 }
 
 function UserSidePane(props){
+    console.log("f")
+    console.log(props.user_data)
+    console.log("ck")
     return(
         <div className="px-2 md:px-4 pt-2 border-4 border-green-600 bg-black">
             <div className="mx-4 my-4 border-green-200 bg-gray-100">
                 <div className="flex flex-col justify-items-center items-center border-4 border-green-600 bg-black-500">
                     <img className="h-32 w-32 py-4 px-4" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="" />
-                    <p>Guest</p>
+                    <p>{props.user_data.name}</p>
                 </div>
                 <div className="">
                     <ul className="px-2 py-1 flex flex-col justify-items-center items-center">
@@ -51,7 +54,7 @@ function GuestSidePane(props){
             <div className="w-32 mx-8 my-8">
                 <div className="flex flex-col justify-items-center items-center border-4 border-green-600 bg-black-500 my-8">
                     <img className="h-32 w-32 pt-4 py-2 px-4" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="" />
-                    <p>Guest</p>
+                    <p>{props.user_data.name}</p>
                 </div>
                 <div className="">
                     <ul className="px-2 py-1 flex flex-col justify-items-center items-center">
@@ -70,7 +73,7 @@ function DrawingSidePane(props){
             <div className="w-32 mx-8 my-8">
                 <div className="flex flex-col justify-items-center items-center border-4 border-green-600 bg-black-500">
                     <img className="h-32 w-32 py-4 px-4" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="" />
-                    <p>Guest</p>
+                    <p>{props.user_data.name}</p>
                 </div>
                 <div className="">
                     <ul className="px-2 py-1 flex flex-col justify-items-center items-center">

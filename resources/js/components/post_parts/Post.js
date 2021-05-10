@@ -4,6 +4,8 @@ import Sketch from "react-p5";
 import Comment from './Comment';
 
 export default function Post(props){
+    
+    
     return (
         <div class="card" style="width: 18rem;">
             <img src="..." class="card-img-top" alt="..." />
@@ -15,6 +17,8 @@ export default function Post(props){
         </div>
     );
 }
+
+
 
 // =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+= Sketch Component +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 

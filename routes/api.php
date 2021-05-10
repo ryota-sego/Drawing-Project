@@ -20,6 +20,10 @@ Route::post("/signup", [UserController::class, 'signup']);
 Route::get("/login_init",[UserController::class, 'login_init']);
 Route::post("/login", [UserController::class, 'login']);
 Route::get("/logout", [UserController::class, 'logout']);
+
+Route::post("/fetch_userdata", [UserController::class, 'fetch_userdata']);
+Route::post("/test", [UserController::class, 'test']);
+
 //forOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUse
 Route::get("/isLoggedIn", [UserController::class, 'isLoggedIn']);
 
@@ -27,4 +31,7 @@ Route::get("/isLoggedIn", [UserController::class, 'isLoggedIn']);
 Route::get("/is_me", [UserController::class, 'is_me']);
 
 Route::post("/store_illust", [IllustController::class, 'store_illust']);
+Route::post("/store_illust_blob", [IllustController::class, 'store_illust_blob']);
 Route::get("/load_illust", [IllustController::class, 'load_illust']);
+Route::get("/edit_illust", [IllustController::class, 'edit_illust']);
+

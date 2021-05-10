@@ -3,7 +3,8 @@ import Sketch from "react-p5";
 import Blob from "cross-blob";
 import SidePane from '../common/SidePane';
 
-import { Api_StoreIllust, Api_StoreIllust_blob } from '../api/Api'
+//import { Api_StoreIllust} from '../api/Api'
+import { Api_StoreIllust_blob, Api_test } from '../api/Api'
 
 
 //システムTier1（ピクセル単位でのカラーリングではなく、色と位置に応じたカラーリング(消しゴム不可)）
@@ -28,18 +29,19 @@ const COLORCODE = {
 // p5.color(COLOR)
 const getBlobedCnv = () => {
 	const cnv = document.getElementsByClassName('p5Canvas');
-	const dataurl = cnv[0].toDataURL('image/jpeg');
+	const dataurl = cnv[0].toDataURL('image/png');
 	
 	const bin = window.atob(dataurl.replace(/^.*,/, ''));
 	let buffer = new Uint8Array(bin.length);
 	for (let i = 0; i < bin.length; i++) {
 		buffer[i] = bin.charCodeAt(i);
 	}
-	
+
 	const blob = new Blob([buffer.buffer], {
-        type: 'image/jpeg'
+        type: 'image/png'
     });
-	return blob;
+    	console.log(blob);
+	return dataurl;
 };
 
 
@@ -56,14 +58,16 @@ export default class WrapDrawingPage extends React.Component {
             'drawing':[],
             'drawing_blob':null,
             'canvas': null,
+            'tmp':null,
             
         }
-        this.illustStore = this.illustStore.bind(this)
+        //this.illustStore = this.illustStore.bind(this)
         this.illustStore_blob = this.illustStore_blob.bind(this)
         this.setDrawing = this.setDrawing.bind(this)
         this.setColor = this.setColor.bind(this)
         this.setTool = this.setTool.bind(this)
         this.saveCanvas = this.saveCanvas.bind(this)
+        this.test = this.test.bind(this)
     }
     
     setDrawing(line){
@@ -78,8 +82,8 @@ export default class WrapDrawingPage extends React.Component {
     	SAVECANVAS = true;
     }
     
-    async illustStore_blob(){
-    	const blobed_cnv = getBlobedCnv();
+    async illustStore_blob(){//base64 dataurl
+    	const blobed_cnv = await getBlobedCnv();
     	console.log(blobed_cnv);
     	await Api_StoreIllust_blob(blobed_cnv);
     }
@@ -94,8 +98,13 @@ export default class WrapDrawingPage extends React.Component {
     	GB_TOOL = t;
     }
     
-    async illustStore(){
-    	await Api_StoreIllust(this.state.drawing)
+    //async illustStore(){
+    //	await Api_StoreIllust(this.state.drawing)
+    //}
+    
+    test(){
+
+    	Api_test();
     }
     
     render(){
@@ -111,11 +120,11 @@ export default class WrapDrawingPage extends React.Component {
 			                    <p className="px-2 py-3 bg-red-200">created at</p>
 			                </div>
 			                <div className="w-40">
-			                    <button className="px-2 py-3 bg-red-200" onClick={this.illustStore_blob}>check</button>
+			                    <button className="px-2 py-3 bg-red-200" onClick={this.test}>check</button>
 			                </div>
 			            </div>
 			            <div className="w-1/4 flex flex-row justify-around content-center bg-blue-400">
-			            	<button className="py-3 px-2 bg-red-500" onClick={this.illustStore}>保存する</button>
+			            	<button className="py-3 px-2 bg-red-500" onClick={this.illustStore_blob}>保存する</button>
 			            </div>
 	                </div>
 	                <div className="flex flex-row justify-center md:justify-between content-center border-2 border-red min-width-550">
@@ -124,6 +133,7 @@ export default class WrapDrawingPage extends React.Component {
 	                        {/*<SketchP5 setDrawing={this.setDrawing} drawing={this.state.drawing} color={this.state.color}/>*/}
 	                    	<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing}/>
 	                    </div>
+	                    <div>{this.state.tmp}</div>
 	                    <div className="hidden md:block">
 	                        {/*SidePaneArea*/}
 	                        <SidePane side_pane_type={'drawing'} is_guest={this.props.guest} user_data={this.props.user_data}/>
@@ -214,10 +224,7 @@ const SketchP5 = (props) => {
 	}
 
 	const draw = (p5) => {
-		if(SAVECANVAS){
-			p5.saveCanvas()
-			SAVECANVAS = false
-		}
+		
 	    p5.background(p5.color(COLORCODE["WHITE"]));
 	    
 	    p5.strokeWeight(4);
@@ -263,6 +270,11 @@ const SketchP5 = (props) => {
 				p5.vertex(current_line[1].x, current_line[1].y)
 				p5.endShape();
 			}
+		}
+		
+		if(SAVECANVAS){
+			p5.saveCanvas()
+			SAVECANVAS = false
 		}
 	
 	};

@@ -38,4 +38,32 @@ class IllustController extends Controller
                 'drawing' => "",
             ]);
     }
+    
+    public function edit_illust(Request $request){
+        $token = Cookie::get('my_token');
+        if(User::is_exists($token)){
+            $illust_id = request()->get('illust_id');
+            $illust = Illust::get_illust($illust_id);
+            
+            return response([
+                    'drawing' => $illust,
+                ]);
+        }
+        
+        return response([
+                'drawing' => "",
+            ]);
+    }
+    
+    public function store_illust_blob(Request $request){
+        $token = Cookie::get('my_token');
+        $user = User::get_me($token);
+        $illust = $user->illusts()
+                        ->create([
+                            'title' => "test",
+                            'path' => request()->get('drawing'),
+                        ]);
+                        
+        return response(['answer' => $illust->path]);
+    }
 }

@@ -27,10 +27,10 @@ export function Api_Login(email, password, setIsGuest){
                 })
                 .catch(e => {
                     response = e.response;
+                    
                     console.log(response);
                 });
     console.log(response)
-    
 }
 
 export function Api_LoginWithToken(setIsGuest){
@@ -59,9 +59,38 @@ export function Api_Signup(email, name, password, setIsGuest){
     console.log('yes?');
 }
 // illust     illust     illust     illust     illust     illust     illust     illust     illust     illust    
-export function Api_StoreIllust(drawing){
-    const drawing_to_json = JSON.stringify(drawing);
-    axios.post('api/store_illust',{'drawing':drawing_to_json})
+//export function Api_StoreIllust(drawing){
+//    const drawing_to_json = JSON.stringify(drawing);
+//    console.log(drawing_to_json);
+//    axios.post('api/store_illust',{'drawing':drawing_to_json})
+//                .then(res => {
+//                    console.log('success');
+//                    console.log(res);
+//                })
+//                .catch(e => {
+//                    console.log('nooo')
+//                    console.log(e.response)
+//                });
+//}
+
+export function Api_StoreIllust_blob(blobed_drawing){
+    const drawing_to_json = JSON.stringify(blobed_drawing);
+    //console.log(drawing_to_json);
+    axios.post('api/store_illust_blob', {'drawing': drawing_to_json})
+                .then(res => {
+                    //let response = res.data
+                    
+                    //console.log('success');
+                    //console.log(response.answer);
+                })
+                .catch(e => {
+                    console.log('nooo')
+                    console.log(e.response)
+                });
+}
+
+export const Api_EditIllust = () => {
+    axios.post('api/edit_illust', {'illust_id': 5})
                 .then(res => {
                     console.log('success');
                     console.log(res);
@@ -72,13 +101,8 @@ export function Api_StoreIllust(drawing){
                 });
 }
 
-export function Api_StoreIllust_blob(blobed_drawing){
-    
-    console.log('Api_StoreIllust_blob inside')
-}
-
 export const Api_LordIllust = () => {
-    axios.post('api/store_illust', {'illust_id': 5})
+    axios.post('api/load_illust', {'illust_id': 5})
                 .then(res => {
                     console.log('success');
                     console.log(res);
@@ -90,14 +114,32 @@ export const Api_LordIllust = () => {
 }
 
 export const Api_FetchUserData = (id, setUserData) => {
-    axios.get('api/fetch_user_data', {'id': id})
+    console.log(id)
+    console.log("12125325");
+    axios.post('/fetch_userdata', {'id': 13})
             .then(res =>{
+                console.log(res)
                 const data = res.data.user_data
                 setUserData(data);
+                console.log("03843484");
+                console.log(data)
             })
             .catch(e=>{
                 console.log('nooo')
                 console.log(e.response)
+                console.log("39328374");
+            })
+}
+
+export const Api_test = () =>{
+    axios.post('api/fetch_userdata', {'id': 13})
+            .then(res =>{
+                console.log(res)
+            })
+            .catch(e=>{
+                console.log('nooo')
+                console.log(e.response)
+                console.log("39328374");
             })
 }
 

@@ -2834,10 +2834,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Api_Login": () => (/* binding */ Api_Login),
 /* harmony export */   "Api_LoginWithToken": () => (/* binding */ Api_LoginWithToken),
 /* harmony export */   "Api_Signup": () => (/* binding */ Api_Signup),
-/* harmony export */   "Api_StoreIllust": () => (/* binding */ Api_StoreIllust),
 /* harmony export */   "Api_StoreIllust_blob": () => (/* binding */ Api_StoreIllust_blob),
+/* harmony export */   "Api_EditIllust": () => (/* binding */ Api_EditIllust),
 /* harmony export */   "Api_LordIllust": () => (/* binding */ Api_LordIllust),
 /* harmony export */   "Api_FetchUserData": () => (/* binding */ Api_FetchUserData),
+/* harmony export */   "Api_test": () => (/* binding */ Api_test),
 /* harmony export */   "Api_FetchUserIllusts": () => (/* binding */ Api_FetchUserIllusts),
 /* harmony export */   "Api_FetchUserComments": () => (/* binding */ Api_FetchUserComments),
 /* harmony export */   "Api_FetchUserFavorites": () => (/* binding */ Api_FetchUserFavorites),
@@ -2901,11 +2902,36 @@ function Api_Signup(email, name, password, setIsGuest) {
   });
   console.log('yes?');
 } // illust     illust     illust     illust     illust     illust     illust     illust     illust     illust    
+//export function Api_StoreIllust(drawing){
+//    const drawing_to_json = JSON.stringify(drawing);
+//    console.log(drawing_to_json);
+//    axios.post('api/store_illust',{'drawing':drawing_to_json})
+//                .then(res => {
+//                    console.log('success');
+//                    console.log(res);
+//                })
+//                .catch(e => {
+//                    console.log('nooo')
+//                    console.log(e.response)
+//                });
+//}
 
-function Api_StoreIllust(drawing) {
-  var drawing_to_json = JSON.stringify(drawing);
-  axios__WEBPACK_IMPORTED_MODULE_1___default().post('api/store_illust', {
+function Api_StoreIllust_blob(blobed_drawing) {
+  var drawing_to_json = JSON.stringify(blobed_drawing); //console.log(drawing_to_json);
+
+  axios__WEBPACK_IMPORTED_MODULE_1___default().post('api/store_illust_blob', {
     'drawing': drawing_to_json
+  }).then(function (res) {//let response = res.data
+    //console.log('success');
+    //console.log(response.answer);
+  })["catch"](function (e) {
+    console.log('nooo');
+    console.log(e.response);
+  });
+}
+var Api_EditIllust = function Api_EditIllust() {
+  axios__WEBPACK_IMPORTED_MODULE_1___default().post('api/edit_illust', {
+    'illust_id': 5
   }).then(function (res) {
     console.log('success');
     console.log(res);
@@ -2913,12 +2939,9 @@ function Api_StoreIllust(drawing) {
     console.log('nooo');
     console.log(e.response);
   });
-}
-function Api_StoreIllust_blob(blobed_drawing) {
-  console.log('Api_StoreIllust_blob inside');
-}
+};
 var Api_LordIllust = function Api_LordIllust() {
-  axios__WEBPACK_IMPORTED_MODULE_1___default().post('api/store_illust', {
+  axios__WEBPACK_IMPORTED_MODULE_1___default().post('api/load_illust', {
     'illust_id': 5
   }).then(function (res) {
     console.log('success');
@@ -2929,14 +2952,31 @@ var Api_LordIllust = function Api_LordIllust() {
   });
 };
 var Api_FetchUserData = function Api_FetchUserData(id, setUserData) {
-  axios__WEBPACK_IMPORTED_MODULE_1___default().get('api/fetch_user_data', {
-    'id': id
+  console.log(id);
+  console.log("12125325");
+  axios__WEBPACK_IMPORTED_MODULE_1___default().post('/fetch_userdata', {
+    'id': 13
   }).then(function (res) {
+    console.log(res);
     var data = res.data.user_data;
     setUserData(data);
+    console.log("03843484");
+    console.log(data);
   })["catch"](function (e) {
     console.log('nooo');
     console.log(e.response);
+    console.log("39328374");
+  });
+};
+var Api_test = function Api_test() {
+  axios__WEBPACK_IMPORTED_MODULE_1___default().post('api/fetch_userdata', {
+    'id': 13
+  }).then(function (res) {
+    console.log(res);
+  })["catch"](function (e) {
+    console.log('nooo');
+    console.log(e.response);
+    console.log("39328374");
   });
 };
 var Api_FetchUserIllusts = function Api_FetchUserIllusts(count, id, setUserIllustData) {};
@@ -3664,6 +3704,9 @@ function SidePane(props) {
 }
 
 function UserSidePane(props) {
+  console.log("f");
+  console.log(props.user_data);
+  console.log("ck");
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
     className: "px-2 md:px-4 pt-2 border-4 border-green-600 bg-black",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -3675,7 +3718,7 @@ function UserSidePane(props) {
           src: "https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg",
           alt: ""
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-          children: "Guest"
+          children: props.user_data.name
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "",
@@ -3728,7 +3771,7 @@ function GuestSidePane(props) {
           src: "https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg",
           alt: ""
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-          children: "Guest"
+          children: props.user_data.name
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "",
@@ -3767,7 +3810,7 @@ function DrawingSidePane(props) {
           src: "https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg",
           alt: ""
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-          children: "Guest"
+          children: props.user_data.name
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "",
@@ -3947,6 +3990,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+ //import { Api_StoreIllust} from '../api/Api'
 
  //システムTier1（ピクセル単位でのカラーリングではなく、色と位置に応じたカラーリング(消しゴム不可)）
 
@@ -3969,7 +4013,7 @@ var COLORCODE = {
 
 var getBlobedCnv = function getBlobedCnv() {
   var cnv = document.getElementsByClassName('p5Canvas');
-  var dataurl = cnv[0].toDataURL('image/jpeg');
+  var dataurl = cnv[0].toDataURL('image/png');
   var bin = window.atob(dataurl.replace(/^.*,/, ''));
   var buffer = new Uint8Array(bin.length);
 
@@ -3978,9 +4022,10 @@ var getBlobedCnv = function getBlobedCnv() {
   }
 
   var blob = new (cross_blob__WEBPACK_IMPORTED_MODULE_3___default())([buffer.buffer], {
-    type: 'image/jpeg'
+    type: 'image/png'
   });
-  return blob;
+  console.log(blob);
+  return dataurl;
 };
 
 var WrapDrawingPage = /*#__PURE__*/function (_React$Component) {
@@ -4002,14 +4047,16 @@ var WrapDrawingPage = /*#__PURE__*/function (_React$Component) {
       'illust_created': '',
       'drawing': [],
       'drawing_blob': null,
-      'canvas': null
-    };
-    _this.illustStore = _this.illustStore.bind(_assertThisInitialized(_this));
+      'canvas': null,
+      'tmp': null
+    }; //this.illustStore = this.illustStore.bind(this)
+
     _this.illustStore_blob = _this.illustStore_blob.bind(_assertThisInitialized(_this));
     _this.setDrawing = _this.setDrawing.bind(_assertThisInitialized(_this));
     _this.setColor = _this.setColor.bind(_assertThisInitialized(_this));
     _this.setTool = _this.setTool.bind(_assertThisInitialized(_this));
     _this.saveCanvas = _this.saveCanvas.bind(_assertThisInitialized(_this));
+    _this.test = _this.test.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -4037,12 +4084,16 @@ var WrapDrawingPage = /*#__PURE__*/function (_React$Component) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                blobed_cnv = getBlobedCnv();
+                _context.next = 2;
+                return getBlobedCnv();
+
+              case 2:
+                blobed_cnv = _context.sent;
                 console.log(blobed_cnv);
-                _context.next = 4;
+                _context.next = 6;
                 return (0,_api_Api__WEBPACK_IMPORTED_MODULE_5__.Api_StoreIllust_blob)(blobed_cnv);
 
-              case 4:
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -4073,32 +4124,15 @@ var WrapDrawingPage = /*#__PURE__*/function (_React$Component) {
         tool: t;
       });
       GB_TOOL = t;
-    }
+    } //async illustStore(){
+    //	await Api_StoreIllust(this.state.drawing)
+    //}
+
   }, {
-    key: "illustStore",
-    value: function () {
-      var _illustStore = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return (0,_api_Api__WEBPACK_IMPORTED_MODULE_5__.Api_StoreIllust)(this.state.drawing);
-
-              case 2:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function illustStore() {
-        return _illustStore.apply(this, arguments);
-      }
-
-      return illustStore;
-    }()
+    key: "test",
+    value: function test() {
+      (0,_api_Api__WEBPACK_IMPORTED_MODULE_5__.Api_test)();
+    }
   }, {
     key: "render",
     value: function render() {
@@ -4127,7 +4161,7 @@ var WrapDrawingPage = /*#__PURE__*/function (_React$Component) {
                 className: "w-40",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
                   className: "px-2 py-3 bg-red-200",
-                  onClick: this.illustStore_blob,
+                  onClick: this.test,
                   children: "check"
                 })
               })]
@@ -4135,7 +4169,7 @@ var WrapDrawingPage = /*#__PURE__*/function (_React$Component) {
               className: "w-1/4 flex flex-row justify-around content-center bg-blue-400",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
                 className: "py-3 px-2 bg-red-500",
-                onClick: this.illustStore,
+                onClick: this.illustStore_blob,
                 children: "\u4FDD\u5B58\u3059\u308B"
               })
             })]
@@ -4147,6 +4181,8 @@ var WrapDrawingPage = /*#__PURE__*/function (_React$Component) {
                 setDrawing: this.setDrawing,
                 drawing: this.state.drawing
               })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+              children: this.state.tmp
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
               className: "hidden md:block",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_common_SidePane__WEBPACK_IMPORTED_MODULE_4__.default, {
@@ -4356,11 +4392,6 @@ var SketchP5 = function SketchP5(props) {
   }
 
   var draw = function draw(p5) {
-    if (SAVECANVAS) {
-      p5.saveCanvas();
-      SAVECANVAS = false;
-    }
-
     p5.background(p5.color(COLORCODE["WHITE"]));
     p5.strokeWeight(4);
     p5.noFill();
@@ -4411,6 +4442,11 @@ var SketchP5 = function SketchP5(props) {
         p5.vertex(current_line[1].x, current_line[1].y);
         p5.endShape();
       }
+    }
+
+    if (SAVECANVAS) {
+      p5.saveCanvas();
+      SAVECANVAS = false;
     }
   };
 
@@ -4669,17 +4705,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _common_SidePane__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/SidePane */ "./resources/js/components/common/SidePane.js");
 /* harmony import */ var _Nav__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Nav */ "./resources/js/components/user/Nav.js");
-/* harmony import */ var _api_Api__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../api/Api */ "./resources/js/components/api/Api.js");
-/* harmony import */ var _panes_UserCommentPane__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./panes/UserCommentPane */ "./resources/js/components/user/panes/UserCommentPane.js");
-/* harmony import */ var _panes_UserDetailPane__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./panes/UserDetailPane */ "./resources/js/components/user/panes/UserDetailPane.js");
-/* harmony import */ var _panes_UserDrawingPane__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./panes/UserDrawingPane */ "./resources/js/components/user/panes/UserDrawingPane.js");
-/* harmony import */ var _panes_UserFavoritePane__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./panes/UserFavoritePane */ "./resources/js/components/user/panes/UserFavoritePane.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _common_Loading__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../common/Loading */ "./resources/js/components/common/Loading.js");
+/* harmony import */ var _api_Api__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../api/Api */ "./resources/js/components/api/Api.js");
+/* harmony import */ var _panes_UserCommentPane__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./panes/UserCommentPane */ "./resources/js/components/user/panes/UserCommentPane.js");
+/* harmony import */ var _panes_UserDetailPane__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./panes/UserDetailPane */ "./resources/js/components/user/panes/UserDetailPane.js");
+/* harmony import */ var _panes_UserDrawingPane__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./panes/UserDrawingPane */ "./resources/js/components/user/panes/UserDrawingPane.js");
+/* harmony import */ var _panes_UserFavoritePane__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./panes/UserFavoritePane */ "./resources/js/components/user/panes/UserFavoritePane.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
@@ -4727,6 +4764,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var WrapUserPage = /*#__PURE__*/function (_React$Component) {
   _inherits(WrapUserPage, _React$Component);
 
@@ -4742,7 +4780,13 @@ var WrapUserPage = /*#__PURE__*/function (_React$Component) {
       'isMe': false,
       'content': 'detail',
       // [detail, comments, posts, favorites]
-      'user_data': null
+      'user_data': {
+        'id': 'loading',
+        'name': 'loading',
+        'icon': 'null',
+        'description': 'None'
+      },
+      'init': true
     };
     _this.setUserData = _this.setUserData.bind(_assertThisInitialized(_this));
     _this.fetchUserData = _this.fetchUserData.bind(_assertThisInitialized(_this));
@@ -4751,26 +4795,53 @@ var WrapUserPage = /*#__PURE__*/function (_React$Component) {
 
   _createClass(WrapUserPage, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      this.fetchUserData();
-    }
-  }, {
-    key: "fetchUserData",
     value: function () {
-      var _fetchUserData = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var _componentDidMount = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return (0,_api_Api__WEBPACK_IMPORTED_MODULE_5__.Api_FetchUserData)(this.props.match.userid, this.setUserData);
+                console.log(this.props.match.params.userid);
+                _context.next = 3;
+                return this.fetchUserData();
 
-              case 2:
+              case 3:
+                console.log('pp1');
+
+              case 4:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee, this);
+      }));
+
+      function componentDidMount() {
+        return _componentDidMount.apply(this, arguments);
+      }
+
+      return componentDidMount;
+    }()
+  }, {
+    key: "fetchUserData",
+    value: function () {
+      var _fetchUserData = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return (0,_api_Api__WEBPACK_IMPORTED_MODULE_6__.Api_FetchUserData)(this.props.match.params.userid, this.setUserData);
+
+              case 2:
+                console.log('pp2');
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
       }));
 
       function fetchUserData() {
@@ -4782,6 +4853,7 @@ var WrapUserPage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "setUserData",
     value: function setUserData(data) {
+      console.log(data);
       this.setState(function (state) {
         return {
           user_data: data
@@ -4794,53 +4866,55 @@ var WrapUserPage = /*#__PURE__*/function (_React$Component) {
       var _this2 = this;
 
       var url = this.props.match.url;
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+      console.log('pp3');
+      console.log(this.state.user_data);
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
         id: "user_page_wrap",
         className: "wrap-page-share pt-0 w-full h-full",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
           className: "flex flex-row w-full bg-blue-300 h-full",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
             id: "user_side_pane",
             className: "hidden md:block flex-none h-full bg-blue-500",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_common_SidePane__WEBPACK_IMPORTED_MODULE_3__.default, {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_common_SidePane__WEBPACK_IMPORTED_MODULE_3__.default, {
               side_pane_type: "userpage",
               base_url: "".concat(url),
-              user_data: this.props.user_data
+              user_data: this.state.user_data
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
             className: "w-full h-full bg-blue-500",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
               className: "w-full h-auto bg-blue-800",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Nav__WEBPACK_IMPORTED_MODULE_4__.default, {})
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Nav__WEBPACK_IMPORTED_MODULE_4__.default, {})
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
               className: "h-auto w-full bg-blue-800",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Switch, {
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Switch, {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
                   path: "".concat(url, "/detail"),
                   render: function render(routeProps) {
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_panes_UserDetailPane__WEBPACK_IMPORTED_MODULE_7__.default, _objectSpread({
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_panes_UserDetailPane__WEBPACK_IMPORTED_MODULE_8__.default, _objectSpread({
                       guest: _this2.props.guest,
-                      user_data: _this2.props.user_data
+                      user_data: _this2.state.user_data
                     }, routeProps));
                   }
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
                   path: "".concat(url, "/illusts"),
                   render: function render(routeProps) {
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_panes_UserDrawingPane__WEBPACK_IMPORTED_MODULE_8__.default, _objectSpread({
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_panes_UserDrawingPane__WEBPACK_IMPORTED_MODULE_9__.default, _objectSpread({
                       guest: _this2.props.guest
                     }, routeProps));
                   }
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
                   path: "".concat(url, "/favorites"),
                   render: function render(routeProps) {
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_panes_UserFavoritePane__WEBPACK_IMPORTED_MODULE_9__.default, _objectSpread({
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_panes_UserFavoritePane__WEBPACK_IMPORTED_MODULE_10__.default, _objectSpread({
                       guest: _this2.props.guest
                     }, routeProps));
                   }
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
                   path: "".concat(url, "/comments"),
                   render: function render(routeProps) {
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_panes_UserCommentPane__WEBPACK_IMPORTED_MODULE_6__.default, _objectSpread({
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_panes_UserCommentPane__WEBPACK_IMPORTED_MODULE_7__.default, _objectSpread({
                       guest: _this2.props.guest
                     }, routeProps));
                   }
