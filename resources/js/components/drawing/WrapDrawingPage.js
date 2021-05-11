@@ -4,7 +4,7 @@ import Blob from "cross-blob";
 import SidePane from '../common/SidePane';
 
 //import { Api_StoreIllust} from '../api/Api'
-import { Api_StoreIllust_blob, Api_test } from '../api/Api'
+import { Api_StoreIllust_blob } from '../api/Api'
 
 
 //システムTier1（ピクセル単位でのカラーリングではなく、色と位置に応じたカラーリング(消しゴム不可)）

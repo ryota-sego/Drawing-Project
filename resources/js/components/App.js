@@ -64,8 +64,6 @@ class App extends React.Component {
         await this.setState((state)=>({guest: Cookies.get('loggedin') == null,
                                  user_data: data,
         }));
-        console.log('hihi')
-        console.log(this.state.user_data)
     }
     
     setUserData(data){
@@ -75,10 +73,8 @@ class App extends React.Component {
     async componentDidMount(){
         if(Cookies.get('loggedin') != null){
             await Api_LoginWithToken(this.setIsGuest);
-            console.log('hihi2');
         }else{
             await this.setState((state)=>({guest: Cookies.get('loggedin') == null}));
-            console.log('hihinooo');
         }
         console.log(this.state.user_data);
     }

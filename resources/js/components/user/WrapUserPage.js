@@ -23,7 +23,9 @@ export default class WrapUserPage extends React.Component {
             'user_data':{'id': 'loading',
                          'name': 'loading',
                          'icon': 'null',
-                         'description': 'None',},
+                         'created_at':'loading',
+                         'description': 'None',
+                        },
                          'init':true,
         }
         this.setUserData = this.setUserData.bind(this);
@@ -34,12 +36,10 @@ export default class WrapUserPage extends React.Component {
     async componentDidMount(){
         console.log(this.props.match.params.userid);
     	await this.fetchUserData();
-    	console.log('pp1')
     }
     
     async fetchUserData(){
         await Api_FetchUserData(this.props.match.params.userid ,this.setUserData)
-        console.log('pp2')
     }
     
     setUserData(data){
@@ -50,8 +50,6 @@ export default class WrapUserPage extends React.Component {
     
     render(){
         let url = this.props.match.url;
-        console.log('pp3')
-        console.log(this.state.user_data);
         return (
             <div id="user_page_wrap" className="wrap-page-share pt-0 w-full h-full">
     {/*上の隙間*/}
@@ -71,9 +69,9 @@ export default class WrapUserPage extends React.Component {
                             {/*Panes*/}
                             <Switch>
                                 <Route path={`${url}/detail`} render={(routeProps)=><UserDetailPane guest={this.props.guest} user_data={this.state.user_data} {...routeProps} />}/>
-                                <Route path={`${url}/illusts`} render={(routeProps)=><UserDrawingPane guest={this.props.guest} {...routeProps} />}/>
-                                <Route path={`${url}/favorites`} render={(routeProps)=><UserFavoritePane guest={this.props.guest} {...routeProps} />}/>
-                                <Route path={`${url}/comments`} render={(routeProps)=><UserCommentPane guest={this.props.guest} {...routeProps} />}/>
+                                <Route path={`${url}/illusts`} render={(routeProps)=><UserDrawingPane guest={this.props.guest} user_data={this.state.user_data} {...routeProps} />}/>
+                                <Route path={`${url}/favorites`} render={(routeProps)=><UserFavoritePane guest={this.props.guest} user_data={this.state.user_data} {...routeProps} />}/>
+                                <Route path={`${url}/comments`} render={(routeProps)=><UserCommentPane guest={this.props.guest} user_data={this.state.user_data} {...routeProps} />}/>
                             </Switch>
                         </div>
                     </div>

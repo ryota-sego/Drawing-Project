@@ -115,31 +115,16 @@ export const Api_LordIllust = () => {
 
 export const Api_FetchUserData = (id, setUserData) => {
     console.log(id)
-    console.log("12125325");
-    axios.post('/fetch_userdata', {'id': 13})
+    axios.post('/fetch_userdata', {'id': id})
             .then(res =>{
                 console.log(res)
                 const data = res.data.user_data
                 setUserData(data);
-                console.log("03843484");
                 console.log(data)
             })
             .catch(e=>{
                 console.log('nooo')
                 console.log(e.response)
-                console.log("39328374");
-            })
-}
-
-export const Api_test = () =>{
-    axios.post('api/fetch_userdata', {'id': 13})
-            .then(res =>{
-                console.log(res)
-            })
-            .catch(e=>{
-                console.log('nooo')
-                console.log(e.response)
-                console.log("39328374");
             })
 }
 

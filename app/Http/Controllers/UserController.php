@@ -42,7 +42,7 @@ class UserController extends Controller
             $user->email = request()->get("email"); //各データを登録
             $user->password = Hash::make(request()->get("password")); //password をhash化
             $user->name = request()->get("name"); //
-            
+            $user->description = "初めまして！よろしくお願いします！";
             $token = Str::random(255); //今回のセッション用のトークンを発行
             $user->token = $token; //ユーザのトークンに登録
             $user->token_created_at = date("Y-m-d H:i:s");
@@ -100,11 +100,7 @@ class UserController extends Controller
                 ])->cookie($cookie)->cookie($cookie_2);
         }
         
-        $aa = "asdf";
-        
-        return response(['user_data' => null,
-                        'aa'=> $aa,
-        ]);
+        return response(['user_data' => null]);
         
     }
     
