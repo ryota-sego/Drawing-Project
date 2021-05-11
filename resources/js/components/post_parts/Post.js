@@ -19,6 +19,23 @@ export default function Post(props){
 }
 
 
+export const Post_userdrawingpane = (props) => {
+    return (
+        <div className="card" style="width: 18rem;">
+            {/*<img src="..." class="card-img-top" alt="..." />*/}
+            <div>{props.illust_data.path}</div>
+            <div className="card-body">
+                <h5 className="card-title">{props.illust_data.title}</h5>
+                <p className="card-text">{props.illust_data.description}</p>
+                <a href="#" className="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    );
+}
+
+export const PostMemo = React.memo(props => {return <Post_userdrawingpane illust_data={props.illust_data} key={props.illust_data.id}/>})
+
+
 
 // =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+= Sketch Component +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 

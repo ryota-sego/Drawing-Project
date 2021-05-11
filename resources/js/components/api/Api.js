@@ -3,60 +3,81 @@ import axios from 'axios';
 import React from 'react';
 import { Redirect } from "react-router-dom";
 
+let ongoing1 = false
 export function Api_Logout(setIsGuest){
-    let response = {};
-    console.log(Cookies.get());
-    axios.get('api/logout')
-                .then(res => {
-                    setIsGuest(null);
-                })
-                .catch(e => {
-                    response = e.response;
-                    console.log(response)
-                });
+    if(ongoing1 === false){
+        ongoing1 = true
+        let response = {};
+        console.log(Cookies.get());
+        axios.get('api/logout')
+                    .then(res => {
+                        setIsGuest(null);
+                        ongoing1 = false
+                    })
+                    .catch(e => {
+                        response = e.response;
+                        console.log(response)
+                        ongoing1=false;
+                    });
+    }
     
 }
 
+let ongoing2 = false
 export function Api_Login(email, password, setIsGuest){
-    let response = {};
-    axios.post('api/login',{'email': email,'password': password})
-                .then(res => {
-                    const data = res.data.user_data;
-                    console.log(res);
-                    setIsGuest(data);
-                })
-                .catch(e => {
-                    response = e.response;
-                    
-                    console.log(response);
-                });
-    console.log(response)
+     if(ongoing2 === false){
+        ongoing2 = true
+        let response = {};
+        axios.post('api/login',{'email': email,'password': password})
+                    .then(res => {
+                        const data = res.data.user_data;
+                        console.log(res);
+                        setIsGuest(data);
+                        ongoing2 = false
+                    })
+                    .catch(e => {
+                        response = e.response;
+                        ongoing2 = false
+                        console.log(response);
+                    });
+     }
 }
 
+let ongoing3 = false
 export function Api_LoginWithToken(setIsGuest){
-    axios.get('/api/login_init')
-                .then(res => {
-                    const data = res.data.user_data;
-                    console.log(res);
-                    setIsGuest(data);
-                })
-                .catch(e => {
-                    console.log(e.response);
-                });
+    if(ongoing3 === false){
+        ongoing3 = true
+        axios.get('/api/login_init')
+                    .then(res => {
+                        const data = res.data.user_data;
+                        console.log(res);
+                        setIsGuest(data);
+                        ongoing3 = false
+                    })
+                    .catch(e => {
+                        console.log(e.response);
+                        ongoing3 = false
+                    });
+    }
 }
 
+let ongoing4 = false
 export function Api_Signup(email, name, password, setIsGuest){
-    let response = {};
-    axios.post('api/signup',{'name': name, 'email': email,'password': password})
-                .then(res => {
-                    const data = res.data.user_data;
-                    setIsGuest(data);
-                })
-                .catch(e => {
-                    response = e.response;
-                    console.log(response)
-                });
-    console.log('yes?');
+     if(ongoing4 === false){
+        ongoing4 = true
+        let response = {};
+        axios.post('api/signup',{'name': name, 'email': email,'password': password})
+                    .then(res => {
+                        const data = res.data.user_data;
+                        setIsGuest(data);
+                        ongoing4 = false;
+                    })
+                    .catch(e => {
+                        response = e.response;
+                        console.log(response)
+                        ongoing4 = false;
+                    });
+     }
 }
 // illust     illust     illust     illust     illust     illust     illust     illust     illust     illust    
 //export function Api_StoreIllust(drawing){
@@ -73,20 +94,23 @@ export function Api_Signup(email, name, password, setIsGuest){
 //                });
 //}
 
+let ongoing5 = false
 export function Api_StoreIllust_blob(blobed_drawing){
-    const drawing_to_json = JSON.stringify(blobed_drawing);
-    //console.log(drawing_to_json);
-    axios.post('api/store_illust_blob', {'drawing': drawing_to_json})
-                .then(res => {
-                    //let response = res.data
-                    
-                    //console.log('success');
-                    //console.log(response.answer);
-                })
-                .catch(e => {
-                    console.log('nooo')
-                    console.log(e.response)
-                });
+     if(ongoing5 === false){
+        ongoing5 = true    
+        const drawing_to_json = JSON.stringify(blobed_drawing);
+        //console.log(drawing_to_json);
+        axios.post('api/store_illust_blob', {'drawing': drawing_to_json})
+                    .then(res => {
+                        //let response = res.data
+                        ongoing5 = false
+                    })
+                    .catch(e => {
+                        console.log('nooo')
+                        console.log(e.response)
+                         ongoing5 = false
+                    });
+     }
 }
 
 export const Api_EditIllust = () => {
@@ -113,36 +137,47 @@ export const Api_LordIllust = () => {
                 });
 }
 
+
+let ongoing6 = false
 export const Api_FetchUserData = (id, setUserData) => {
-    console.log(id)
-    axios.post('/fetch_userdata', {'id': id})
-            .then(res =>{
-                console.log(res)
-                const data = res.data.user_data
-                setUserData(data);
-                console.log(data)
-            })
-            .catch(e=>{
-                console.log('nooo')
-                console.log(e.response)
-            })
+     if(ongoing6 === false){
+        ongoing6 = true   
+        console.log(id)
+        axios.post('/fetch_userdata', {'id': id})
+                .then(res =>{
+                    console.log(res)
+                    const data = res.data.user_data
+                    setUserData(data);
+                    console.log(data)
+                    ongoing6 = false
+                })
+                .catch(e=>{
+                    console.log('nooo')
+                    console.log(e.response)
+                    ongoing6 = false
+                })
+     }
 }
 
+let ongoing = false
 export const Api_FetchUserIllusts = (count, id, setUserIllustData) => {
-    console.log(id)
-    console.log(count)
-    axios.post('/fetch_userillusts', {'count':count, 'id': id})
-            .then(res =>{
-                console.log(res)
-                //const data = res.data.user_data
-                //const isfull = res.data.isfull
-                //setUserIllustData(data, isfull);
-                //console.log(data);
-            })
-            .catch(e=>{
-                console.log('nooo');
-                console.log(e.response);
-            })
+    if(ongoing == false){
+        ongoing = true;
+        axios.post('/fetch_userillusts', {'count':count, 'id': id})
+                .then(res =>{
+                    
+                    const data = res.data.illust_data
+                    console.log(data)
+                    const isfull = res.data.isfull
+                    setUserIllustData(data, isfull);
+                    ongoing = false;
+                })
+                .catch(e=>{
+                    console.log('noooillust');
+                    console.log(e.response);
+                    ongoing = false;
+                })
+    }
 }
 
 export const Api_FetchUserComments = (count, id, setUserCommentData) => {

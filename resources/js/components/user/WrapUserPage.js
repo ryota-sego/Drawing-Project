@@ -14,6 +14,7 @@ import UserFavoritePane from './panes/UserFavoritePane'
 
 
 export default class WrapUserPage extends React.Component {
+    _isMounted = false;
     
     constructor(props){
         super(props);
@@ -33,13 +34,23 @@ export default class WrapUserPage extends React.Component {
         
     }
     
-    async componentDidMount(){
-        console.log(this.props.match.params.userid);
-    	await this.fetchUserData();
+    componentDidMount(){
+        this._isMounted = true;
+        if(this._isMounted){
+    	    this.fetchUserData();
+        }
     }
     
-    async fetchUserData(){
-        await Api_FetchUserData(this.props.match.params.userid ,this.setUserData)
+    componentWillUnmount() {
+        this._isMounted=false;
+        this.setState = (state,callback)=>{
+        return;
+    };
+    }
+    
+    
+    fetchUserData(){
+        Api_FetchUserData(this.props.match.params.userid ,this.setUserData)
     }
     
     setUserData(data){
