@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import { Api_Logout } from '../api/Api';
 
@@ -73,16 +73,16 @@ function LeftHeaderComponent(props){
         );
     }
 
-function RightHeaderComponent(props){
+const RightHeaderComponent=(props)=>{
         const is_guest = props.isGuest
         
         const clickHandle = async e => {
-            e.preventDefault();
-            await Api_Logout(props.setIsGuest);
+            Api_Logout(props.setIsGuest);
         }
         
         console.log(is_guest);
         console.log(3);
+        
         return is_guest === null || is_guest ?
         (
             <div className="flex-shrink-0 bg-red-400 flex justify-left pr-2 md:pr-4 items-baseline space-x-2 md:space-x-3">
@@ -99,7 +99,7 @@ function RightHeaderComponent(props){
                     <NavLink to="/login" className="bg-green-800 text-white px-3 py-1 md:py-2 rounded-md text-sm font-medium" onClick={clickHandle}>Log out</NavLink>
                 </div>
                 <div>
-                    <NavLink to={`/user/${props.user_data.id}/detail`}>
+                    <NavLink to={`/user/${props.user_data.id==null ? "logout": props.user_data.id}/detail`}>
                         <img className="h-8 w-auto sm:h-10" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="" />
                     </NavLink>
                 </div>

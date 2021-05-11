@@ -56,6 +56,10 @@ class User extends Authenticatable
         return User::where('token', $token)->first();
     }
     
+    static function get_me_id($id){
+        return User::where('id', $id)->first();
+    }
+    
     static function is_exists(string $token){
         return User::where('token', $token)->first() !== null;
     }

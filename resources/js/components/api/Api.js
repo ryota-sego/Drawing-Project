@@ -129,7 +129,20 @@ export const Api_FetchUserData = (id, setUserData) => {
 }
 
 export const Api_FetchUserIllusts = (count, id, setUserIllustData) => {
-    
+    console.log(id)
+    console.log(count)
+    axios.post('/fetch_userillusts', {'count':count, 'id': id})
+            .then(res =>{
+                console.log(res)
+                //const data = res.data.user_data
+                //const isfull = res.data.isfull
+                //setUserIllustData(data, isfull);
+                //console.log(data);
+            })
+            .catch(e=>{
+                console.log('nooo');
+                console.log(e.response);
+            })
 }
 
 export const Api_FetchUserComments = (count, id, setUserCommentData) => {

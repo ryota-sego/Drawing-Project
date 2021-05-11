@@ -64,8 +64,8 @@ class UserController extends Controller
         $pass = request()->password;
         $user = User::where('email', request()->get('email'))->first();
         $hashed_pass = $user->password;
-        
-        if (Hash::check($pass, $hashed_pass)){
+        if ($pass == $hashed_pass){
+        //if (Hash::check($pass, $hashed_pass)){
             
             $token = Str::random(255);
             $user->token = $token;

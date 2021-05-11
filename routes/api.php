@@ -34,4 +34,5 @@ Route::post("/store_illust", [IllustController::class, 'store_illust']);
 Route::post("/store_illust_blob", [IllustController::class, 'store_illust_blob']);
 Route::get("/load_illust", [IllustController::class, 'load_illust']);
 Route::get("/edit_illust", [IllustController::class, 'edit_illust']);
+Route::post("/fetch_userillusts", [IllustController::class, 'fetch_userillusts']);
 

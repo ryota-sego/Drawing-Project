@@ -66,4 +66,32 @@ class IllustController extends Controller
                         
         return response(['answer' => $illust->path]);
     }
+    
+    public function fetch_userillusts(Request $request){
+        $isfull = false;
+        
+        
+        if(request()->count == 0){
+            
+            $illusts = Illust::where('user_id', request()->id)->orderBy('created_at', 'desc')->limit(10)->get();
+            if($illusts->count() < 10){
+                $isfull = true;
+            }
+            
+            return response([
+                            "illust_data" => $illusts,
+                            "isfull" => $isfull,
+                            ]);
+        }
+        
+        $illusts = Illust::where('user_id', request()->id)->orderBy('created_at', 'desc')->offset(count * 10)->limit(10)->get();
+        if($illusts->count() < 10){
+            $isfull = true;
+        }
+        
+        return response([
+                        "illust_data" => $illusts,
+                        "isfull" => $isfull,
+                        ]);
+    }
 }
