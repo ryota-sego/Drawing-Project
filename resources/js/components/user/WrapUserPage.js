@@ -32,13 +32,14 @@ export default class WrapUserPage extends React.Component {
         this.setUserData = this.setUserData.bind(this);
         this.fetchUserData = this.fetchUserData.bind(this);
         
+        this.fetchUserData();
     }
     
     componentDidMount(){
         this._isMounted = true;
-        if(this._isMounted){
-    	    this.fetchUserData();
-        }
+        //if(this._isMounted){
+    	    
+        //}
     }
     
     componentWillUnmount() {
@@ -54,13 +55,13 @@ export default class WrapUserPage extends React.Component {
     }
     
     setUserData(data){
-        console.log(data)
-        this.setState((state)=>({user_data: data,
-        }));
+        this.setState((state)=>({user_data: data,}));
     }
     
     render(){
         let url = this.props.match.url;
+        
+        
         return (
             <div id="user_page_wrap" className="wrap-page-share pt-0 w-full h-full">
     {/*上の隙間*/}
@@ -80,9 +81,9 @@ export default class WrapUserPage extends React.Component {
                             {/*Panes*/}
                             <Switch>
                                 <Route path={`${url}/detail`} render={(routeProps)=><UserDetailPane guest={this.props.guest} user_data={this.state.user_data} {...routeProps} />}/>
-                                <Route path={`${url}/illusts`} render={(routeProps)=><UserDrawingPane guest={this.props.guest} user_data={this.state.user_data} {...routeProps} />}/>
-                                <Route path={`${url}/favorites`} render={(routeProps)=><UserFavoritePane guest={this.props.guest} user_data={this.state.user_data} {...routeProps} />}/>
-                                <Route path={`${url}/comments`} render={(routeProps)=><UserCommentPane guest={this.props.guest} user_data={this.state.user_data} {...routeProps} />}/>
+                                <Route path={`${url}/illusts`} render={(routeProps)=><UserDrawingPane guest={this.props.guest} user_id={this.props.match.params.userid} url={url} {...routeProps} />}/>
+                                <Route path={`${url}/favorites`} render={(routeProps)=><UserFavoritePane guest={this.props.guest} user_id={this.props.match.params.userid} url={url} {...routeProps} />}/>
+                                <Route path={`${url}/comments`} render={(routeProps)=><UserCommentPane guest={this.props.guest} user_id={this.props.match.params.userid} url={url} {...routeProps} />}/>
                             </Switch>
                         </div>
                     </div>

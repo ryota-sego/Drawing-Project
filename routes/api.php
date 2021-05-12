@@ -22,12 +22,12 @@ Route::post("/login", [UserController::class, 'login']);
 Route::get("/logout", [UserController::class, 'logout']);
 
 Route::post("/fetch_userdata", [UserController::class, 'fetch_userdata']);
+Route::post("/fetch_userfavorites", [UserController::class, 'fetch_userfavorites']);
+Route::post("/fetch_usercomments", [UserController::class, 'fetch_usercomments']);
 Route::post("/test", [UserController::class, 'test']);
 
-//forOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUse
 Route::get("/isLoggedIn", [UserController::class, 'isLoggedIn']);
 
-// 自分か他人かチェック自分か他人かチェック自分か他人かチェック自分か他人かチェック(不要？他ルータの機能と統合可能？)
 Route::get("/is_me", [UserController::class, 'is_me']);
 
 Route::post("/store_illust", [IllustController::class, 'store_illust']);

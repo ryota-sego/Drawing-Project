@@ -8,6 +8,8 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\User;
+use App\Models\Comment;
+use App\Models\Favorite;
 use App\Http\Controllers\Component;
 
 use Illuminate\Support\Facades\Log;
@@ -160,17 +162,84 @@ class UserController extends Controller
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
     //illust 関係
     
+    
+    
+    
+    
     //=============================================================================================================
     //privates
     
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
     //favorite 関係
     
+    public function fetch_userfavorites(Request $request){
+        $isfull = false;
+        
+        if(request()->count == 0){
+            
+            $user_id = User::where('id', request()->id)->first()->id;
+            $favorites = Favorite::where('user_id', $user_id)->orderBy('created_at', 'desc')->limit(10)->get();
+            
+            if($favorites->count() < 10){
+                $isfull = true;
+            }
+            
+            return response([
+                            "favorite_data" => $favorites,
+                            "isfull" => $isfull,
+                            ]);
+        }
+        
+        $user_id = User::where('id', request()->id)->first()->id;
+        $favorites = Favorite::where('user_id', $user_id)->orderBy('created_at', 'desc')->offset(count * 10)->limit(10)->get();
+         
+        if($favorites->count() < 10){
+            $isfull = true;
+        }
+        
+        return response([
+                        "favorite_data" => $favorites,
+                        "isfull" => $isfull,
+                        ]);
+    }
+    
     //=============================================================================================================
     //privates
     
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
     //comment 関係
+    
+    public function fetch_usercomments(Request $request){
+        $isfull = false;
+        
+        
+        if(request()->count == 0){
+            
+            $user_id = User::where('id', request()->id)->first()->id;
+            
+            $comments = Comment::where('user_id', $user_id)->orderBy('created_at', 'desc')->limit(10)->get();
+            if($comments->count() < 10){
+                $isfull = true;
+            }
+            
+            return response([
+                            "comment_data" => $comments,
+                            "isfull" => $isfull,
+                            ]);
+        }
+        
+        $user_id = User::where('id', request()->id)->first()->id;
+        
+        $comments = Comment::where('user_id', $user_id)->orderBy('created_at', 'desc')->offset(count * 10)->limit(10)->get();
+        if($comments->count() < 10){
+            $isfull = true;
+        }
+        
+        return response([
+                        "comment_data" => $comments,
+                        "isfull" => $isfull,
+                        ]);
+    }
     
     //=============================================================================================================
     //privates

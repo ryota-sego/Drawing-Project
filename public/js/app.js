@@ -2831,8 +2831,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Api_LordIllust": () => (/* binding */ Api_LordIllust),
 /* harmony export */   "Api_FetchUserData": () => (/* binding */ Api_FetchUserData),
 /* harmony export */   "Api_FetchUserIllusts": () => (/* binding */ Api_FetchUserIllusts),
-/* harmony export */   "Api_FetchUserComments": () => (/* binding */ Api_FetchUserComments),
 /* harmony export */   "Api_FetchUserFavorites": () => (/* binding */ Api_FetchUserFavorites),
+/* harmony export */   "Api_FetchUserComments": () => (/* binding */ Api_FetchUserComments),
 /* harmony export */   "Api_FetchPosts": () => (/* binding */ Api_FetchPosts)
 /* harmony export */ });
 /* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! js-cookie */ "./node_modules/js-cookie/src/js.cookie.js");
@@ -2998,7 +2998,6 @@ var Api_FetchUserIllusts = function Api_FetchUserIllusts(count, id, setUserIllus
       'id': id
     }).then(function (res) {
       var data = res.data.illust_data;
-      console.log(data);
       var isfull = res.data.isfull;
       setUserIllustData(data, isfull);
       ongoing = false;
@@ -3009,8 +3008,44 @@ var Api_FetchUserIllusts = function Api_FetchUserIllusts(count, id, setUserIllus
     });
   }
 };
-var Api_FetchUserComments = function Api_FetchUserComments(count, id, setUserCommentData) {};
-var Api_FetchUserFavorites = function Api_FetchUserFavorites(count, id, setUserFavoriteData) {};
+var ongoing7 = false;
+var Api_FetchUserFavorites = function Api_FetchUserFavorites(count, id, setUserFavoriteData) {
+  if (ongoing7 == false) {
+    ongoing7 = true;
+    axios__WEBPACK_IMPORTED_MODULE_1___default().post('/fetch_userfavorites', {
+      'count': count,
+      'id': id
+    }).then(function (res) {
+      var data = res.data.favorite_data;
+      var isfull = res.data.isfull;
+      setUserFavoriteData(data, isfull);
+      ongoing7 = false;
+    })["catch"](function (e) {
+      console.log('noooillust');
+      console.log(e.response);
+      ongoing7 = false;
+    });
+  }
+};
+var ongoing8 = false;
+var Api_FetchUserComments = function Api_FetchUserComments(count, id, setUserCommentData) {
+  if (ongoing8 == false) {
+    ongoing8 = true;
+    axios__WEBPACK_IMPORTED_MODULE_1___default().post('/fetch_usercomments', {
+      'count': count,
+      'id': id
+    }).then(function (res) {
+      var data = res.data.comment_data;
+      var isfull = res.data.isfull;
+      setUserCommentData(data, isfull);
+      ongoing8 = false;
+    })["catch"](function (e) {
+      console.log('noooillust');
+      console.log(e.response);
+      ongoing8 = false;
+    });
+  }
+};
 var Api_FetchPosts = function Api_FetchPosts(count, id, setTimelinePostData) {};
 
 /***/ }),
@@ -4516,8 +4551,9 @@ function Comment() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Post),
-/* harmony export */   "Post_userdrawingpane": () => (/* binding */ Post_userdrawingpane),
-/* harmony export */   "PostMemo": () => (/* binding */ PostMemo)
+/* harmony export */   "Post_usercommentpane": () => (/* binding */ Post_usercommentpane),
+/* harmony export */   "Post_userfavoritepane": () => (/* binding */ Post_userfavoritepane),
+/* harmony export */   "Post_userdrawingpane": () => (/* binding */ Post_userdrawingpane)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_p5__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-p5 */ "./node_modules/react-p5/build/index.js");
@@ -4552,33 +4588,80 @@ function Post(props) {
     })]
   });
 }
+var Post_usercommentpane = function Post_usercommentpane(props) {
+  var clickHandle = function clickHandle(e) {
+    e.preventDefault();
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+    children: JSON.stringify(props.data)
+  }); //return (
+  //    <div className="w-72 h-96 bg-red-100 box-border border-2 border-black">
+  //        <div className="h-64 w-64 mx-auto my-2 bg-green-100"><a onClick={clickHandle}>{props.data.path}</a></div>
+  //        <div className="box-border border-4 border-red-500 card-body">
+  //            <h5 className="text-lg">{props.data.title}</h5>
+  //            <div className="w-full text-xs box-border border-4 border-yellow-400">
+  //                <p className="w-full break-words xs">{props.data.description}</p>
+  //            </div>
+  //            
+  //            <a href="#" className="btn btn-primary">favorite</a>
+  //        </div>
+  //    </div>
+  //);
+};
+var Post_userfavoritepane = function Post_userfavoritepane(props) {
+  var clickHandle = function clickHandle(e) {
+    e.preventDefault();
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+    children: JSON.stringify(props.data)
+  }); //return (
+  //    <div className="w-72 h-96 bg-red-100 box-border border-2 border-black">
+  //        <div className="h-64 w-64 mx-auto my-2 bg-green-100"><a onClick={clickHandle}>{props.data.path}</a></div>
+  //        <div className="box-border border-4 border-red-500 card-body">
+  //            <h5 className="text-lg">{props.data.title}</h5>
+  //            <div className="w-full text-xs box-border border-4 border-yellow-400">
+  //                <p className="w-full break-words xs">{props.data.description}</p>
+  //            </div>
+  //            
+  //            <a href="#" className="btn btn-primary">favorite</a>
+  //        </div>
+  //   </div>
+  //);
+};
 var Post_userdrawingpane = function Post_userdrawingpane(props) {
+  var clickHandle = function clickHandle(e) {
+    e.preventDefault();
+  };
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-    className: "card",
-    style: "width: 18rem;",
+    className: "w-72 h-96 bg-red-100 box-border border-2 border-black",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-      children: props.illust_data.path
+      className: "h-64 w-64 mx-auto my-2 bg-green-100",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+        onClick: clickHandle,
+        children: props.data.path
+      })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      className: "card-body",
+      className: "box-border border-4 border-red-500 card-body",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h5", {
-        className: "card-title",
-        children: props.illust_data.title
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-        className: "card-text",
-        children: props.illust_data.description
+        className: "text-lg",
+        children: props.data.title
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "w-full text-xs box-border border-4 border-yellow-400",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+          className: "w-full break-words xs",
+          children: props.data.description
+        })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
         href: "#",
         className: "btn btn-primary",
-        children: "Go somewhere"
+        children: "favorite"
       })]
     })]
   });
-};
-var PostMemo = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.memo(function (props) {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(Post_userdrawingpane, {
-    illust_data: props.illust_data
-  }, props.illust_data.id);
-}); // =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+= Sketch Component +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+}; // =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+= Sketch Component +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
 var Sketch_Memo = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.memo(function (props) {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(SketchP5, {
@@ -4839,17 +4922,17 @@ var WrapUserPage = /*#__PURE__*/function (_React$Component) {
     };
     _this.setUserData = _this.setUserData.bind(_assertThisInitialized(_this));
     _this.fetchUserData = _this.fetchUserData.bind(_assertThisInitialized(_this));
+
+    _this.fetchUserData();
+
     return _this;
   }
 
   _createClass(WrapUserPage, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this._isMounted = true;
-
-      if (this._isMounted) {
-        this.fetchUserData();
-      }
+      this._isMounted = true; //if(this._isMounted){
+      //}
     }
   }, {
     key: "componentWillUnmount",
@@ -4868,7 +4951,6 @@ var WrapUserPage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "setUserData",
     value: function setUserData(data) {
-      console.log(data);
       this.setState(function (state) {
         return {
           user_data: data
@@ -4915,7 +4997,8 @@ var WrapUserPage = /*#__PURE__*/function (_React$Component) {
                   render: function render(routeProps) {
                     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_panes_UserDrawingPane__WEBPACK_IMPORTED_MODULE_8__.default, _objectSpread({
                       guest: _this2.props.guest,
-                      user_data: _this2.state.user_data
+                      user_id: _this2.props.match.params.userid,
+                      url: url
                     }, routeProps));
                   }
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
@@ -4923,7 +5006,8 @@ var WrapUserPage = /*#__PURE__*/function (_React$Component) {
                   render: function render(routeProps) {
                     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_panes_UserFavoritePane__WEBPACK_IMPORTED_MODULE_9__.default, _objectSpread({
                       guest: _this2.props.guest,
-                      user_data: _this2.state.user_data
+                      user_id: _this2.props.match.params.userid,
+                      url: url
                     }, routeProps));
                   }
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
@@ -4931,7 +5015,8 @@ var WrapUserPage = /*#__PURE__*/function (_React$Component) {
                   render: function render(routeProps) {
                     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_panes_UserCommentPane__WEBPACK_IMPORTED_MODULE_6__.default, _objectSpread({
                       guest: _this2.props.guest,
-                      user_data: _this2.state.user_data
+                      user_id: _this2.props.match.params.userid,
+                      url: url
                     }, routeProps));
                   }
                 })]
@@ -4959,11 +5044,28 @@ var WrapUserPage = /*#__PURE__*/function (_React$Component) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ UserCommentPane)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash.throttle */ "./node_modules/lodash.throttle/index.js");
+/* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _api_Api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../api/Api */ "./resources/js/components/api/Api.js");
+/* harmony import */ var _post_parts_Post__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../post_parts/Post */ "./resources/js/components/post_parts/Post.js");
+/* harmony import */ var _common_Loading__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../common/Loading */ "./resources/js/components/common/Loading.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4985,9 +5087,15 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
+
+
+
+
+var ISLOADING = false;
 
 var UserCommentPane = /*#__PURE__*/function (_React$Component) {
   _inherits(UserCommentPane, _React$Component);
@@ -5000,170 +5108,106 @@ var UserCommentPane = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, UserCommentPane);
 
     _this = _super.call(this, props);
+
+    _defineProperty(_assertThisInitialized(_this), "_isMounted", false);
+
+    _defineProperty(_assertThisInitialized(_this), "handleScroll", function (e) {
+      console.log("scroool");
+
+      if (!_this.state.isfull) {
+        if (!ISLOADING) {
+          if (_this.node.scrollHeight - _this.node.scrollTop - _this.node.clientHeight < 1) {
+            ISLOADING = true;
+            console.log(ISLOADING);
+
+            _this.loadNewComments();
+          }
+        } else {
+          console.log("loading now");
+        }
+      }
+    });
+
     _this.state = {
-      'is_loading': false
+      scroll_top: 0,
+      loaded_count: 0,
+      loaded_comments: [],
+      loading: false,
+      isfull: false
     };
+    _this.handleScroll = _this.handleScroll.bind(_assertThisInitialized(_this));
+    _this.handleScroll_throttled = lodash_throttle__WEBPACK_IMPORTED_MODULE_1___default()(_this.handleScroll, 500);
+    _this.node = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createRef(_this.state.top);
+    _this.loadNewComments = _this.loadNewComments.bind(_assertThisInitialized(_this));
+    _this.setNewComments_BraekLoading = _this.setNewComments_BraekLoading.bind(_assertThisInitialized(_this));
+
+    _this.loadNewComments();
+
     return _this;
   }
 
   _createClass(UserCommentPane, [{
+    key: "setNewComments_BraekLoading",
+    value: function setNewComments_BraekLoading(comments, isfull) {
+      var _this2 = this;
+
+      var ill = this.state.loaded_comments;
+      this.setState(function (state) {
+        loaded_comments: ill.push.apply(ill, _toConsumableArray(comments));
+      });
+      this.setState(function (state) {
+        loading: false;
+      });
+      this.setState(function (state) {
+        loaded_count: _this2.state.loaded_count + 1;
+      });
+      if (isfull) this.setState(function (state) {
+        return {
+          isfull: true
+        };
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this._isMounted = true; //if(this._isMounted){
+      //    this.loadNewPosts()
+      //}
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this._isMounted = false;
+
+      this.setState = function (state, callback) {
+        return;
+      };
+    }
+  }, {
+    key: "loadNewComments",
+    value: function loadNewComments() {
+      (0,_api_Api__WEBPACK_IMPORTED_MODULE_2__.Api_FetchUserComments)(this.state.loaded_count, this.props.user_id, this.setNewComments_BraekLoading);
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      var _this3 = this;
+
+      console.log(this.state.loaded_comments);
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         className: "w-full h-full bg-white",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-          className: "pane-share flex flex-wrap justify-start content-start overflow-auto gap-8",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28 flex justify-center content-center",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              className: "text-center align-middle",
-              children: "a"
-            })
-          })]
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          id: "scroll",
+          className: "pane-share px-4 flex flex-wrap justify-start content-start overflow-auto gap-8",
+          onScroll: this.handleScroll_throttled,
+          ref: function ref(node) {
+            _this3.node = node;
+          },
+          children: this.state.loaded_comments.length ? this.state.loaded_comments.map(function (n) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_post_parts_Post__WEBPACK_IMPORTED_MODULE_3__.Post_usercommentpane, {
+              data: n
+            }, n.id);
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_common_Loading__WEBPACK_IMPORTED_MODULE_4__.default, {})
         })
       });
     }
@@ -5172,7 +5216,7 @@ var UserCommentPane = /*#__PURE__*/function (_React$Component) {
   return UserCommentPane;
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
-
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UserCommentPane);
 
 /***/ }),
 
@@ -5376,6 +5420,8 @@ var UserDrawingPane = /*#__PURE__*/function (_React$Component) {
     _defineProperty(_assertThisInitialized(_this), "_isMounted", false);
 
     _defineProperty(_assertThisInitialized(_this), "handleScroll", function (e) {
+      console.log("scroool");
+
       if (!_this.state.isfull) {
         if (!ISLOADING) {
           if (_this.node.scrollHeight - _this.node.scrollTop - _this.node.clientHeight < 1) {
@@ -5403,9 +5449,7 @@ var UserDrawingPane = /*#__PURE__*/function (_React$Component) {
     _this.loadNewPosts = _this.loadNewPosts.bind(_assertThisInitialized(_this));
     _this.setNewPosts_BraekLoading = _this.setNewPosts_BraekLoading.bind(_assertThisInitialized(_this));
 
-    if (props.user_data.id != "loading") {
-      _this.loadNewPosts();
-    }
+    _this.loadNewPosts();
 
     return _this;
   }
@@ -5416,11 +5460,6 @@ var UserDrawingPane = /*#__PURE__*/function (_React$Component) {
       var _this2 = this;
 
       var ill = this.state.loaded_illusts;
-      console.log("aaa");
-      console.log(ill);
-      console.log(illusts);
-      console.log("aaa"); //Object.keys(illusts).forEach((key)=>ill.push(illusts[key]))
-
       this.setState(function (state) {
         loaded_illusts: ill.push.apply(ill, _toConsumableArray(illusts));
       });
@@ -5455,7 +5494,7 @@ var UserDrawingPane = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "loadNewPosts",
     value: function loadNewPosts() {
-      (0,_api_Api__WEBPACK_IMPORTED_MODULE_2__.Api_FetchUserIllusts)(this.state.loaded_count, this.props.user_data.id, this.setNewPosts_BraekLoading);
+      (0,_api_Api__WEBPACK_IMPORTED_MODULE_2__.Api_FetchUserIllusts)(this.state.loaded_count, this.props.user_id, this.setNewPosts_BraekLoading);
     }
   }, {
     key: "render",
@@ -5463,32 +5502,20 @@ var UserDrawingPane = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       console.log(this.state.loaded_illusts);
-
-      if (this.state.loading === true) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-          className: "w-full h-full bg-white",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-            id: "scroll",
-            className: "pane-share flex flex-wrap justify-start content-start overflow-auto gap-8",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_common_Loading__WEBPACK_IMPORTED_MODULE_4__.default, {})
-          })
-        });
-      }
-
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         className: "w-full h-full bg-white",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           id: "scroll",
-          className: "pane-share flex flex-wrap justify-start content-start overflow-auto gap-8",
+          className: "pane-share px-4 flex flex-wrap justify-start content-start overflow-auto gap-8",
           onScroll: this.handleScroll_throttled,
           ref: function ref(node) {
             _this3.node = node;
           },
-          children: this.state.loaded_illusts.map(function (n) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
-              children: JSON.stringify(n)
-            });
-          })
+          children: this.state.loaded_illusts.length ? this.state.loaded_illusts.map(function (n) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_post_parts_Post__WEBPACK_IMPORTED_MODULE_3__.Post_userdrawingpane, {
+              data: n
+            }, n.id);
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_common_Loading__WEBPACK_IMPORTED_MODULE_4__.default, {})
         })
       });
     }
@@ -5510,11 +5537,28 @@ var UserDrawingPane = /*#__PURE__*/function (_React$Component) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ UserFavoritePane)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash.throttle */ "./node_modules/lodash.throttle/index.js");
+/* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _api_Api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../api/Api */ "./resources/js/components/api/Api.js");
+/* harmony import */ var _post_parts_Post__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../post_parts/Post */ "./resources/js/components/post_parts/Post.js");
+/* harmony import */ var _common_Loading__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../common/Loading */ "./resources/js/components/common/Loading.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -5536,9 +5580,15 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
+
+
+
+
+var ISLOADING = false;
 
 var UserFavoritePane = /*#__PURE__*/function (_React$Component) {
   _inherits(UserFavoritePane, _React$Component);
@@ -5551,175 +5601,106 @@ var UserFavoritePane = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, UserFavoritePane);
 
     _this = _super.call(this, props);
+
+    _defineProperty(_assertThisInitialized(_this), "_isMounted", false);
+
+    _defineProperty(_assertThisInitialized(_this), "handleScroll", function (e) {
+      console.log("scroool");
+
+      if (!_this.state.isfull) {
+        if (!ISLOADING) {
+          if (_this.node.scrollHeight - _this.node.scrollTop - _this.node.clientHeight < 1) {
+            ISLOADING = true;
+            console.log(ISLOADING);
+
+            _this.loadNewFavorites();
+          }
+        } else {
+          console.log("loading now");
+        }
+      }
+    });
+
     _this.state = {
-      'is_loading': false
+      scroll_top: 0,
+      loaded_count: 0,
+      loaded_favorites: [],
+      loading: false,
+      isfull: false
     };
+    _this.handleScroll = _this.handleScroll.bind(_assertThisInitialized(_this));
+    _this.handleScroll_throttled = lodash_throttle__WEBPACK_IMPORTED_MODULE_1___default()(_this.handleScroll, 500);
+    _this.node = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createRef(_this.state.top);
+    _this.loadNewFavorites = _this.loadNewFavorites.bind(_assertThisInitialized(_this));
+    _this.setNewFavorites_BraekLoading = _this.setNewFavorites_BraekLoading.bind(_assertThisInitialized(_this));
+
+    _this.loadNewFavorites();
+
     return _this;
   }
 
   _createClass(UserFavoritePane, [{
+    key: "setNewFavorites_BraekLoading",
+    value: function setNewFavorites_BraekLoading(favorites, isfull) {
+      var _this2 = this;
+
+      var fav = this.state.loaded_favorites;
+      this.setState(function (state) {
+        loaded_favorites: fav.push.apply(fav, _toConsumableArray(favorites));
+      });
+      this.setState(function (state) {
+        loading: false;
+      });
+      this.setState(function (state) {
+        loaded_count: _this2.state.loaded_count + 1;
+      });
+      if (isfull) this.setState(function (state) {
+        return {
+          isfull: true
+        };
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this._isMounted = true; //if(this._isMounted){
+      //    this.loadNewPosts()
+      //}
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this._isMounted = false;
+
+      this.setState = function (state, callback) {
+        return;
+      };
+    }
+  }, {
+    key: "loadNewFavorites",
+    value: function loadNewFavorites() {
+      (0,_api_Api__WEBPACK_IMPORTED_MODULE_2__.Api_FetchUserFavorites)(this.state.loaded_count, this.props.user_id, this.setNewFavorites_BraekLoading);
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      var _this3 = this;
+
+      console.log(this.state.loaded_favorites);
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         className: "w-full h-full bg-white",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-          className: "pane-share flex flex-wrap justify-start content-start overflow-auto gap-8",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "self-center h-32 w-28",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-              children: "a"
-            })
-          })]
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          id: "scroll",
+          className: "pane-share px-4 flex flex-wrap justify-start content-start overflow-auto gap-8",
+          onScroll: this.handleScroll_throttled,
+          ref: function ref(node) {
+            _this3.node = node;
+          },
+          children: this.state.loaded_favorites.length ? this.state.loaded_favorites.map(function (n) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_post_parts_Post__WEBPACK_IMPORTED_MODULE_3__.Post_userfavoritepane, {
+              data: n
+            }, n.id);
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_common_Loading__WEBPACK_IMPORTED_MODULE_4__.default, {})
         })
       });
     }
@@ -5728,7 +5709,7 @@ var UserFavoritePane = /*#__PURE__*/function (_React$Component) {
   return UserFavoritePane;
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
-
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UserFavoritePane);
 
 /***/ }),
 

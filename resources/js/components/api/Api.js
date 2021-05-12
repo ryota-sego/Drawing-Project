@@ -165,9 +165,7 @@ export const Api_FetchUserIllusts = (count, id, setUserIllustData) => {
         ongoing = true;
         axios.post('/fetch_userillusts', {'count':count, 'id': id})
                 .then(res =>{
-                    
                     const data = res.data.illust_data
-                    console.log(data)
                     const isfull = res.data.isfull
                     setUserIllustData(data, isfull);
                     ongoing = false;
@@ -180,12 +178,44 @@ export const Api_FetchUserIllusts = (count, id, setUserIllustData) => {
     }
 }
 
-export const Api_FetchUserComments = (count, id, setUserCommentData) => {
-    
+let ongoing7 = false
+export const Api_FetchUserFavorites = (count, id, setUserFavoriteData) => {
+    if(ongoing7 == false){
+        ongoing7 = true;
+        axios.post('/fetch_userfavorites', {'count':count, 'id': id})
+                .then(res =>{
+                    
+                    const data = res.data.favorite_data
+                    const isfull = res.data.isfull
+                    setUserFavoriteData(data, isfull);
+                    ongoing7 = false;
+                })
+                .catch(e=>{
+                    console.log('noooillust');
+                    console.log(e.response);
+                    ongoing7 = false;
+                })
+    }
 }
 
-export const Api_FetchUserFavorites = (count, id, setUserFavoriteData) => {
-    
+let ongoing8 = false
+export const Api_FetchUserComments = (count, id, setUserCommentData) => {
+    if(ongoing8 == false){
+        ongoing8 = true;
+        axios.post('/fetch_usercomments', {'count':count, 'id': id})
+                .then(res =>{
+                    
+                    const data = res.data.comment_data
+                    const isfull = res.data.isfull
+                    setUserCommentData(data, isfull);
+                    ongoing8 = false;
+                })
+                .catch(e=>{
+                    console.log('noooillust');
+                    console.log(e.response);
+                    ongoing8 = false;
+                })
+    }
 }
 
 export const Api_FetchPosts = (count, id, setTimelinePostData) => {

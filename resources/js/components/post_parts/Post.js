@@ -18,22 +18,73 @@ export default function Post(props){
     );
 }
 
+export const Post_usercommentpane = props => {
+    const clickHandle = (e) => {
+        e.preventDefault();
+        
+    }
+    
+    return(<p>{JSON.stringify(props.data)}</p>)
+    //return (
+    //    <div className="w-72 h-96 bg-red-100 box-border border-2 border-black">
+    //        <div className="h-64 w-64 mx-auto my-2 bg-green-100"><a onClick={clickHandle}>{props.data.path}</a></div>
+    //        <div className="box-border border-4 border-red-500 card-body">
+    //            <h5 className="text-lg">{props.data.title}</h5>
+    //            <div className="w-full text-xs box-border border-4 border-yellow-400">
+    //                <p className="w-full break-words xs">{props.data.description}</p>
+    //            </div>
+    //            
+    //            <a href="#" className="btn btn-primary">favorite</a>
+    //        </div>
+    //    </div>
+    //);
+}
 
-export const Post_userdrawingpane = (props) => {
+export const Post_userfavoritepane = props => {
+    const clickHandle = (e) => {
+        e.preventDefault();
+        
+    }
+    return(<p>{JSON.stringify(props.data)}</p>)
+    
+    //return (
+    //    <div className="w-72 h-96 bg-red-100 box-border border-2 border-black">
+    //        <div className="h-64 w-64 mx-auto my-2 bg-green-100"><a onClick={clickHandle}>{props.data.path}</a></div>
+    //        <div className="box-border border-4 border-red-500 card-body">
+    //            <h5 className="text-lg">{props.data.title}</h5>
+    //            <div className="w-full text-xs box-border border-4 border-yellow-400">
+    //                <p className="w-full break-words xs">{props.data.description}</p>
+    //            </div>
+    //            
+    //            <a href="#" className="btn btn-primary">favorite</a>
+    //        </div>
+    //   </div>
+    //);
+}
+
+
+
+export const Post_userdrawingpane = props => {
+    const clickHandle = (e) => {
+        e.preventDefault();
+        
+    }
+    
+    
     return (
-        <div className="card" style="width: 18rem;">
-            {/*<img src="..." class="card-img-top" alt="..." />*/}
-            <div>{props.illust_data.path}</div>
-            <div className="card-body">
-                <h5 className="card-title">{props.illust_data.title}</h5>
-                <p className="card-text">{props.illust_data.description}</p>
-                <a href="#" className="btn btn-primary">Go somewhere</a>
+        <div className="w-72 h-96 bg-red-100 box-border border-2 border-black">
+            <div className="h-64 w-64 mx-auto my-2 bg-green-100"><a onClick={clickHandle}>{props.data.path}</a></div>
+            <div className="box-border border-4 border-red-500 card-body">
+                <h5 className="text-lg">{props.data.title}</h5>
+                <div className="w-full text-xs box-border border-4 border-yellow-400">
+                    <p className="w-full break-words xs">{props.data.description}</p>
+                </div>
+                
+                <a href="#" className="btn btn-primary">favorite</a>
             </div>
         </div>
     );
 }
-
-export const PostMemo = React.memo(props => {return <Post_userdrawingpane illust_data={props.illust_data} key={props.illust_data.id}/>})
 
 
 

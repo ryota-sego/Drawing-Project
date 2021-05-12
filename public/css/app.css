@@ -31996,39 +31996,43 @@ video {
 }
 
 #loading_anime {
-  -webkit-animation: rotation 2s ease 0s infinite alternate none running;
-          animation: rotation 2s ease 0s infinite alternate none running;
+  -webkit-animation: rotation 2s linear infinite;
+          animation: rotation 2s linear infinite;
 }
 
 @-webkit-keyframes rotation {
   0% {
     transform: scale(1) rotate(0deg);
+    color: white;
   }
 
   50% {
-    transform: scale(0.7) rotate(180deg);
     background: red;
+    color: black;
   }
 
   100% {
     transform: scale(1) rotate(360deg);
     background: blue;
+    color: white;
   }
 }
 
 @keyframes rotation {
   0% {
     transform: scale(1) rotate(0deg);
+    color: white;
   }
 
   50% {
-    transform: scale(0.7) rotate(180deg);
     background: red;
+    color: black;
   }
 
   100% {
     transform: scale(1) rotate(360deg);
     background: blue;
+    color: white;
   }
 }
 
