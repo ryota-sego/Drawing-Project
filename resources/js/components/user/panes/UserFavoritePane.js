@@ -30,14 +30,14 @@ class UserFavoritePane extends React.Component{
         
     }
     
-    setNewFavorites_BraekLoading(favorites, isfull){
-        const fav = this.state.loaded_favorites;
-        
-        this.setState((state)=>{loaded_favorites: fav.push(...favorites)})
-        this.setState((state)=>{loading:false})
-        this.setState((state)=>{loaded_count: this.state.loaded_count + 1});
-
-        if(isfull) this.setState((state)=>({isfull:true}));
+    setNewFavorites_BraekLoading(favorites, is_full){
+        const fav = this.state.loaded_favorites.concat([]);
+        fav.push(...favorites);
+        this.setState({loaded_favorites: [...fav],
+                       loading:false,
+                       loaded_count: this.state.loaded_count + 1,
+                       isfull: is_full
+        })
     }
     
     componentDidMount(){
@@ -80,7 +80,7 @@ class UserFavoritePane extends React.Component{
     
     render(){
         console.log(this.state.loaded_favorites)
- 
+        
         return (
             <div className="w-full h-full bg-white">
                 <div id="scroll" className="pane-share px-4 flex flex-wrap justify-start content-start overflow-auto gap-8" onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>

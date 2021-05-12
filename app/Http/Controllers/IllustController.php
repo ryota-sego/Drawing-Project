@@ -84,7 +84,7 @@ class IllustController extends Controller
                             ]);
         }
         
-        $illusts = Illust::where('user_id', request()->id)->orderBy('created_at', 'desc')->offset(count * 10)->limit(10)->get();
+        $illusts = Illust::where('user_id', request()->id)->orderBy('created_at', 'desc')->offset(request()->count * 10)->limit(10)->get();
         if($illusts->count() < 10){
             $isfull = true;
         }

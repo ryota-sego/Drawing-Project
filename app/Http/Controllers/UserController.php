@@ -191,7 +191,7 @@ class UserController extends Controller
         }
         
         $user_id = User::where('id', request()->id)->first()->id;
-        $favorites = Favorite::where('user_id', $user_id)->orderBy('created_at', 'desc')->offset(count * 10)->limit(10)->get();
+        $favorites = Favorite::where('user_id', $user_id)->orderBy('created_at', 'desc')->offset(request()->count * 10)->limit(10)->get();
          
         if($favorites->count() < 10){
             $isfull = true;
@@ -230,7 +230,7 @@ class UserController extends Controller
         
         $user_id = User::where('id', request()->id)->first()->id;
         
-        $comments = Comment::where('user_id', $user_id)->orderBy('created_at', 'desc')->offset(count * 10)->limit(10)->get();
+        $comments = Comment::where('user_id', $user_id)->orderBy('created_at', 'desc')->offset(request()->count * 10)->limit(10)->get();
         if($comments->count() < 10){
             $isfull = true;
         }

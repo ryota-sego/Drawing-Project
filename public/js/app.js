@@ -5148,23 +5148,14 @@ var UserCommentPane = /*#__PURE__*/function (_React$Component) {
 
   _createClass(UserCommentPane, [{
     key: "setNewComments_BraekLoading",
-    value: function setNewComments_BraekLoading(comments, isfull) {
-      var _this2 = this;
-
-      var ill = this.state.loaded_comments;
-      this.setState(function (state) {
-        loaded_comments: ill.push.apply(ill, _toConsumableArray(comments));
-      });
-      this.setState(function (state) {
-        loading: false;
-      });
-      this.setState(function (state) {
-        loaded_count: _this2.state.loaded_count + 1;
-      });
-      if (isfull) this.setState(function (state) {
-        return {
-          isfull: true
-        };
+    value: function setNewComments_BraekLoading(comments, is_full) {
+      var com = this.state.loaded_comments.concat([]);
+      com.push.apply(com, _toConsumableArray(comments));
+      this.setState({
+        loaded_comments: _toConsumableArray(com),
+        loading: false,
+        loaded_count: this.state.loaded_count + 1,
+        isfull: is_full
       });
     }
   }, {
@@ -5191,7 +5182,7 @@ var UserCommentPane = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       console.log(this.state.loaded_comments);
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
@@ -5201,7 +5192,7 @@ var UserCommentPane = /*#__PURE__*/function (_React$Component) {
           className: "pane-share px-4 flex flex-wrap justify-start content-start overflow-auto gap-8",
           onScroll: this.handleScroll_throttled,
           ref: function ref(node) {
-            _this3.node = node;
+            _this2.node = node;
           },
           children: this.state.loaded_comments.length ? this.state.loaded_comments.map(function (n) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_post_parts_Post__WEBPACK_IMPORTED_MODULE_3__.Post_usercommentpane, {
@@ -5456,23 +5447,14 @@ var UserDrawingPane = /*#__PURE__*/function (_React$Component) {
 
   _createClass(UserDrawingPane, [{
     key: "setNewPosts_BraekLoading",
-    value: function setNewPosts_BraekLoading(illusts, isfull) {
-      var _this2 = this;
-
-      var ill = this.state.loaded_illusts;
-      this.setState(function (state) {
-        loaded_illusts: ill.push.apply(ill, _toConsumableArray(illusts));
-      });
-      this.setState(function (state) {
-        loading: false;
-      });
-      this.setState(function (state) {
-        loaded_count: _this2.state.loaded_count + 1;
-      });
-      if (isfull) this.setState(function (state) {
-        return {
-          isfull: true
-        };
+    value: function setNewPosts_BraekLoading(illusts, is_full) {
+      var ill = this.state.loaded_illusts.concat([]);
+      ill.push.apply(ill, _toConsumableArray(illusts));
+      this.setState({
+        loaded_illusts: _toConsumableArray(ill),
+        loading: false,
+        loaded_count: this.state.loaded_count + 1,
+        isfull: is_full
       });
     }
   }, {
@@ -5499,7 +5481,7 @@ var UserDrawingPane = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       console.log(this.state.loaded_illusts);
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
@@ -5509,7 +5491,7 @@ var UserDrawingPane = /*#__PURE__*/function (_React$Component) {
           className: "pane-share px-4 flex flex-wrap justify-start content-start overflow-auto gap-8",
           onScroll: this.handleScroll_throttled,
           ref: function ref(node) {
-            _this3.node = node;
+            _this2.node = node;
           },
           children: this.state.loaded_illusts.length ? this.state.loaded_illusts.map(function (n) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_post_parts_Post__WEBPACK_IMPORTED_MODULE_3__.Post_userdrawingpane, {
@@ -5641,23 +5623,14 @@ var UserFavoritePane = /*#__PURE__*/function (_React$Component) {
 
   _createClass(UserFavoritePane, [{
     key: "setNewFavorites_BraekLoading",
-    value: function setNewFavorites_BraekLoading(favorites, isfull) {
-      var _this2 = this;
-
-      var fav = this.state.loaded_favorites;
-      this.setState(function (state) {
-        loaded_favorites: fav.push.apply(fav, _toConsumableArray(favorites));
-      });
-      this.setState(function (state) {
-        loading: false;
-      });
-      this.setState(function (state) {
-        loaded_count: _this2.state.loaded_count + 1;
-      });
-      if (isfull) this.setState(function (state) {
-        return {
-          isfull: true
-        };
+    value: function setNewFavorites_BraekLoading(favorites, is_full) {
+      var fav = this.state.loaded_favorites.concat([]);
+      fav.push.apply(fav, _toConsumableArray(favorites));
+      this.setState({
+        loaded_favorites: _toConsumableArray(fav),
+        loading: false,
+        loaded_count: this.state.loaded_count + 1,
+        isfull: is_full
       });
     }
   }, {
@@ -5684,7 +5657,7 @@ var UserFavoritePane = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       console.log(this.state.loaded_favorites);
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
@@ -5694,7 +5667,7 @@ var UserFavoritePane = /*#__PURE__*/function (_React$Component) {
           className: "pane-share px-4 flex flex-wrap justify-start content-start overflow-auto gap-8",
           onScroll: this.handleScroll_throttled,
           ref: function ref(node) {
-            _this3.node = node;
+            _this2.node = node;
           },
           children: this.state.loaded_favorites.length ? this.state.loaded_favorites.map(function (n) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_post_parts_Post__WEBPACK_IMPORTED_MODULE_3__.Post_userfavoritepane, {

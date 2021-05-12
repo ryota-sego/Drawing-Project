@@ -34,14 +34,16 @@ class UserDrawingPane extends React.Component{
         
     }
     
-    setNewPosts_BraekLoading(illusts, isfull){
-        const ill = this.state.loaded_illusts;
-        
-        this.setState((state)=>{loaded_illusts: ill.push(...illusts)})
-        this.setState((state)=>{loading:false})
-        this.setState((state)=>{loaded_count: this.state.loaded_count + 1});
+    setNewPosts_BraekLoading(illusts, is_full){
+        const ill = this.state.loaded_illusts.concat([]);
+        ill.push(...illusts);
 
-        if(isfull) this.setState((state)=>({isfull:true}));
+        this.setState({loaded_illusts: [...ill],
+                       loading:false,
+                       loaded_count: this.state.loaded_count + 1,
+                       isfull: is_full
+        })
+
     }
     
     componentDidMount(){

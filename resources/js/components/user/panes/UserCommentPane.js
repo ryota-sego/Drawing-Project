@@ -30,14 +30,15 @@ class UserCommentPane extends React.Component{
         
     }
     
-    setNewComments_BraekLoading(comments, isfull){
-        const ill = this.state.loaded_comments;
+    setNewComments_BraekLoading(comments, is_full){
+        const com = this.state.loaded_comments.concat([]);
+        com.push(...comments);
 
-        this.setState((state)=>{loaded_comments: ill.push(...comments)})
-        this.setState((state)=>{loading:false})
-        this.setState((state)=>{loaded_count: this.state.loaded_count + 1});
-
-        if(isfull) this.setState((state)=>({isfull:true}));
+        this.setState({loaded_comments: [...com],
+                       loading:false,
+                       loaded_count: this.state.loaded_count + 1,
+                       isfull: is_full
+        })
     }
     
     componentDidMount(){
