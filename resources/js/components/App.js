@@ -10,7 +10,7 @@ import {
   Redirect,
 } from "react-router-dom";
 
-require("history").createBrowserHistory
+import createHistory from 'history/createBrowserHistory'
 
 import Header from './common/Header';
 import Footer from './common/Footer';
@@ -35,76 +35,48 @@ class App extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            'guest': null,
+            'guest': true,
             'user_data':{'id': 'guest',
                          'name': 'guest',
                          'icon': 'null',
                          'description': 'None'},
             'comment_type':'timeline',
-            'sidepane_type':'',
             'loading':false,
-            'count': 0,
-            'yes':true,
-            'redirect':true,
         };
         
         this.setIsGuest = this.setIsGuest.bind(this);
-        this.setCommentType = this.setCommentType.bind(this);
-        this.setSidePaneType = this.setSidePaneType.bind(this);
         this.setUserData = this.setUserData.bind(this)
     }
     
-    componentWillUnmount(){
-
+    setLoading(){
+        this.setState((state)=>({loading: !this.state.loading}));
     }
     
-    async setLoading(){
-        await this.setState((state)=>({loading: !this.state.loading}));
-    }
-    
-    async setIsGuest(data){
-        await this.setState((state)=>({guest: Cookies.get('loggedin') == null,
-                                 user_data: data,
-        }));
+    setIsGuest(data){
+        console.log(data);
+        if(data !== -1){
+            this.setState({guest: false,
+                           user_data: data
+                            });
+        }
+        
     }
     
     setUserData(data){
         this.setState((state)=>({user_data: data}));
     }
     
-    async componentDidMount(){
+    componentDidMount(){
         if(Cookies.get('loggedin') != null){
-            await Api_LoginWithToken(this.setIsGuest);
+            Api_LoginWithToken(this.setIsGuest);
         }else{
-            await this.setState((state)=>({guest: Cookies.get('loggedin') == null}));
+            this.setState({guest: true});
         }
-        console.log(this.state.user_data);
-    }
-    
-    setSidePaneType(type){
-        this.setState((state)=>({sidepane_type: type}));
-    }
-    
-    setCommentType(type){
-        this.setState((state)=>({comment_type: type}));
     }
     
     render(){
-        
-        if(this.state.user_data === -1){
-            Cookies.remove('loggedin')
-            const history = createHistory();
-            history.go(0)
-        }
-
-        if(this.state.guest === null){
-            return (<Loading />);
-        }
-        //if(this.state.redirect && this.state.guest == true){
-        //    this.setState((state)=>{redirect: false})
-        //    return (<Redirect to="/home" />)
-        //}
-        
+        console.log(this.state.guest);
+        console.log(this.state.user_data);
         return(
             <Router>
                 <div className="h-full w-screen">
@@ -115,10 +87,6 @@ class App extends React.Component {
                         <Route exact path="/home" render={(routeProps)=> <WrapDrawingPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
 {/*timeline page*/}
                         <Route path="/timeline" render={(routeProps)=> <WrapTimelinePage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
-{/*debug page*/}
-                        <Route exact path="/test_aoj30K+I*dm63wpouSKA@">
-                            <User handleClick={this.handleClick} count={this.state.count} yes={this.state.yes} />
-                        </Route>
 {/*detail page*/}
                         <Route path="/detail/illust" render={(routeProps)=> <WrapDetailPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
 {/*user page*/}                                                     
@@ -134,10 +102,6 @@ class App extends React.Component {
                     </Switch>
 {/*sahre (footer)*/}
                     <Footer />
-{/*for only debug use*/}
-                    <Route exact path="/test_aoj30K+I*dm63wpouSKA@">
-                        <Top handleClick={this.handleClick} count={this.state.count} yes={this.state.yes} />
-                    </Route>
                 </div>
             </Router>
         )

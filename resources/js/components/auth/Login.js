@@ -18,10 +18,7 @@ export default class Login extends React.Component {
     
     tryLogin = async e => {
         e.preventDefault();
-        console.log(this.props.isGuest);
         await Api_Login(this.state.email, this.state.password, this.props.setIsGuest);
-        console.log(this.props.isGuest);
-        console.log(5);
     };
     
     render(){

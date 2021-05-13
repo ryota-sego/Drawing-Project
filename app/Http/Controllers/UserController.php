@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
@@ -12,8 +13,6 @@ use App\Models\Comment;
 use App\Models\Favorite;
 use App\Models\Illust;
 use App\Http\Controllers\Component;
-
-use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -41,6 +40,7 @@ class UserController extends Controller
             ]);
         
         $user = new User; //new User
+        
         if ($user) { //ユーザが存在すか確認
             $user->email = request()->get("email"); //各データを登録
             $user->password = Hash::make(request()->get("password")); //password をhash化
@@ -51,8 +51,8 @@ class UserController extends Controller
             $user->token_created_at = date("Y-m-d H:i:s");
             $user->save(); //ユーザのデータを上書き保存
             
-            $cookie = Cookie::make('my_token', $token);//cookieを作成
-            $cookie_2 = Cookie::make('loggedin', true,0,null,null,null,false);
+            $cookie = Cookie::make('my_token', $token, 4320);//cookieを作成
+            $cookie_2 = Cookie::make('loggedin', true, 4320,null,null,null,false);
             return response([ //ユーザ情報を返す
                 'user_data' => $user,
                 ])->cookie($cookie)->cookie($cookie_2);
@@ -64,8 +64,18 @@ class UserController extends Controller
     }
     
     public function login(Request $request){
+        $email = request()->get('email');
+        
+        if($this->isMailExists($email)){
+            return response([
+                'user_data' => -1,
+                ]);
+        }
+
+        $user = User::where('email', $email)->first();
+        
+                
         $pass = request()->password;
-        $user = User::where('email', request()->get('email'))->first();
         $hashed_pass = $user->password;
         if ($pass == $hashed_pass){
         //if (Hash::check($pass, $hashed_pass)){
@@ -75,31 +85,38 @@ class UserController extends Controller
             $user->token_created_at = date("Y-m-d H:i:s");
             $user->save();
             
-            $cookie = Cookie::make('my_token', $token);//cookieを作成
-            $cookie_2 = Cookie::make('loggedin', true,0,null,null,null,false);
+            $cookie = Cookie::make('my_token', $token, 4320);//cookieを作成
+            $cookie_2 = Cookie::make('loggedin', true, 4320,null,null,null,false);
             
             return response([
                 'user_data' => $user,
                 ])->cookie($cookie)->cookie($cookie_2);
         }
+        
         return response(['user_data' => null,
         ]);
         
     }
     
     public function login_init(Request $request){
-        $token = Cookie::get('my_token');
-        
-        if (User::is_exists($token)){
-            $user = User::get_me($token);
-            
-            $cookie = Cookie::make('my_token', $token);//cookieを作成
-            $cookie_2 = Cookie::make('loggedin', true,0,null,null,null,false);
-            
-            return response([
-                'user_data' => $user,
-                ])->cookie($cookie)->cookie($cookie_2);
+        $token = Cookie::get('my_token'); //Token check
+        if(!$this->isTokenExists($token) || $token == null){
+            return response(['user_data' => -1])->withoutCookie('my_token')->withoutCookie('loggedin');
         }
+        
+        $user = $this->getTokenUser($token); //get user
+        
+        $token = Str::random(255); //reflesh token
+        $user->token = $token;
+        $user->token_created_at = date("Y-m-d H:i:s");
+        $user->save();
+        
+        $cookie = Cookie::make('my_token', $token);//cookieを作成
+        $cookie_2 = Cookie::make('loggedin', true,0,null,null,null,false);
+        
+        return response([
+            'user_data' => $user,
+            ])->cookie($cookie)->cookie($cookie_2);
     }
     
     public function logout(Request $request){
@@ -152,6 +169,7 @@ class UserController extends Controller
     }
     
     //forOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUse
+    
     public function isLoggedIn(Request $request){
         $token = Cookie::get('my_token');
         if($token == null){
@@ -159,16 +177,30 @@ class UserController extends Controller
         }
         return ['isloggedin' => $this->isTokenExists($token)];
     }
-    
-    public function test(Request $request){
-        return response(["message" => "a"]);
-    }
+
 //=============================================================================================================
     //privates
     
-    private function isTokenExists(string $token){
-        return User::where('token', $token)->first() !== null;
+    private function isMailExists($email){ //bool
+        return DB::table('users')->where('email', $email)->exists();
     }
+    
+    private function isTokenExists($token){ //bool
+        return DB::table('users')->where('token', $token)->exists();
+    }
+    
+    private function isUserExists($id){ //bool
+        return DB::table('users')->where('id', $id)->exists();
+    }
+    
+    private function getTokenUser($token){ //bool
+        return DB::table('users')->where('token', $token)->first();
+    }
+    
+    private function getUser($id){ //bool
+        return DB::table('users')->where('id', $id)->first();
+    }
+    
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
     //illust 関係
     

@@ -49,6 +49,7 @@ export function Api_LoginWithToken(setIsGuest){
                         const data = res.data.user_data;
                         setIsGuest(data);
                         console.log("initial_login")
+                        console.log(res);
                         ongoing3 = false
                     })
                     .catch(e => {
