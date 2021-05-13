@@ -2081,6 +2081,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+__webpack_require__(/*! history */ "./node_modules/history/esm/history.js").createBrowserHistory;
 
 
 
@@ -2272,9 +2273,13 @@ var App = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      console.log(this.state.user_data);
+      if (this.state.user_data === -1) {
+        js_cookie__WEBPACK_IMPORTED_MODULE_3___default().remove('loggedin');
+        var history = createHistory();
+        history.go(0);
+      }
 
-      if (this.state.guest == null) {
+      if (this.state.guest === null) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_common_Loading__WEBPACK_IMPORTED_MODULE_6__.default, {});
       } //if(this.state.redirect && this.state.guest == true){
       //    this.setState((state)=>{redirect: false})
@@ -2833,7 +2838,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Api_FetchUserIllusts": () => (/* binding */ Api_FetchUserIllusts),
 /* harmony export */   "Api_FetchUserFavorites": () => (/* binding */ Api_FetchUserFavorites),
 /* harmony export */   "Api_FetchUserComments": () => (/* binding */ Api_FetchUserComments),
-/* harmony export */   "Api_FetchUserDetails": () => (/* binding */ Api_FetchUserDetails)
+/* harmony export */   "Api_FetchUserDetails": () => (/* binding */ Api_FetchUserDetails),
+/* harmony export */   "Api_FetchTimeLineData": () => (/* binding */ Api_FetchTimeLineData),
+/* harmony export */   "Api_FetchTimeLineData_Reflesh": () => (/* binding */ Api_FetchTimeLineData_Reflesh)
 /* harmony export */ });
 /* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! js-cookie */ "./node_modules/js-cookie/src/js.cookie.js");
 /* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(js_cookie__WEBPACK_IMPORTED_MODULE_0__);
@@ -2848,14 +2855,12 @@ var ongoing1 = false;
 function Api_Logout(setIsGuest) {
   if (ongoing1 === false) {
     ongoing1 = true;
-    var response = {};
-    console.log(js_cookie__WEBPACK_IMPORTED_MODULE_0___default().get());
     axios__WEBPACK_IMPORTED_MODULE_1___default().get('api/logout').then(function (res) {
       setIsGuest(null);
+      console.log("logout");
       ongoing1 = false;
     })["catch"](function (e) {
-      response = e.response;
-      console.log(response);
+      console.log(e.response);
       ongoing1 = false;
     });
   }
@@ -2864,19 +2869,18 @@ var ongoing2 = false;
 function Api_Login(email, password, setIsGuest) {
   if (ongoing2 === false) {
     ongoing2 = true;
-    var response = {};
     axios__WEBPACK_IMPORTED_MODULE_1___default().post('api/login', {
       'email': email,
       'password': password
     }).then(function (res) {
       var data = res.data.user_data;
-      console.log(res);
       setIsGuest(data);
+      console.log("login");
       ongoing2 = false;
     })["catch"](function (e) {
-      response = e.response;
       ongoing2 = false;
-      console.log(response);
+      console.log(e.response);
+      setIsGuest(-1);
     });
   }
 }
@@ -2886,12 +2890,13 @@ function Api_LoginWithToken(setIsGuest) {
     ongoing3 = true;
     axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/login_init').then(function (res) {
       var data = res.data.user_data;
-      console.log(res);
       setIsGuest(data);
+      console.log("initial_login");
       ongoing3 = false;
     })["catch"](function (e) {
       console.log(e.response);
       ongoing3 = false;
+      setIsGuest(-1);
     });
   }
 }
@@ -2899,7 +2904,6 @@ var ongoing4 = false;
 function Api_Signup(email, name, password, setIsGuest) {
   if (ongoing4 === false) {
     ongoing4 = true;
-    var response = {};
     axios__WEBPACK_IMPORTED_MODULE_1___default().post('api/signup', {
       'name': name,
       'email': email,
@@ -2909,39 +2913,23 @@ function Api_Signup(email, name, password, setIsGuest) {
       setIsGuest(data);
       ongoing4 = false;
     })["catch"](function (e) {
-      response = e.response;
-      console.log(response);
+      console.log(e.response);
       ongoing4 = false;
     });
   }
 } // illust     illust     illust     illust     illust     illust     illust     illust     illust     illust    
-//export function Api_StoreIllust(drawing){
-//    const drawing_to_json = JSON.stringify(drawing);
-//    console.log(drawing_to_json);
-//    axios.post('api/store_illust',{'drawing':drawing_to_json})
-//                .then(res => {
-//                    console.log('success');
-//                    console.log(res);
-//                })
-//                .catch(e => {
-//                    console.log('nooo')
-//                    console.log(e.response)
-//                });
-//}
 
 var ongoing5 = false;
 function Api_StoreIllust_blob(blobed_drawing) {
   if (ongoing5 === false) {
     ongoing5 = true;
-    var drawing_to_json = JSON.stringify(blobed_drawing); //console.log(drawing_to_json);
-
+    var drawing_to_json = JSON.stringify(blobed_drawing);
     axios__WEBPACK_IMPORTED_MODULE_1___default().post('api/store_illust_blob', {
       'drawing': drawing_to_json
     }).then(function (res) {
-      //let response = res.data
+      console.log("successfully stored");
       ongoing5 = false;
     })["catch"](function (e) {
-      console.log('nooo');
       console.log(e.response);
       ongoing5 = false;
     });
@@ -2973,17 +2961,13 @@ var ongoing6 = false;
 var Api_FetchUserData = function Api_FetchUserData(id, setUserData) {
   if (ongoing6 === false) {
     ongoing6 = true;
-    console.log(id);
     axios__WEBPACK_IMPORTED_MODULE_1___default().post('/fetch_userdata', {
       'id': id
     }).then(function (res) {
-      console.log(res);
       var data = res.data.user_data;
       setUserData(data);
-      console.log(data);
       ongoing6 = false;
     })["catch"](function (e) {
-      console.log('nooo');
       console.log(e.response);
       ongoing6 = false;
     });
@@ -3002,7 +2986,6 @@ var Api_FetchUserIllusts = function Api_FetchUserIllusts(count, id, setUserIllus
       setUserIllustData(data, isfull);
       ongoing = false;
     })["catch"](function (e) {
-      console.log('noooillust');
       console.log(e.response);
       ongoing = false;
     });
@@ -3021,7 +3004,6 @@ var Api_FetchUserFavorites = function Api_FetchUserFavorites(count, id, setUserF
       setUserFavoriteData(data, isfull);
       ongoing7 = false;
     })["catch"](function (e) {
-      console.log('no_favorite');
       console.log(e.response);
       ongoing7 = false;
     });
@@ -3040,7 +3022,6 @@ var Api_FetchUserComments = function Api_FetchUserComments(count, id, setUserCom
       setUserCommentData(data, isfull);
       ongoing8 = false;
     })["catch"](function (e) {
-      console.log('no_comment');
       console.log(e.response);
       ongoing8 = false;
     });
@@ -3059,9 +3040,40 @@ var Api_FetchUserDetails = function Api_FetchUserDetails(id, setUserDetails) {
       setUserDetails(favs, coms, ills);
       ongoing9 = false;
     })["catch"](function (e) {
-      console.log('no_comment');
       console.log(e.response);
       ongoing9 = false;
+    });
+  }
+};
+var ongoing10 = false;
+var Api_FetchTimeLineData = function Api_FetchTimeLineData(count, setUserIllustData) {
+  if (ongoing10 == false) {
+    ongoing10 = true;
+    axios__WEBPACK_IMPORTED_MODULE_1___default().post('/fetch_userillusts', {
+      'count': count
+    }).then(function (res) {
+      var data = res.data.illust_data;
+      var isfull = res.data.isfull;
+      setUserIllustData(data, isfull);
+      ongoing10 = false;
+    })["catch"](function (e) {
+      console.log(e.response);
+      ongoing10 = false;
+    });
+  }
+};
+var ongoing11 = false;
+var Api_FetchTimeLineData_Reflesh = function Api_FetchTimeLineData_Reflesh(count, setUserIllustData) {
+  if (ongoing11 == false) {
+    ongoing11 = true;
+    axios__WEBPACK_IMPORTED_MODULE_1___default().get('api/fetch_userillusts').then(function (res) {
+      var data = res.data.illust_data;
+      var isfull = res.data.isfull;
+      setUserIllustData(data, isfull);
+      ongoing11 = false;
+    })["catch"](function (e) {
+      console.log(e.response);
+      ongoing11 = false;
     });
   }
 };
@@ -4789,8 +4801,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ WrapTimelinePage)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _api_Api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../api/Api */ "./resources/js/components/api/Api.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4812,8 +4829,13 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
+
+
+
+var ISLOADING = false;
 
 var WrapTimelinePage = /*#__PURE__*/function (_React$Component) {
   _inherits(WrapTimelinePage, _React$Component);
@@ -4826,6 +4848,23 @@ var WrapTimelinePage = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, WrapTimelinePage);
 
     _this = _super.call(this, props);
+
+    _defineProperty(_assertThisInitialized(_this), "handleScroll", function (e) {
+      console.log("scroool");
+
+      if (!_this.state.isfull) {
+        if (!ISLOADING) {
+          if (_this.node.scrollHeight - _this.node.scrollTop - _this.node.clientHeight < 1) {
+            ISLOADING = true;
+
+            _this.loadNewPosts();
+          }
+        } else {
+          console.log("loading now");
+        }
+      }
+    });
+
     _this.state = {
       'loading': ''
     };
@@ -4840,13 +4879,82 @@ var WrapTimelinePage = /*#__PURE__*/function (_React$Component) {
       };
     }
   }, {
+    key: "loadNewPosts",
+    value: function loadNewPosts() {
+      (0,_api_Api__WEBPACK_IMPORTED_MODULE_1__.Api_FetchTimeLineData)(this.state.loaded_count, this.props.user_id, this.setNewPosts_BraekLoading);
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-        id: "timeline_page_wrap",
-        className: "wrap-page-share w-full h-full",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h1", {
-          children: "HelloHello i'm the timeline"
+      var _this2 = this;
+
+      return !this.state.user_mount ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Loading, {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        id: "user_page_wrap",
+        className: "wrap-page-share pt-0 w-full h-full",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "flex flex-row w-full bg-blue-300 h-full",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            id: "user_side_pane",
+            className: "hidden md:block flex-none h-full bg-blue-500",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(SidePane, {
+              side_pane_type: "userpage",
+              user_data: this.state.user_data
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            className: "w-full h-full bg-blue-500",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              className: "w-full h-auto bg-blue-800",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Nav, {})
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              className: "h-auto w-full bg-blue-800",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(Switch, {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Route, {
+                  path: "".concat(url, "/detail"),
+                  render: function render(routeProps) {
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(UserDetailPane, _objectSpread({
+                      guest: _this2.props.guest,
+                      user_data: _this2.state.user_data,
+                      user_id: _this2.props.match.params.userid,
+                      userUnMount: _this2.userUnMount
+                    }, routeProps));
+                  }
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Route, {
+                  path: "".concat(url, "/illusts"),
+                  render: function render(routeProps) {
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(UserDrawingPane, _objectSpread(_objectSpread({
+                      guest: _this2.props.guest,
+                      user_id: _this2.props.match.params.userid,
+                      url: url
+                    }, routeProps), {}, {
+                      userUnMount: _this2.userUnMount
+                    }));
+                  }
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Route, {
+                  path: "".concat(url, "/favorites"),
+                  render: function render(routeProps) {
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(UserFavoritePane, _objectSpread(_objectSpread({
+                      guest: _this2.props.guest,
+                      user_id: _this2.props.match.params.userid,
+                      url: url
+                    }, routeProps), {}, {
+                      userUnMount: _this2.userUnMount
+                    }));
+                  }
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Route, {
+                  path: "".concat(url, "/comments"),
+                  render: function render(routeProps) {
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(UserCommentPane, _objectSpread(_objectSpread({
+                      guest: _this2.props.guest,
+                      user_id: _this2.props.match.params.userid,
+                      url: url
+                    }, routeProps), {}, {
+                      userUnMount: _this2.userUnMount
+                    }));
+                  }
+                })]
+              })
+            })]
+          })]
         })
       });
     }

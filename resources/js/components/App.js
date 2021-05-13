@@ -10,6 +10,8 @@ import {
   Redirect,
 } from "react-router-dom";
 
+require("history").createBrowserHistory
+
 import Header from './common/Header';
 import Footer from './common/Footer';
 import Loading from './common/Loading';
@@ -88,8 +90,14 @@ class App extends React.Component {
     }
     
     render(){
-        console.log(this.state.user_data);
-        if(this.state.guest == null){
+        
+        if(this.state.user_data === -1){
+            Cookies.remove('loggedin')
+            const history = createHistory();
+            history.go(0)
+        }
+
+        if(this.state.guest === null){
             return (<Loading />);
         }
         //if(this.state.redirect && this.state.guest == true){

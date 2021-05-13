@@ -89,9 +89,8 @@ class UserController extends Controller
     
     public function login_init(Request $request){
         $token = Cookie::get('my_token');
-
+        
         if (User::is_exists($token)){
-            $aa = "asdfghjkllassdfghj";
             $user = User::get_me($token);
             
             $cookie = Cookie::make('my_token', $token);//cookieを作成
@@ -99,12 +98,8 @@ class UserController extends Controller
             
             return response([
                 'user_data' => $user,
-                'aa'=> $aa,
                 ])->cookie($cookie)->cookie($cookie_2);
         }
-        
-        return response(['user_data' => null]);
-        
     }
     
     public function logout(Request $request){
