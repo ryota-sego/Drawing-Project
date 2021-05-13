@@ -2833,7 +2833,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Api_FetchUserIllusts": () => (/* binding */ Api_FetchUserIllusts),
 /* harmony export */   "Api_FetchUserFavorites": () => (/* binding */ Api_FetchUserFavorites),
 /* harmony export */   "Api_FetchUserComments": () => (/* binding */ Api_FetchUserComments),
-/* harmony export */   "Api_FetchPosts": () => (/* binding */ Api_FetchPosts)
+/* harmony export */   "Api_FetchUserDetails": () => (/* binding */ Api_FetchUserDetails)
 /* harmony export */ });
 /* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! js-cookie */ "./node_modules/js-cookie/src/js.cookie.js");
 /* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(js_cookie__WEBPACK_IMPORTED_MODULE_0__);
@@ -3021,7 +3021,7 @@ var Api_FetchUserFavorites = function Api_FetchUserFavorites(count, id, setUserF
       setUserFavoriteData(data, isfull);
       ongoing7 = false;
     })["catch"](function (e) {
-      console.log('noooillust');
+      console.log('no_favorite');
       console.log(e.response);
       ongoing7 = false;
     });
@@ -3040,13 +3040,31 @@ var Api_FetchUserComments = function Api_FetchUserComments(count, id, setUserCom
       setUserCommentData(data, isfull);
       ongoing8 = false;
     })["catch"](function (e) {
-      console.log('noooillust');
+      console.log('no_comment');
       console.log(e.response);
       ongoing8 = false;
     });
   }
 };
-var Api_FetchPosts = function Api_FetchPosts(count, id, setTimelinePostData) {};
+var ongoing9 = false;
+var Api_FetchUserDetails = function Api_FetchUserDetails(id, setUserDetails) {
+  if (ongoing9 == false) {
+    ongoing9 = true;
+    axios__WEBPACK_IMPORTED_MODULE_1___default().post('/fetch_userdetails', {
+      'id': id
+    }).then(function (res) {
+      var favs = res.data.favs;
+      var coms = res.data.coms;
+      var ills = res.data.ills;
+      setUserDetails(favs, coms, ills);
+      ongoing9 = false;
+    })["catch"](function (e) {
+      console.log('no_comment');
+      console.log(e.response);
+      ongoing9 = false;
+    });
+  }
+};
 
 /***/ }),
 
@@ -3885,21 +3903,21 @@ function DrawingSidePane(props) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
             className: "box-border w-full bg-white border-2 border-green text-center",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.NavLink, {
-              to: "user/".concat(props.user_data.id, "/illusts"),
+              to: "/user/".concat(props.user_data.id, "/illusts"),
               className: "inline-block w-full mx-1 my-1 ",
               children: "\u6295\u7A3F\u4E00\u89A7"
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
             className: "box-border w-full bg-white border-2 border-green text-center",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.NavLink, {
-              to: "user/".concat(props.user_data.id, "/favorites"),
+              to: "/user/".concat(props.user_data.id, "/favorites"),
               className: "inline-block w-full mx-1 my-1 ",
               children: "\u304A\u6C17\u306B\u5165\u308A"
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
             className: "box-border w-full bg-white border-2 border-green text-center",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.NavLink, {
-              to: "user/".concat(props.user_data.id, "/comments"),
+              to: "/user/".concat(props.user_data.id, "/comments"),
               className: "inline-block w-full mx-1 my-1 ",
               children: "\u30B3\u30E1\u30F3\u30C8"
             })
@@ -3911,8 +3929,55 @@ function DrawingSidePane(props) {
 }
 
 function TimelineSidePane(props) {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-    children: "timelinesidepane"
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    className: "mr-8 mt-8 border-4 border-green-600 bg-black-500",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      className: "w-32 mx-8 my-8",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        className: "flex flex-col justify-items-center items-center border-4 border-green-600 bg-black-500",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
+          className: "h-32 w-32 py-4 px-4",
+          src: "https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg",
+          alt: ""
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+          children: props.user_data.name
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("ul", {
+          className: "px-2 py-1 flex flex-col justify-items-center items-center",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+            className: "box-border w-full bg-white border-2 border-green text-center",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.NavLink, {
+              to: "/user/".concat(props.user_data.id, "/detail"),
+              className: "inline-block w-full mx-1 my-1 ",
+              children: "\u8A73\u7D30"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+            className: "box-border w-full bg-white border-2 border-green text-center",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.NavLink, {
+              to: "/user/".concat(props.user_data.id, "/illusts"),
+              className: "inline-block w-full mx-1 my-1 ",
+              children: "\u6295\u7A3F\u4E00\u89A7"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+            className: "box-border w-full bg-white border-2 border-green text-center",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.NavLink, {
+              to: "/user/".concat(props.user_data.id, "/favorites"),
+              className: "inline-block w-full mx-1 my-1 ",
+              children: "\u304A\u6C17\u306B\u5165\u308A"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+            className: "box-border w-full bg-white border-2 border-green text-center",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.NavLink, {
+              to: "/user/".concat(props.user_data.id, "/comments"),
+              className: "inline-block w-full mx-1 my-1 ",
+              children: "\u30B3\u30E1\u30F3\u30C8"
+            })
+          })]
+        })
+      })]
+    })
   });
 }
 
@@ -4550,85 +4615,97 @@ function Comment() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Post),
 /* harmony export */   "Post_usercommentpane": () => (/* binding */ Post_usercommentpane),
 /* harmony export */   "Post_userfavoritepane": () => (/* binding */ Post_userfavoritepane),
 /* harmony export */   "Post_userdrawingpane": () => (/* binding */ Post_userdrawingpane)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_p5__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-p5 */ "./node_modules/react-p5/build/index.js");
-/* harmony import */ var react_p5__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_p5__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_p5__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-p5 */ "./node_modules/react-p5/build/index.js");
+/* harmony import */ var react_p5__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_p5__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _Comment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Comment */ "./resources/js/components/post_parts/Comment.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
+ //<NavLink to={`${props.base_url}/comments`} className="inline-block w-full mx-1 my-1 ">コメント</NavLink>
 
 
-function Post(props) {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-    "class": "card",
-    style: "width: 18rem;",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-      src: "...",
-      "class": "card-img-top",
-      alt: "..."
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      "class": "card-body",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h5", {
-        "class": "card-title",
-        children: props.illust_data.title
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-        "class": "card-text"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-        href: "#",
-        "class": "btn btn-primary",
-        children: "Go somewhere"
-      })]
-    })]
-  });
-}
+
 var Post_usercommentpane = function Post_usercommentpane(props) {
   var clickHandle = function clickHandle(e) {
     e.preventDefault();
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-    children: JSON.stringify(props.data)
-  }); //return (
-  //    <div className="w-72 h-96 bg-red-100 box-border border-2 border-black">
-  //        <div className="h-64 w-64 mx-auto my-2 bg-green-100"><a onClick={clickHandle}>{props.data.path}</a></div>
-  //        <div className="box-border border-4 border-red-500 card-body">
-  //            <h5 className="text-lg">{props.data.title}</h5>
-  //            <div className="w-full text-xs box-border border-4 border-yellow-400">
-  //                <p className="w-full break-words xs">{props.data.description}</p>
-  //            </div>
-  //            
-  //            <a href="#" className="btn btn-primary">favorite</a>
-  //        </div>
-  //    </div>
-  //);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    className: "w-80 h-48 bg-red-100 box-border border-2 border-black flex flex-row",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      className: "w-36 h-auto",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "h-36 w-36 mx-auto my-2 bg-green-100 text-lg break-words ",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+          onClick: clickHandle,
+          children: props.data.path
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "flex flex-row",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+          href: "",
+          className: "inset-x-0 bottom-0 btn btn-primary",
+          children: "favorite"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.NavLink, {
+          to: "/user/".concat(props.data.user_id, "/detail"),
+          className: "inline-block w-full mx-1 my-1",
+          onClick: props.userUnMount,
+          children: "GoToUser"
+        })]
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "h-auto px-1 py-1 w-auto box-border border-4 border-red-500",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+        className: "w-full break-words text-sm",
+        children: props.data.comment
+      })
+    })]
+  });
 };
 var Post_userfavoritepane = function Post_userfavoritepane(props) {
   var clickHandle = function clickHandle(e) {
     e.preventDefault();
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-    children: JSON.stringify(props.data)
-  }); //return (
-  //    <div className="w-72 h-96 bg-red-100 box-border border-2 border-black">
-  //        <div className="h-64 w-64 mx-auto my-2 bg-green-100"><a onClick={clickHandle}>{props.data.path}</a></div>
-  //        <div className="box-border border-4 border-red-500 card-body">
-  //            <h5 className="text-lg">{props.data.title}</h5>
-  //            <div className="w-full text-xs box-border border-4 border-yellow-400">
-  //                <p className="w-full break-words xs">{props.data.description}</p>
-  //            </div>
-  //            
-  //            <a href="#" className="btn btn-primary">favorite</a>
-  //        </div>
-  //   </div>
-  //);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    className: "w-72 h-88 bg-red-100 box-border border-2 border-black",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "h-64 w-64 mx-auto my-2 bg-green-100",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+        href: "#",
+        onClick: clickHandle,
+        children: props.data.path
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      className: "h-auto w-full box-border border-4 border-red-500",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "w-full text-xs box-border border-4 border-yellow-400",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h5", {
+          className: "text-lg",
+          children: props.data.title
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "flex flex-row",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+          href: "",
+          className: "inset-x-0 bottom-0 btn btn-primary",
+          children: "favorite"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.NavLink, {
+          to: "/user/".concat(props.data.user_id, "/detail"),
+          className: "inline-block w-full mx-1 my-1",
+          onClick: props.userUnMount,
+          children: "GoToUser"
+        })]
+      })]
+    })]
+  });
 };
 var Post_userdrawingpane = function Post_userdrawingpane(props) {
   var clickHandle = function clickHandle(e) {
@@ -4662,14 +4739,13 @@ var Post_userdrawingpane = function Post_userdrawingpane(props) {
     })]
   });
 }; // =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+= Sketch Component +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-
-var Sketch_Memo = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.memo(function (props) {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(SketchP5, {
-    setDrawing: props.illust_data.data
-  });
-}, function (prevProps, nextProps) {
-  return true;
-}); //const SketchP5 = (props) => {
+//const Sketch_Memo = React.memo(
+//	props => {
+//		return <SketchP5 setDrawing={props.illust_data.data}/>
+//	},(prevProps, nextProps)=>{
+//		return true;
+//	})
+//const SketchP5 = (props) => {
 //	console.log("render Skt");
 //    let current_line = [];
 //    let started = false;
@@ -4713,8 +4789,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ WrapTimelinePage)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _post_parts_Post__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../post_parts/Post */ "./resources/js/components/post_parts/Post.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4740,7 +4815,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-
 var WrapTimelinePage = /*#__PURE__*/function (_React$Component) {
   _inherits(WrapTimelinePage, _React$Component);
 
@@ -4753,18 +4827,25 @@ var WrapTimelinePage = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      'is_loading': ''
+      'loading': ''
     };
     return _this;
   }
 
   _createClass(WrapTimelinePage, [{
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.setState = function (state, callback) {
+        return;
+      };
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         id: "timeline_page_wrap",
         className: "wrap-page-share w-full h-full",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h1", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h1", {
           children: "HelloHello i'm the timeline"
         })
       });
@@ -4839,18 +4920,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ WrapUserPage)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _common_SidePane__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/SidePane */ "./resources/js/components/common/SidePane.js");
-/* harmony import */ var _Nav__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Nav */ "./resources/js/components/user/Nav.js");
-/* harmony import */ var _common_Loading__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/Loading */ "./resources/js/components/common/Loading.js");
-/* harmony import */ var _api_Api__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../api/Api */ "./resources/js/components/api/Api.js");
-/* harmony import */ var _panes_UserCommentPane__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./panes/UserCommentPane */ "./resources/js/components/user/panes/UserCommentPane.js");
-/* harmony import */ var _panes_UserDetailPane__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./panes/UserDetailPane */ "./resources/js/components/user/panes/UserDetailPane.js");
-/* harmony import */ var _panes_UserDrawingPane__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./panes/UserDrawingPane */ "./resources/js/components/user/panes/UserDrawingPane.js");
-/* harmony import */ var _panes_UserFavoritePane__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./panes/UserFavoritePane */ "./resources/js/components/user/panes/UserFavoritePane.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var _common_SidePane__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/SidePane */ "./resources/js/components/common/SidePane.js");
+/* harmony import */ var _Nav__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Nav */ "./resources/js/components/user/Nav.js");
+/* harmony import */ var _common_Loading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/Loading */ "./resources/js/components/common/Loading.js");
+/* harmony import */ var _api_Api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../api/Api */ "./resources/js/components/api/Api.js");
+/* harmony import */ var _panes_UserCommentPane__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./panes/UserCommentPane */ "./resources/js/components/user/panes/UserCommentPane.js");
+/* harmony import */ var _panes_UserDetailPane__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./panes/UserDetailPane */ "./resources/js/components/user/panes/UserDetailPane.js");
+/* harmony import */ var _panes_UserDrawingPane__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./panes/UserDrawingPane */ "./resources/js/components/user/panes/UserDrawingPane.js");
+/* harmony import */ var _panes_UserFavoritePane__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./panes/UserFavoritePane */ "./resources/js/components/user/panes/UserFavoritePane.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
@@ -4891,7 +4970,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
+var ISLOADING = true;
 
 var WrapUserPage = /*#__PURE__*/function (_React$Component) {
   _inherits(WrapUserPage, _React$Component);
@@ -4908,7 +4987,6 @@ var WrapUserPage = /*#__PURE__*/function (_React$Component) {
     _defineProperty(_assertThisInitialized(_this), "_isMounted", false);
 
     _this.state = {
-      'isMe': false,
       'content': 'detail',
       // [detail, comments, posts, favorites]
       'user_data': {
@@ -4918,44 +4996,44 @@ var WrapUserPage = /*#__PURE__*/function (_React$Component) {
         'created_at': 'loading',
         'description': 'None'
       },
-      'init': true
+      'user_mount': false
     };
     _this.setUserData = _this.setUserData.bind(_assertThisInitialized(_this));
     _this.fetchUserData = _this.fetchUserData.bind(_assertThisInitialized(_this));
+    _this.userUnMount = _this.userUnMount.bind(_assertThisInitialized(_this));
 
-    _this.fetchUserData();
+    _this.fetchUserData(_this.props.match.params.userid);
 
     return _this;
   }
 
   _createClass(WrapUserPage, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this._isMounted = true; //if(this._isMounted){
-      //}
-    }
-  }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
-      this._isMounted = false;
-
       this.setState = function (state, callback) {
         return;
       };
     }
   }, {
     key: "fetchUserData",
-    value: function fetchUserData() {
-      (0,_api_Api__WEBPACK_IMPORTED_MODULE_5__.Api_FetchUserData)(this.props.match.params.userid, this.setUserData);
+    value: function fetchUserData(userid) {
+      (0,_api_Api__WEBPACK_IMPORTED_MODULE_4__.Api_FetchUserData)(userid, this.setUserData);
+    }
+  }, {
+    key: "userUnMount",
+    value: function userUnMount() {
+      this.setState({
+        user_mount: false
+      });
     }
   }, {
     key: "setUserData",
     value: function setUserData(data) {
-      this.setState(function (state) {
-        return {
-          user_data: data
-        };
+      this.setState({
+        user_data: data,
+        user_mount: true
       });
+      ISLOADING = false;
     }
   }, {
     key: "render",
@@ -4963,61 +5041,75 @@ var WrapUserPage = /*#__PURE__*/function (_React$Component) {
       var _this2 = this;
 
       var url = this.props.match.url;
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+
+      if (!ISLOADING && !this.state.user_mount) {
+        ISLOADING = true;
+        this.fetchUserData(this.props.match.params.userid);
+      }
+
+      return !this.state.user_mount ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_common_Loading__WEBPACK_IMPORTED_MODULE_3__.default, {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
         id: "user_page_wrap",
         className: "wrap-page-share pt-0 w-full h-full",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
           className: "flex flex-row w-full bg-blue-300 h-full",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
             id: "user_side_pane",
             className: "hidden md:block flex-none h-full bg-blue-500",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_common_SidePane__WEBPACK_IMPORTED_MODULE_2__.default, {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_common_SidePane__WEBPACK_IMPORTED_MODULE_1__.default, {
               side_pane_type: "userpage",
               base_url: "".concat(url),
               user_data: this.state.user_data
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
             className: "w-full h-full bg-blue-500",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
               className: "w-full h-auto bg-blue-800",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Nav__WEBPACK_IMPORTED_MODULE_3__.default, {})
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Nav__WEBPACK_IMPORTED_MODULE_2__.default, {})
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
               className: "h-auto w-full bg-blue-800",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Switch, {
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Switch, {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
                   path: "".concat(url, "/detail"),
                   render: function render(routeProps) {
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_panes_UserDetailPane__WEBPACK_IMPORTED_MODULE_7__.default, _objectSpread({
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_panes_UserDetailPane__WEBPACK_IMPORTED_MODULE_6__.default, _objectSpread({
                       guest: _this2.props.guest,
-                      user_data: _this2.state.user_data
+                      user_data: _this2.state.user_data,
+                      user_id: _this2.props.match.params.userid,
+                      userUnMount: _this2.userUnMount
                     }, routeProps));
                   }
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
                   path: "".concat(url, "/illusts"),
                   render: function render(routeProps) {
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_panes_UserDrawingPane__WEBPACK_IMPORTED_MODULE_8__.default, _objectSpread({
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_panes_UserDrawingPane__WEBPACK_IMPORTED_MODULE_7__.default, _objectSpread(_objectSpread({
                       guest: _this2.props.guest,
                       user_id: _this2.props.match.params.userid,
                       url: url
-                    }, routeProps));
+                    }, routeProps), {}, {
+                      userUnMount: _this2.userUnMount
+                    }));
                   }
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
                   path: "".concat(url, "/favorites"),
                   render: function render(routeProps) {
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_panes_UserFavoritePane__WEBPACK_IMPORTED_MODULE_9__.default, _objectSpread({
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_panes_UserFavoritePane__WEBPACK_IMPORTED_MODULE_8__.default, _objectSpread(_objectSpread({
                       guest: _this2.props.guest,
                       user_id: _this2.props.match.params.userid,
                       url: url
-                    }, routeProps));
+                    }, routeProps), {}, {
+                      userUnMount: _this2.userUnMount
+                    }));
                   }
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
                   path: "".concat(url, "/comments"),
                   render: function render(routeProps) {
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_panes_UserCommentPane__WEBPACK_IMPORTED_MODULE_6__.default, _objectSpread({
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_panes_UserCommentPane__WEBPACK_IMPORTED_MODULE_5__.default, _objectSpread(_objectSpread({
                       guest: _this2.props.guest,
                       user_id: _this2.props.match.params.userid,
                       url: url
-                    }, routeProps));
+                    }, routeProps), {}, {
+                      userUnMount: _this2.userUnMount
+                    }));
                   }
                 })]
               })
@@ -5109,8 +5201,6 @@ var UserCommentPane = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
 
-    _defineProperty(_assertThisInitialized(_this), "_isMounted", false);
-
     _defineProperty(_assertThisInitialized(_this), "handleScroll", function (e) {
       console.log("scroool");
 
@@ -5132,7 +5222,6 @@ var UserCommentPane = /*#__PURE__*/function (_React$Component) {
       scroll_top: 0,
       loaded_count: 0,
       loaded_comments: [],
-      loading: false,
       isfull: false
     };
     _this.handleScroll = _this.handleScroll.bind(_assertThisInitialized(_this));
@@ -5153,23 +5242,13 @@ var UserCommentPane = /*#__PURE__*/function (_React$Component) {
       com.push.apply(com, _toConsumableArray(comments));
       this.setState({
         loaded_comments: _toConsumableArray(com),
-        loading: false,
         loaded_count: this.state.loaded_count + 1,
         isfull: is_full
       });
     }
   }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this._isMounted = true; //if(this._isMounted){
-      //    this.loadNewPosts()
-      //}
-    }
-  }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
-      this._isMounted = false;
-
       this.setState = function (state, callback) {
         return;
       };
@@ -5189,15 +5268,16 @@ var UserCommentPane = /*#__PURE__*/function (_React$Component) {
         className: "w-full h-full bg-white",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           id: "scroll",
-          className: "pane-share px-4 flex flex-wrap justify-start content-start overflow-auto gap-8",
+          className: "pane-share pt-2 sm:pt-4 px-2 sm:px-4 flex flex-wrap justify-start content-start overflow-auto gap-1 sm:gap-2 md:gap-4 pb-2",
           onScroll: this.handleScroll_throttled,
           ref: function ref(node) {
             _this2.node = node;
           },
           children: this.state.loaded_comments.length ? this.state.loaded_comments.map(function (n) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_post_parts_Post__WEBPACK_IMPORTED_MODULE_3__.Post_usercommentpane, {
-              data: n
-            }, n.id);
+              data: n,
+              userUnMount: _this2.props.userUnMount
+            }, n.illust_id);
           }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_common_Loading__WEBPACK_IMPORTED_MODULE_4__.default, {})
         })
       });
@@ -5223,8 +5303,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ UserDetailPane)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _api_Api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../api/Api */ "./resources/js/components/api/Api.js");
+/* harmony import */ var _common_Loading__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../common/Loading */ "./resources/js/components/common/Loading.js");
+/* harmony import */ var _post_parts_Post__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../post_parts/Post */ "./resources/js/components/post_parts/Post.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -5250,6 +5345,9 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
+
 var UserDetailPane = /*#__PURE__*/function (_React$Component) {
   _inherits(UserDetailPane, _React$Component);
 
@@ -5262,62 +5360,111 @@ var UserDetailPane = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      'is_loading': false
+      'loading': true,
+      'loaded_favorites': [],
+      'loaded_comments': []
     };
+    _this.loadContents = _this.loadContents.bind(_assertThisInitialized(_this));
+    _this.setContents = _this.setContents.bind(_assertThisInitialized(_this));
+
+    _this.loadContents();
+
     return _this;
   }
 
   _createClass(UserDetailPane, [{
+    key: "setContents",
+    value: function setContents(favs, coms, ills) {
+      this.setState({
+        loaded_comments: _toConsumableArray(coms),
+        loaded_favorites: _toConsumableArray(favs),
+        loaded_illusts: _toConsumableArray(ills),
+        loading: false
+      });
+    }
+  }, {
+    key: "loadContents",
+    value: function loadContents() {
+      (0,_api_Api__WEBPACK_IMPORTED_MODULE_1__.Api_FetchUserDetails)(this.props.user_id, this.setContents);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.setState = function (state, callback) {
+        return;
+      };
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      var _this2 = this;
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "w-full h-full bg-white",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-          className: "pane-share",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "pane-share overflow-auto",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
             className: "h-auto w-full bg-pink-900",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
               className: "box-border flex flex-row p-4 bg-pink-200 border-4 border-purple-900",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
                 className: "w-1/2 flex flex-row justify-around",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                   children: "User Name: "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                   children: this.props.user_data.name
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
                 className: "flex flex-row w-1/2 justify-left bg-pink-800",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                   children: "\u53C2\u52A0\u65E5\u6642: "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                   children: this.props.user_data.created_at.replace(/\..*$/, '').replace(/[T]/, ' ')
                 })]
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
               className: "box-border border-4 border-purple-200 p-4",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                 children: "\u30E6\u30FC\u30B6\u8AAC\u660E:"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                 className: "box-border border-4 border-purple-400 p-4",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-                  children: this.props.user_data.description == null ? "あｋｐ０きｄｃぉあｍふぁどｊ＠おえｊ０９う０ｄｊｃｌｓｍｄｆｌｍ：」ｆｋｊうぇふぃ＾えいｆ０うぇふぉｓｄｊ：ｌｍｃｌ：ｍｄｓふぉじゅうぇｆじょｆｐ「ｋｗｄ０くぃだおあｌｍｃｌ：あｄｊもあｐｊｄ０あいふぁｊふぁ" : this.props.user_data.description
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+                  children: this.props.user_data.description == null ? "Loading..." : this.props.user_data.description
                 })
               })]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "w-full flex flex-row justify-between bg-red-300",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-                children: "kokonitoukousakuhinn"
+          }), this.state.loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_common_Loading__WEBPACK_IMPORTED_MODULE_2__.default, {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+            className: "w-full pt-2 sm:pt-4 px-2 sm:px-4 pb-2",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+              children: "UserIllusts"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "w-full flex flex-row justify-around gap-1 sm:gap-2 md:gap-4 bg-red-300",
+              children: this.state.loaded_illusts.map(function (n) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_post_parts_Post__WEBPACK_IMPORTED_MODULE_3__.Post_userdrawingpane, {
+                  data: n
+                }, n.illust_id);
               })
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "w-full flex flex-row justify-between bg-red-500",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-                children: "kokoniokiniiri"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+              children: "UserFavoritedIllusts"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "w-full flex flex-row justify-around gap-1 sm:gap-2 md:gap-4 bg-red-500",
+              children: this.state.loaded_favorites.map(function (n) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_post_parts_Post__WEBPACK_IMPORTED_MODULE_3__.Post_userfavoritepane, {
+                  data: n,
+                  userUnMount: _this2.props.userUnMount
+                }, n.illust_id);
               })
-            })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+              children: "UserComments"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "w-full flex flex-row justify-around gap-1 sm:gap-2 md:gap-4 bg-red-500",
+              children: this.state.loaded_comments.map(function (n) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_post_parts_Post__WEBPACK_IMPORTED_MODULE_3__.Post_usercommentpane, {
+                  data: n,
+                  userUnMount: _this2.props.userUnMount
+                }, n.illust_id);
+              })
+            })]
           })]
         })
       });
@@ -5391,10 +5538,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var LOADED_POSTS = [];
-var COUNT = 0;
 var ISLOADING = false;
-var nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 
 var UserDrawingPane = /*#__PURE__*/function (_React$Component) {
   _inherits(UserDrawingPane, _React$Component);
@@ -5407,8 +5551,6 @@ var UserDrawingPane = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, UserDrawingPane);
 
     _this = _super.call(this, props);
-
-    _defineProperty(_assertThisInitialized(_this), "_isMounted", false);
 
     _defineProperty(_assertThisInitialized(_this), "handleScroll", function (e) {
       console.log("scroool");
@@ -5458,17 +5600,8 @@ var UserDrawingPane = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this._isMounted = true; //if(this._isMounted){
-      //    this.loadNewPosts()
-      //}
-    }
-  }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
-      this._isMounted = false;
-
       this.setState = function (state, callback) {
         return;
       };
@@ -5488,14 +5621,15 @@ var UserDrawingPane = /*#__PURE__*/function (_React$Component) {
         className: "w-full h-full bg-white",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           id: "scroll",
-          className: "pane-share px-4 flex flex-wrap justify-start content-start overflow-auto gap-8",
+          className: "pane-share pt-2 sm:pt-4 px-2 sm:px-4 flex flex-wrap justify-start content-start overflow-auto gap-1 sm:gap-2 md:gap-4 pd-2",
           onScroll: this.handleScroll_throttled,
           ref: function ref(node) {
             _this2.node = node;
           },
           children: this.state.loaded_illusts.length ? this.state.loaded_illusts.map(function (n) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_post_parts_Post__WEBPACK_IMPORTED_MODULE_3__.Post_userdrawingpane, {
-              data: n
+              data: n,
+              userUnMount: _this2.props.userUnMount
             }, n.id);
           }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_common_Loading__WEBPACK_IMPORTED_MODULE_4__.default, {})
         })
@@ -5584,8 +5718,6 @@ var UserFavoritePane = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
 
-    _defineProperty(_assertThisInitialized(_this), "_isMounted", false);
-
     _defineProperty(_assertThisInitialized(_this), "handleScroll", function (e) {
       console.log("scroool");
 
@@ -5634,17 +5766,8 @@ var UserFavoritePane = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this._isMounted = true; //if(this._isMounted){
-      //    this.loadNewPosts()
-      //}
-    }
-  }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
-      this._isMounted = false;
-
       this.setState = function (state, callback) {
         return;
       };
@@ -5664,15 +5787,16 @@ var UserFavoritePane = /*#__PURE__*/function (_React$Component) {
         className: "w-full h-full bg-white",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           id: "scroll",
-          className: "pane-share px-4 flex flex-wrap justify-start content-start overflow-auto gap-8",
+          className: "pane-share pt-2 sm:pt-4 px-2 sm:px-4 flex flex-wrap justify-start content-start overflow-auto gap-1 sm:gap-2 md:gap-4 pb-2",
           onScroll: this.handleScroll_throttled,
           ref: function ref(node) {
             _this2.node = node;
           },
           children: this.state.loaded_favorites.length ? this.state.loaded_favorites.map(function (n) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_post_parts_Post__WEBPACK_IMPORTED_MODULE_3__.Post_userfavoritepane, {
-              data: n
-            }, n.id);
+              data: n,
+              userUnMount: _this2.props.userUnMount
+            }, n.illust_id);
           }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_common_Loading__WEBPACK_IMPORTED_MODULE_4__.default, {})
         })
       });

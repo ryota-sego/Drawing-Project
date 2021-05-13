@@ -1,20 +1,49 @@
 import React from 'react';
 
+import { Api_FetchUserDetails } from "../../api/Api";
+import Loading from "../../common/Loading"
+import {Post_usercommentpane, Post_userdrawingpane, Post_userfavoritepane} from "../../post_parts/Post"
+
+
 export default class UserDetailPane extends React.Component {
     
     constructor(props){
         super(props);
         this.state={
-            'is_loading':false,
+            'loading':true,
+            'loaded_favorites':[],
+            'loaded_comments':[],
+            
         }
+        this.loadContents = this.loadContents.bind(this);
+        this.setContents = this.setContents.bind(this);
+        
+        this.loadContents();
     }
     
+    setContents(favs, coms, ills){
+
+        this.setState({loaded_comments: [...coms],
+                       loaded_favorites:[...favs],
+                       loaded_illusts:[...ills],
+                       loading:false,
+        })
+    }
     
+    loadContents(){
+        Api_FetchUserDetails(this.props.user_id, this.setContents)
+    }
     
+    componentWillUnmount() {
+        this.setState = (state,callback)=>{
+        return;
+        };
+    }
+
     render(){
     return (
         <div className="w-full h-full bg-white">
-            <div className="pane-share">
+            <div className="pane-share overflow-auto">
                 <div className="h-auto w-full bg-pink-900">{/*name, tourokunitizi, syousaikomennto*/}
                     <div className="box-border flex flex-row p-4 bg-pink-200 border-4 border-purple-900">
                         <div className="w-1/2 flex flex-row justify-around">
@@ -29,16 +58,28 @@ export default class UserDetailPane extends React.Component {
                     <div className="box-border border-4 border-purple-200 p-4">
                         <div>ユーザ説明:</div>
                         <div className="box-border border-4 border-purple-400 p-4">
-                            <p>{this.props.user_data.description==null?"あｋｐ０きｄｃぉあｍふぁどｊ＠おえｊ０９う０ｄｊｃｌｓｍｄｆｌｍ：」ｆｋｊうぇふぃ＾えいｆ０うぇふぉｓｄｊ：ｌｍｃｌ：ｍｄｓふぉじゅうぇｆじょｆｐ「ｋｗｄ０くぃだおあｌｍｃｌ：あｄｊもあｐｊｄ０あいふぁｊふぁ":this.props.user_data.description}</p>
+                            <p>{this.props.user_data.description==null?"Loading...":this.props.user_data.description}</p>
                         </div>
                     </div>
                 </div>
-                <div className="w-full flex flex-row justify-between bg-red-300">{/*toukousakuhinn*/}
-                    <div><p>kokonitoukousakuhinn</p></div>
-                </div>
-                <div className="w-full flex flex-row justify-between bg-red-500">{/*okiniiri*/}
-                    <div><p>kokoniokiniiri</p></div>
-                </div>
+                {this.state.loading?
+                <Loading />
+                :
+                (<div className="w-full pt-2 sm:pt-4 px-2 sm:px-4 pb-2">
+                    <p>UserIllusts</p>
+                    <div className="w-full flex flex-row justify-around gap-1 sm:gap-2 md:gap-4 bg-red-300">{/*toukousakuhinn*/}
+                        {this.state.loaded_illusts.map(n => <Post_userdrawingpane key={n.illust_id} data={n} />)}
+                    </div>
+                    <p>UserFavoritedIllusts</p>
+                    <div className="w-full flex flex-row justify-around gap-1 sm:gap-2 md:gap-4 bg-red-500">{/*okiniiri*/}
+                        {this.state.loaded_favorites.map(n => <Post_userfavoritepane key={n.illust_id} data={n} userUnMount={this.props.userUnMount} />)}
+                    </div>
+                    <p>UserComments</p>
+                    <div className="w-full flex flex-row justify-around gap-1 sm:gap-2 md:gap-4 bg-red-500">{/*okiniiri*/}
+                        {this.state.loaded_comments.map(n => <Post_usercommentpane key={n.illust_id} data={n} userUnMount={this.props.userUnMount} />)}
+                    </div>
+                </div>)
+                }
             </div>
         </div>
         );

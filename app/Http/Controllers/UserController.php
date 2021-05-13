@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Comment;
 use App\Models\Favorite;
+use App\Models\Illust;
 use App\Http\Controllers\Component;
 
 use Illuminate\Support\Facades\Log;
@@ -25,7 +26,7 @@ class UserController extends Controller
     // }
     
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    // Auth 関係
+    // Auth/User 関係
     
     //signin/login状態の管理には、token(cookie)、id(user)を利用する。
     // dbtableを編集した後は、必ずsave()!!
@@ -141,6 +142,20 @@ class UserController extends Controller
                          'id' => request()->id]);
     }
     
+    
+    public function fetch_userdetails(Request $request){
+        $user_id = request()->id;
+        $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->limit(3)->get(["illust_id","path","title","illusts.user_id"]);
+        $comments = User::find($user_id)->comments()->orderBy('created_at', 'desc')->limit(3)->get(["illust_id", "comment", "user_id"]);
+        $illusts = Illust::where('user_id', request()->id)->orderBy('created_at', 'desc')->limit(3)->get(["id","path","title"]);
+        return response([
+                        "ills" => $illusts,
+                        "favs" => $favorites,
+                        "coms" => $comments,
+                        ]);
+        
+    }
+    
     //forOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUse
     public function isLoggedIn(Request $request){
         $token = Cookie::get('my_token');
@@ -174,12 +189,12 @@ class UserController extends Controller
     
     public function fetch_userfavorites(Request $request){
         $isfull = false;
+        $user_id = request()->id;
         
         if(request()->count == 0){
             
-            $user_id = User::where('id', request()->id)->first()->id;
-            $favorites = Favorite::where('user_id', $user_id)->orderBy('created_at', 'desc')->limit(10)->get();
-            
+            $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->limit(10)->get(["illust_id","path","title","illusts.user_id"]);
+
             if($favorites->count() < 10){
                 $isfull = true;
             }
@@ -189,10 +204,8 @@ class UserController extends Controller
                             "isfull" => $isfull,
                             ]);
         }
-        
-        $user_id = User::where('id', request()->id)->first()->id;
-        $favorites = Favorite::where('user_id', $user_id)->orderBy('created_at', 'desc')->offset(request()->count * 10)->limit(10)->get();
-         
+
+        $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->offset(request()->count * 10)->limit(10)->get(["illust_id","path","title","illusts.user_id"]);
         if($favorites->count() < 10){
             $isfull = true;
         }
@@ -211,26 +224,44 @@ class UserController extends Controller
     
     public function fetch_usercomments(Request $request){
         $isfull = false;
+        $user_id = request()->id;
         
+        $c_data = array();
+        $_comment = array();
+        $count = 0;
         
         if(request()->count == 0){
             
-            $user_id = User::where('id', request()->id)->first()->id;
+            $comments = User::find($user_id)->comments()->orderBy('created_at', 'desc')->limit(10)->get(["illust_id", "comment"]);
+
+            if($comments->count()>0){
+                foreach ($comments as $comment){
+                    $_comment = array_merge($comment->toArray(), Illust::where('id', $comment->illust_id)->first(["path", "title", "user_id"])->toArray());
+                    $c_data[$count] = $_comment;
+                    $count += 1;
+                }
+            }
             
-            $comments = Comment::where('user_id', $user_id)->orderBy('created_at', 'desc')->limit(10)->get();
             if($comments->count() < 10){
                 $isfull = true;
             }
             
             return response([
-                            "comment_data" => $comments,
+                            "comment_data" => $c_data,
                             "isfull" => $isfull,
                             ]);
         }
         
-        $user_id = User::where('id', request()->id)->first()->id;
+        $comments = User::find($user_id)->comments()->orderBy('created_at', 'desc')->offset(request()->count * 10)->limit(10)->get(["id", "illust_id", "comment"]);
         
-        $comments = Comment::where('user_id', $user_id)->orderBy('created_at', 'desc')->offset(request()->count * 10)->limit(10)->get();
+        if($comments->count()>0){
+            foreach ($comments as $comment){
+                $_comment = array_merge($comment->toArray(), Illust::where('id', $comment->illust_id)->first(["path", "title", "user_id"])->toArray());
+                $c_data[$count] = $_comment;
+                $count += 1;
+            }
+        }
+        
         if($comments->count() < 10){
             $isfull = true;
         }

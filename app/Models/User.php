@@ -88,7 +88,7 @@ class User extends Authenticatable
     //favorite 関係
     
     public function favorited_illusts(){
-        return $this->belongsToMany(User::class, 'favorites', 'user_id', 'illust_id')->withTimestamps();
+        return $this->belongsToMany(Illust::class, 'favorites', 'user_id', 'illust_id')->withTimestamps();
     }
     
     //=============================================================================================================

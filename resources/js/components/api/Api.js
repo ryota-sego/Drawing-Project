@@ -184,14 +184,14 @@ export const Api_FetchUserFavorites = (count, id, setUserFavoriteData) => {
         ongoing7 = true;
         axios.post('/fetch_userfavorites', {'count':count, 'id': id})
                 .then(res =>{
-                    
+
                     const data = res.data.favorite_data
                     const isfull = res.data.isfull
                     setUserFavoriteData(data, isfull);
                     ongoing7 = false;
                 })
                 .catch(e=>{
-                    console.log('noooillust');
+                    console.log('no_favorite');
                     console.log(e.response);
                     ongoing7 = false;
                 })
@@ -211,13 +211,30 @@ export const Api_FetchUserComments = (count, id, setUserCommentData) => {
                     ongoing8 = false;
                 })
                 .catch(e=>{
-                    console.log('noooillust');
+                    console.log('no_comment');
                     console.log(e.response);
                     ongoing8 = false;
                 })
     }
 }
 
-export const Api_FetchPosts = (count, id, setTimelinePostData) => {
-    
+let ongoing9 = false
+export const Api_FetchUserDetails = (id, setUserDetails) => {
+    if(ongoing9 == false){
+        ongoing9 = true;
+        axios.post('/fetch_userdetails', {'id': id})
+                .then(res =>{
+                    
+                    const favs = res.data.favs
+                    const coms = res.data.coms
+                    const ills = res.data.ills
+                    setUserDetails(favs, coms, ills);
+                    ongoing9 = false;
+                })
+                .catch(e=>{
+                    console.log('no_comment');
+                    console.log(e.response);
+                    ongoing9 = false;
+                })
+    }
 }

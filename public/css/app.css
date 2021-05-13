@@ -32084,8 +32084,6 @@ nav {
   .pane-share {
     width: 100vw;
     height: calc(100vh - 82px - 48px);
-    padding-bottom: 40px;
-    margin-bottom: -40px;
   }
 }
 
@@ -32108,8 +32106,6 @@ nav {
   .pane-share {
     width: calc(100vw - 200px);
     height: calc(100vh - 90px - 72px);
-    padding-bottom: 40px;
-    margin-bottom: -40px;
   }
 }
 

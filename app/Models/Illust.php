@@ -30,7 +30,7 @@ class Illust extends Model
     //お気に入り関連
     
     public function favorited_users(){
-        return $this->belongsToMany(Illust::class, 'favorites', 'illust_id', 'user_id')->withTimestamps();;
+        return $this->belongsToMany(User::class, 'favorites', 'illust_id', 'user_id')->withTimestamps();;
     }
     
     static function get_illust($id){

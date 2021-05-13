@@ -9,8 +9,7 @@ import Loading from "../../common/Loading"
 let ISLOADING = false;
 
 class UserFavoritePane extends React.Component{
-    _isMounted = false;
-    
+
     constructor(props){
         super(props);
         this.state = {
@@ -40,15 +39,7 @@ class UserFavoritePane extends React.Component{
         })
     }
     
-    componentDidMount(){
-        this._isMounted = true;
-        //if(this._isMounted){
-        //    this.loadNewPosts()
-        //}
-    }
-    
     componentWillUnmount() {
-        this._isMounted=false;
         this.setState = (state,callback)=>{
         return;
     };
@@ -83,8 +74,8 @@ class UserFavoritePane extends React.Component{
         
         return (
             <div className="w-full h-full bg-white">
-                <div id="scroll" className="pane-share px-4 flex flex-wrap justify-start content-start overflow-auto gap-8" onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
-                    {this.state.loaded_favorites.length?this.state.loaded_favorites.map(n => <Post_userfavoritepane key={n.id} data={n} />): <Loading />}
+                <div id="scroll" className="pane-share pt-2 sm:pt-4 px-2 sm:px-4 flex flex-wrap justify-start content-start overflow-auto gap-1 sm:gap-2 md:gap-4 pb-2" onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
+                    {this.state.loaded_favorites.length?this.state.loaded_favorites.map(n => <Post_userfavoritepane key={n.illust_id} data={n} userUnMount={this.props.userUnMount} />): <Loading />}
                 </div>
             </div>
         );
