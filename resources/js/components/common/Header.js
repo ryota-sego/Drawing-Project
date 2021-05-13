@@ -19,7 +19,7 @@ export default class Header extends React.Component{
     constructor(props){
         super(props);
     }
-
+    
     render(){
         return(
             <nav className="bg-green-200">
@@ -36,7 +36,7 @@ export default class Header extends React.Component{
                             
                         </div>
         {/* +++++++右寄せの要素++++++++ */}                
-                            <RightHeaderComponent isGuest={this.props.guest} setIsGuest={this.props.setIsGuest} user_data={this.props.user_data}/>
+                            <RightHeaderComponent isGuest={this.props.guest} setGuest={this.props.setGuest} user_data={this.props.user_data}/>
                     </div>
                 </div>
             </nav>
@@ -73,15 +73,17 @@ function LeftHeaderComponent(props){
         );
     }
 
+
+
 const RightHeaderComponent=(props)=>{
         const is_guest = props.isGuest
         
-        const clickHandle = async e => {
-            Api_Logout(props.setIsGuest);
+        const clickHandle = e => {
+            Api_Logout(props.setGuest);
         }
         
-        console.log(is_guest);
-        console.log(3);
+        
+        
         
         return is_guest === null || is_guest ?
         (

@@ -5,16 +5,11 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useParams,
-  Link,
   Redirect,
 } from "react-router-dom";
 
-import createHistory from 'history/createBrowserHistory'
-
 import Header from './common/Header';
 import Footer from './common/Footer';
-import Loading from './common/Loading';
 
 import WrapDetailPage from './detail/WrapDetailPage';
 import WrapDrawingPage from './drawing/WrapDrawingPage';
@@ -25,10 +20,11 @@ import Signup from './auth/Signup';
 
 import { Api_LoginWithToken } from "./api/Api"
 
-//debugdebugdebugdebugdebugdebugdebugdebugdebug
-import User from './User'
-import Top from './Top'
-//debugdebugdebugdebugdebugdebugdebugdebugdebug
+const GUESTDATA = {'id': 'guest',
+                   'name': 'guest',
+                   'icon': 'null',
+                   'description': 'None'
+                    }
 
 class App extends React.Component {
     
@@ -36,20 +32,24 @@ class App extends React.Component {
         super(props);
         this.state = {
             'guest': true,
-            'user_data':{'id': 'guest',
-                         'name': 'guest',
-                         'icon': 'null',
-                         'description': 'None'},
+            'user_data':GUESTDATA,
             'comment_type':'timeline',
             'loading':false,
         };
         
         this.setIsGuest = this.setIsGuest.bind(this);
+        this.setGuest = this.setGuest.bind(this);
         this.setUserData = this.setUserData.bind(this)
     }
     
     setLoading(){
         this.setState((state)=>({loading: !this.state.loading}));
+    }
+    
+    setGuest(){
+        this.setState({guest: true,
+                        user_data:GUESTDATA
+        })
     }
     
     setIsGuest(data){
@@ -81,7 +81,7 @@ class App extends React.Component {
             <Router>
                 <div className="h-full w-screen">
 {/*share (header) styled, not routed, not lastchecked*/}
-                    <Header guest={this.state.guest} setIsGuest={this.setIsGuest} user_data={this.state.user_data} />
+                    <Header guest={this.state.guest} setIsGuest={this.setIsGuest} setGuest={this.setGuest} user_data={this.state.user_data} />
                     <Switch>
 {/*drawing page*/}
                         <Route exact path="/home" render={(routeProps)=> <WrapDrawingPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />

@@ -13,6 +13,7 @@ use App\Models\Comment;
 use App\Models\Favorite;
 use App\Models\Illust;
 use App\Http\Controllers\Component;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -48,7 +49,11 @@ class UserController extends Controller
             $user->description = "初めまして！よろしくお願いします！";
             $token = Str::random(255); //今回のセッション用のトークンを発行
             $user->token = $token; //ユーザのトークンに登録
-            $user->token_created_at = date("Y-m-d H:i:s");
+            
+            $carbon = Carbon::now('Asia/Tokyo');
+            $carbon->addDays(3);
+            $user->token_created_at = $carbon;
+            
             $user->save(); //ユーザのデータを上書き保存
             
             $cookie = Cookie::make('my_token', $token, 4320);//cookieを作成
@@ -66,7 +71,7 @@ class UserController extends Controller
     public function login(Request $request){
         $email = request()->get('email');
         
-        if($this->isMailExists($email)){
+        if(!$this->isMailExists($email)){
             return response([
                 'user_data' => -1,
                 ]);
@@ -75,14 +80,19 @@ class UserController extends Controller
         $user = User::where('email', $email)->first();
         
                 
-        $pass = request()->password;
+        $pass = request()->get('password');
         $hashed_pass = $user->password;
         if ($pass == $hashed_pass){
         //if (Hash::check($pass, $hashed_pass)){
             
             $token = Str::random(255);
             $user->token = $token;
-            $user->token_created_at = date("Y-m-d H:i:s");
+            
+            $carbon = Carbon::now('Asia/Tokyo');
+            $carbon->addDays(3);
+            $user->token_created_at = $carbon;
+            
+            
             $user->save();
             
             $cookie = Cookie::make('my_token', $token, 4320);//cookieを作成
@@ -93,7 +103,7 @@ class UserController extends Controller
                 ])->cookie($cookie)->cookie($cookie_2);
         }
         
-        return response(['user_data' => null,
+        return response(['user_data' => -1,
         ]);
         
     }
@@ -103,12 +113,19 @@ class UserController extends Controller
         if(!$this->isTokenExists($token) || $token == null){
             return response(['user_data' => -1])->withoutCookie('my_token')->withoutCookie('loggedin');
         }
+        if($this->isTokenValid($token)){
+            return response(['user_data' => -1])->withoutCookie('my_token')->withoutCookie('loggedin');
+        }
         
         $user = $this->getTokenUser($token); //get user
         
         $token = Str::random(255); //reflesh token
         $user->token = $token;
-        $user->token_created_at = date("Y-m-d H:i:s");
+        
+        $carbon = Carbon::now('Asia/Tokyo');
+        $carbon->addDays(3);
+        $user->token_created_at = $carbon;
+            
         $user->save();
         
         $cookie = Cookie::make('my_token', $token);//cookieを作成
@@ -189,16 +206,23 @@ class UserController extends Controller
         return DB::table('users')->where('token', $token)->exists();
     }
     
+    private function isTokenValid($token){
+        $user = User::where('token', $token)->first();
+        $carbon_expire = Carbon::createFromTimeStamp($user->token_created_at);
+        $carbon_now = Carbon::now('Asia/Tokyo');
+        return  $carbon_expire->gt($carbon_now);
+    }
+    
     private function isUserExists($id){ //bool
         return DB::table('users')->where('id', $id)->exists();
     }
     
     private function getTokenUser($token){ //bool
-        return DB::table('users')->where('token', $token)->first();
+        return User::where('token', $token)->first();
     }
     
     private function getUser($id){ //bool
-        return DB::table('users')->where('id', $id)->first();
+        return User::where('id', $id)->first();
     }
     
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    

@@ -4,12 +4,12 @@ import React from 'react';
 import { Redirect } from "react-router-dom";
 
 let ongoing1 = false
-export function Api_Logout(setIsGuest){
+export function Api_Logout(setGuest){
     if(ongoing1 === false){
         ongoing1 = true;
         axios.get('api/logout')
                     .then(res => {
-                        setIsGuest(null);
+                        setGuest();
                         console.log("logout")
                         ongoing1 = false
                     })
