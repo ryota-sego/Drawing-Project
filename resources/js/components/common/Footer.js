@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from 'react';
-
 export default function Footer(props) {
     return(
         <footer className="hidden sm:block bottom-0 w-full bg-green-200 border-b-2">

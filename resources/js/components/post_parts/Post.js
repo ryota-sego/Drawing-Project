@@ -1,24 +1,43 @@
 import Sketch from "react-p5";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  Switch,
-  Route,
-  useParams,
   NavLink,
-  Link,
-  Redirect,
 } from "react-router-dom";
 
-import Comment from './Comment';
+import { Comment_Timeline } from './Comment';
 
 //<NavLink to={`${props.base_url}/comments`} className="inline-block w-full mx-1 my-1 ">コメント</NavLink>
 
-export const Post_usercommentpane = props => {
+export const Post_Timeline = React.memo(props => {
     const clickHandle = (e) => {
         e.preventDefault();
-        
     }
     
+    return (
+        <div className="relative w-72 h-96">
+            <div className="absolute inset-0 post-timeline overflow-hidden w-72 h-96 bg-red-100 box-border border-2 border-black">
+                <div className="h-64 w-64 mx-auto my-2 bg-green-100"><a onClick={clickHandle}>{props.data.path}</a></div>
+                <div className="box-border border-4 border-red-500 card-body">
+                    <h5 className="text-lg">{props.data.title}</h5>
+                    <div>Comment here</div>
+                    <a href="#" className="btn btn-primary">favorite</a>
+                </div>
+            </div>
+            <div className="absolute inset-0 bg-opacity-70 hidden comment-timeline w-72 h-96 bg-red-100 box-border border-2 border-black">
+                <div className="overflow-auto h-full w-full">
+                    {props.comments.forEach(n=> <Comment_Timeline key={n.id} comment={n.comment} />)}
+                </div>
+            </div>
+        </div>
+    );
+},(prev, next)=>{return true})
+
+
+
+export const Post_usercommentpane = React.memo(props => {
+    const clickHandle = (e) => {
+        e.preventDefault();
+    }
     return (
         <div className="w-80 h-48 bg-red-100 box-border border-2 border-black flex flex-row">
             <div className="w-36 h-auto">
@@ -33,14 +52,12 @@ export const Post_usercommentpane = props => {
             </div>
         </div>
     );
-}
+},(prev, next)=>{return true})
 
 export const Post_userfavoritepane = props => {
     const clickHandle = (e) => {
         e.preventDefault();
-        
     }
-    
     return (
         <div className="w-72 h-88 bg-red-100 box-border border-2 border-black">
             <div className="h-64 w-64 mx-auto my-2 bg-green-100"><a href="#" onClick={clickHandle}>{props.data.path}</a></div>
@@ -62,10 +79,7 @@ export const Post_userfavoritepane = props => {
 export const Post_userdrawingpane = props => {
     const clickHandle = (e) => {
         e.preventDefault();
-        
     }
-    
-    
     return (
         <div className="w-72 h-96 bg-red-100 box-border border-2 border-black">
             <div className="h-64 w-64 mx-auto my-2 bg-green-100"><a onClick={clickHandle}>{props.data.path}</a></div>

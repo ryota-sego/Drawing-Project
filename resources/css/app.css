@@ -72,6 +72,16 @@ nav {
     height: 34px;
 }
 
+
+
+.post-timeline:hover + .comment-timeline {
+    display: block;
+}
+
+.comment-timeline:hover {
+    display: block;
+}
+
 .wrap-page-share{
     padding-top: 34px;
     margin-top: -34px;
@@ -86,6 +96,16 @@ nav {
 
 .borderbox4 {
     margin: -4px;
+}
+
+.timeline-info{
+    height: 56px;
+}
+
+.timeline-main {
+    height: calc(100vh - 34px - 68px);
+    padding-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 @media screen and (min-width : 640px) {
@@ -108,6 +128,16 @@ nav {
     .pane-share {
     width: 100vw;
     height: calc(100vh - 82px - 48px);
+    }
+    
+    .timeline-info{
+    height: 56px;
+    }
+    
+    .timeline-main {
+        height: calc(100vh - 42px - 68px);
+        padding-bottom: 40px;
+        margin-bottom: -40px;
     }
 
 }
@@ -132,6 +162,16 @@ nav {
     .pane-share {
     width: calc(100vw - 200px);
     height: calc(100vh - 90px - 72px);
+    }
+    
+    .timeline-info{
+    height: 60px;
+    }
+    
+    .timeline-main {
+        height: calc(100vh - 50px - 88px);
+        padding-bottom: 40px;
+        margin-bottom: -40px;
     }
 
 }

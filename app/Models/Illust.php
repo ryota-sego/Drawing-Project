@@ -17,20 +17,20 @@ class Illust extends Model
     
     public function user()
     {
-        return $this->belongsTo(User::class)->withTimestamps();;
+        return $this->belongsTo(User::class)->withTimestamps();
     }
     
     //コメント関連
     
     public function comments()
     {
-        return $this->hasMany(Comment::class)->withTimestamps();
+        return $this->hasMany(Comment::class);
     }
     
     //お気に入り関連
     
     public function favorited_users(){
-        return $this->belongsToMany(User::class, 'favorites', 'illust_id', 'user_id')->withTimestamps();;
+        return $this->belongsToMany(User::class, 'favorites', 'illust_id', 'user_id')->withTimestamps();
     }
     
     static function get_illust($id){

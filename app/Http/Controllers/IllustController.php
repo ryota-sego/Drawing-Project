@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Illust;
+use App\Models\Comment;
 
 class IllustController extends Controller
 {
@@ -70,9 +72,7 @@ class IllustController extends Controller
     public function fetch_userillusts(Request $request){
         $isfull = false;
         
-        
         if(request()->count == 0){
-            
             $illusts = Illust::where('user_id', request()->id)->orderBy('created_at', 'desc')->limit(10)->get();
             if($illusts->count() < 10){
                 $isfull = true;
@@ -88,10 +88,44 @@ class IllustController extends Controller
         if($illusts->count() < 10){
             $isfull = true;
         }
-        
         return response([
                         "illust_data" => $illusts,
                         "isfull" => $isfull,
                         ]);
+    }
+    
+    
+    public function fetch_timelineillusts(Request $request){
+        //$isfull = false;
+        
+        //$i_data = array();
+        //$_illust = array();
+        //$count = 0;
+        
+        //if(request()->count == 0){
+            $illusts = Illust::all()->sortBy('created_at')->take(10);
+
+            //if($illusts->count() < 10){
+            //    $isfull = true;
+            //}
+            
+            //$comments = Illust::find($illusts->id)->comments()->limit(10)->get();
+            
+            return response([
+                            "illust_data" => $illusts,
+                            //"isfull" => $isfull,
+                            ]);
+        //}
+        
+        //$illusts = Illust::orderBy('created_at', 'desc')->offset(request()->count * 10)->limit(10)->get();
+        
+        //if($illusts->count() < 10){
+        //    $isfull = true;
+        //}
+
+        //return response([
+        //                "illust_data" => $illusts,
+        //                "isfull" => $isfull,
+        //                ]);
     }
 }

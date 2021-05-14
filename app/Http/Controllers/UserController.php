@@ -47,6 +47,7 @@ class UserController extends Controller
             $user->password = Hash::make(request()->get("password")); //password をhash化
             $user->name = request()->get("name"); //
             $user->description = "初めまして！よろしくお願いします！";
+            
             $token = Str::random(255); //今回のセッション用のトークンを発行
             $user->token = $token; //ユーザのトークンに登録
             
@@ -58,6 +59,7 @@ class UserController extends Controller
             
             $cookie = Cookie::make('my_token', $token, 4320);//cookieを作成
             $cookie_2 = Cookie::make('loggedin', true, 4320,null,null,null,false);
+            
             return response([ //ユーザ情報を返す
                 'user_data' => $user,
                 ])->cookie($cookie)->cookie($cookie_2);
@@ -109,11 +111,14 @@ class UserController extends Controller
     }
     
     public function login_init(Request $request){
+        
         $token = Cookie::get('my_token'); //Token check
+        
         if(!$this->isTokenExists($token) || $token == null){
             return response(['user_data' => -1])->withoutCookie('my_token')->withoutCookie('loggedin');
         }
-        if($this->isTokenValid($token)){
+        
+        if(!$this->isTokenValid($token)){
             return response(['user_data' => -1])->withoutCookie('my_token')->withoutCookie('loggedin');
         }
         
@@ -144,8 +149,7 @@ class UserController extends Controller
             $user->save();
             return response(['status' => $user->token])->withoutCookie('my_token')->withoutCookie('loggedin');
         }else{
-            return response(['message' => 'ohhhhhhhhhhhh'
-            ]);
+            return response(['message' => 'ohhhhhhhhhhhh']);
         }
     }
     
@@ -206,9 +210,9 @@ class UserController extends Controller
         return DB::table('users')->where('token', $token)->exists();
     }
     
-    private function isTokenValid($token){
+    private function isTokenValid($token){ //bool
         $user = User::where('token', $token)->first();
-        $carbon_expire = Carbon::createFromTimeStamp($user->token_created_at);
+        $carbon_expire = $user->token_created_at;
         $carbon_now = Carbon::now('Asia/Tokyo');
         return  $carbon_expire->gt($carbon_now);
     }
@@ -217,13 +221,18 @@ class UserController extends Controller
         return DB::table('users')->where('id', $id)->exists();
     }
     
-    private function getTokenUser($token){ //bool
+    private function getTokenUser($token){ //user
         return User::where('token', $token)->first();
     }
     
-    private function getUser($id){ //bool
+    private function getUser($id){ //user
         return User::where('id', $id)->first();
     }
+    
+    //private function refreshToken($id){
+    //    $user = User::where('id', $id)->first();
+    //    $user->token =
+    //}
     
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
     //illust 関係

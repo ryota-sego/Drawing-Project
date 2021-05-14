@@ -1,7 +1,4 @@
-import Cookies from 'js-cookie';
 import axios from 'axios';
-import React from 'react';
-import { Redirect } from "react-router-dom";
 
 let ongoing1 = false
 export function Api_Logout(setGuest){
@@ -11,7 +8,7 @@ export function Api_Logout(setGuest){
                     .then(res => {
                         setGuest();
                         console.log("logout")
-                        ongoing1 = false
+                        ongoing1 = false;
                     })
                     .catch(e => {
                         console.log(e.response)
@@ -215,11 +212,12 @@ let ongoing10 = false
 export const Api_FetchTimeLineData = (count, setUserIllustData) => {
     if(ongoing10 == false){
         ongoing10 = true;
-        axios.post('/fetch_userillusts', {'count':count})
+        axios.post('api/fetch_timeineillusts', {'count':count})
                 .then(res =>{
                     const data = res.data.illust_data
                     const isfull = res.data.isfull
                     setUserIllustData(data, isfull);
+                    console.log(res);
                     ongoing10 = false;
                 })
                 .catch(e=>{

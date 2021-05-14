@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Sketch from "react-p5";
 import Blob from "cross-blob";
+
 import SidePane from '../common/SidePane';
 
-//import { Api_StoreIllust} from '../api/Api'
 import { Api_StoreIllust_blob } from '../api/Api'
 
 
@@ -58,16 +58,13 @@ export default class WrapDrawingPage extends React.Component {
             'drawing':[],
             'drawing_blob':null,
             'canvas': null,
-            'tmp':null,
             
         }
-        //this.illustStore = this.illustStore.bind(this)
         this.illustStore_blob = this.illustStore_blob.bind(this)
         this.setDrawing = this.setDrawing.bind(this)
         this.setColor = this.setColor.bind(this)
         this.setTool = this.setTool.bind(this)
         this.saveCanvas = this.saveCanvas.bind(this)
-        this.test = this.test.bind(this)
     }
     
     setDrawing(line){
@@ -98,29 +95,17 @@ export default class WrapDrawingPage extends React.Component {
     	GB_TOOL = t;
     }
     
-    //async illustStore(){
-    //	await Api_StoreIllust(this.state.drawing)
-    //}
-    
-    test(){
-
-    	Api_test();
-    }
-    
     render(){
         return(
             <div id="drawing_page_wrap" className="wrap-page-share border-b-2 w-full h-full border-black">
             	<div className="px-2 py-4 h-full w-full bg-blue-500">
-			    	<div className=" mb-3 border-4 border-black flex">
+			    	<div className="mb-3 border-4 border-black flex">
 			            <div className="w-3/4 flex flex-row justify-around content-center bg-blue-200">
 			                <div className="w-40">
 			                    <p className="px-2 py-3 bg-red-200">illust title</p>
 			                </div>
 			                <div className="w-40">
 			                    <p className="px-2 py-3 bg-red-200">created at</p>
-			                </div>
-			                <div className="w-40">
-			                    <button className="px-2 py-3 bg-red-200" onClick={this.test}>check</button>
 			                </div>
 			            </div>
 			            <div className="w-1/4 flex flex-row justify-around content-center bg-blue-400">
@@ -133,7 +118,6 @@ export default class WrapDrawingPage extends React.Component {
 	                        {/*<SketchP5 setDrawing={this.setDrawing} drawing={this.state.drawing} color={this.state.color}/>*/}
 	                    	<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing}/>
 	                    </div>
-	                    <div>{this.state.tmp}</div>
 	                    <div className="hidden md:block">
 	                        {/*SidePaneArea*/}
 	                        <SidePane side_pane_type={'drawing'} is_guest={this.props.guest} user_data={this.props.user_data}/>

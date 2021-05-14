@@ -21,6 +21,8 @@ Route::get("/login_init",[UserController::class, 'login_init']);
 Route::post("/login", [UserController::class, 'login']);
 Route::get("/logout", [UserController::class, 'logout']);
 
+Route::post("/fetch_timeineillusts", [IllustController::class, 'fetch_timelineillusts']);
+
 Route::post("/fetch_userdata", [UserController::class, 'fetch_userdata']);
 Route::post("/fetch_userfavorites", [UserController::class, 'fetch_userfavorites']);
 Route::post("/fetch_usercomments", [UserController::class, 'fetch_usercomments']);

@@ -13,7 +13,6 @@ class UserDrawingPane extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            scroll_top:0,
             loaded_count:0,
             loaded_illusts:[],
             loading: false,
@@ -21,7 +20,7 @@ class UserDrawingPane extends React.Component{
         }
         this.handleScroll = this.handleScroll.bind(this);
         this.handleScroll_throttled = throttle(this.handleScroll, 500)
-        this.node = React.createRef(this.state.top);
+        this.node = React.createRef();
         this.loadNewPosts = this.loadNewPosts.bind(this);
         this.setNewPosts_BraekLoading = this.setNewPosts_BraekLoading.bind(this);
         
@@ -59,7 +58,6 @@ class UserDrawingPane extends React.Component{
                     ISLOADING = true;
                     console.log(ISLOADING)
                     this.loadNewPosts()
-                    
                 }
                 
             }else{
@@ -75,7 +73,7 @@ class UserDrawingPane extends React.Component{
         
         return (
             <div className="w-full h-full bg-white">
-                <div id="scroll" className="pane-share pt-2 sm:pt-4 px-2 sm:px-4 flex flex-wrap justify-start content-start overflow-auto gap-1 sm:gap-2 md:gap-4 pd-2" onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
+                <div id="scroll" className="pane-share pt-2 sm:pt-4 px-2 sm:px-4 flex flex-wrap justify-around content-start overflow-auto gap-1 sm:gap-2 md:gap-4 pd-2" onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
                     {this.state.loaded_illusts.length?this.state.loaded_illusts.map(n => <Post_userdrawingpane key={n.id} data={n} userUnMount={this.props.userUnMount} />): <Loading />}
                 </div>
             </div>

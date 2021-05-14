@@ -1,6 +1,12 @@
 import React  from 'react';
+import throttle from 'lodash.throttle';
 
 import { Api_FetchTimeLineData } from '../api/Api'
+
+import Loading from '../common/Loading'
+import SidePane from '../common/SidePane'
+
+import { Post_Timeline } from "../post_parts/Post"
 
 let ISLOADING = false;
 
@@ -9,9 +15,21 @@ export default class WrapTimelinePage extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            'loading':'',
+            loaded_count:0,
+            loading:'',
+            loaded_illusts:[],
+            isfull: false,
         }
+        this.setNewPosts_BraekLoading = this.setNewPosts_BraekLoading.bind(this);
+        this.loadNewTimelinePosts = this.loadNewTimelinePosts.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
+        this.handleScroll_throttled = throttle(this.handleScroll, 500);
+        this.node = React.createRef();
+        
+        this.loadNewTimelinePosts()
     }
+    
+    
     
     componentWillUnmount() {
         this.setState = (state,callback)=>{
@@ -19,17 +37,30 @@ export default class WrapTimelinePage extends React.Component {
         };
     }
     
-    loadNewPosts(){
-        Api_FetchTimeLineData(this.state.loaded_count, this.props.user_id, this.setNewPosts_BraekLoading)
+    loadNewTimelinePosts_init(){
+        Api_FetchTimeLineData(this.state.loaded_count, this.setNewPosts_BraekLoading)
+    }
+    
+    loadNewTimelinePosts(){
+        Api_FetchTimeLineData(this.state.loaded_count, this.setNewPosts_BraekLoading)
+    }
+    
+    setNewPosts_BraekLoading(illusts, is_full){
+        const ill = this.state.loaded_illusts.concat([]);
+        ill.push(...illusts);
+        this.setState({loaded_illusts: [...ill],
+                       loading:false,
+                       loaded_count: this.state.loaded_count + 1,
+                       isfull: is_full
+        })
     }
     
     handleScroll = (e) => {
-        console.log("scroool");
         if(!this.state.isfull){
             if(!ISLOADING){
                 if(this.node.scrollHeight - this.node.scrollTop - this.node.clientHeight < 1){
                     ISLOADING = true;
-                    this.loadNewPosts()
+                    this.loadNewTimelinePosts()
                 }
             }else{
                 console.log("loading now")
@@ -38,35 +69,35 @@ export default class WrapTimelinePage extends React.Component {
     };
     
     render(){
+        console.log("rerender_timeline")
         
-        return !this.state.user_mount?
-            (
-            <Loading />
-            ):(
-            <div id="user_page_wrap" className="wrap-page-share pt-0 w-full h-full">
-                <div className="flex flex-row w-full bg-blue-300 h-full">
-                    <div id="user_side_pane" className="hidden md:block flex-none h-full bg-blue-500">
-                        {/*side*/}
-                        <SidePane side_pane_type="userpage" user_data={this.state.user_data} />
+        return(
+        <div id="timeline_wrap" className="wrap-page-share pt-0 w-full h-full">
+            <div className="px-1 md:px-2 py-2 md:py-4 h-full w-full bg-blue-500">
+		    	<div className="timeline-info w-full mb-1 md:mb-3 border-4 border-black flex">
+		            <div className="w-3/4 h-full flex flex-row justify-around content-center bg-blue-200">
+		                <div className="w-40">
+		                    <p className="bg-red-200">illust title</p>
+		                </div>
+		                <div className="w-40">
+		                    <p className="bg-red-200">created at</p>
+		                </div>
+		            </div>
+		            <div className="w-1/4 flex flex-row justify-around content-center bg-blue-400">
+		            	<button className="py-3 px-2 bg-red-500">保存する</button>
+		            </div>
+                </div>
+                <div className="box-border timeline-main w-full flex flex-row justify-center md:justify-between content-center">
+                    <div id="scrolll" className="h-full w-full py-2 sm:py-4 px-2 sm:px-4 flex flex-wrap justify-around content-start overflow-auto gap-1 sm:gap-2 md:gap-4 pd-2 bg-green-900" onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
+                        {this.state.loaded_illusts.length? this.state.loaded_illusts.map(n => <Post_Timeline key={n.id} data={n} />) : <Loading />}
                     </div>
-                    <div className="w-full h-full bg-blue-500">
-                        {/*content*/}
-                        <div className="w-full h-auto bg-blue-800">
-                            {/*nav*/}
-                            <Nav />
-                        </div>
-                        <div className="h-auto w-full bg-blue-800">
-                            {/*Panes*/}
-                            <Switch>
-                                <Route path={`${url}/detail`} render={(routeProps)=><UserDetailPane guest={this.props.guest} user_data={this.state.user_data} user_id={this.props.match.params.userid} userUnMount={this.userUnMount} {...routeProps} />}/>
-                                <Route path={`${url}/illusts`} render={(routeProps)=><UserDrawingPane guest={this.props.guest} user_id={this.props.match.params.userid} url={url} {...routeProps} userUnMount={this.userUnMount} />}/>
-                                <Route path={`${url}/favorites`} render={(routeProps)=><UserFavoritePane guest={this.props.guest} user_id={this.props.match.params.userid} url={url} {...routeProps} userUnMount={this.userUnMount} />}/>
-                                <Route path={`${url}/comments`} render={(routeProps)=><UserCommentPane guest={this.props.guest} user_id={this.props.match.params.userid} url={url} {...routeProps} userUnMount={this.userUnMount} />}/>
-                            </Switch>
-                        </div>
+                    <div id="timeline_sidepane" className="hidden md:block flex-none h-full bg-blue-500">
+                        {/*side*/}
+                        <SidePane side_pane_type="timeline" is_guest={this.props.guest} user_data={this.props.user_data}/>
                     </div>
                 </div>
             </div>
+        </div>
         );
     }
 }

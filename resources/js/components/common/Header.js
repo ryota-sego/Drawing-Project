@@ -1,18 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
+import { NavLink } from "react-router-dom";
 
 import { Api_Logout } from '../api/Api';
-
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useParams,
-  NavLink,
-  Link,
-  Redirect,
-} from "react-router-dom";
-
-import Cookies from 'js-cookie';
 
 export default class Header extends React.Component{
     
@@ -22,9 +11,9 @@ export default class Header extends React.Component{
     
     render(){
         return(
-            <nav className="bg-green-200">
-                <div className="max-w-full mx-0 px-0">
-                    <div className="flex justify-between items-center border-b-2 border-gray-100 md:py-2 md:space-x-10">
+            <nav className="w-full bg-green-200">
+                <div className=" h-full w-full mx-0 px-0">
+                    <div className="h-full w-full flex justify-between items-center border-b-2 border-gray-100 md:space-x-10">
         {/* ++++++++左寄せの要素++++++++++ */}
                         <LeftHeaderComponent isGuest={this.props.guest} />
         {/* +++++++中央の要素++++++++ */}
