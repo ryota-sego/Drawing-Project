@@ -76,7 +76,7 @@ export default class UserDetailPane extends React.Component {
                     </div>
                     <p>UserComments</p>
                     <div className="w-full flex flex-row justify-around gap-1 sm:gap-2 md:gap-4 bg-red-500">{/*okiniiri*/}
-                        {this.state.loaded_comments.map(n => <Post_usercommentpane key={n.illust_id} data={n} userUnMount={this.props.userUnMount} />)}
+                        {this.state.loaded_comments.map(n => <Post_usercommentpane key={n.id} data={n} userUnMount={this.props.userUnMount} />)}
                     </div>
                 </div>)
                 }

@@ -73,7 +73,7 @@ class IllustController extends Controller
         $isfull = false;
         
         if(request()->count == 0){
-            $illusts = Illust::where('user_id', request()->id)->orderBy('created_at', 'desc')->limit(10)->get();
+            $illusts = Illust::where('user_id', request()->id)->orderBy('created_at', 'desc')->select(['id', 'title', 'path', 'description','user_id'])->limit(10)->get();
             if($illusts->count() < 10){
                 $isfull = true;
             }
@@ -84,7 +84,7 @@ class IllustController extends Controller
                             ]);
         }
         
-        $illusts = Illust::where('user_id', request()->id)->orderBy('created_at', 'desc')->offset(request()->count * 10)->limit(10)->get();
+        $illusts = Illust::where('user_id', request()->id)->orderBy('created_at', 'desc')->select(['id', 'title', 'path', 'description','user_id'])->offset(request()->count * 10)->limit(10)->get();
         if($illusts->count() < 10){
             $isfull = true;
         }
@@ -95,37 +95,58 @@ class IllustController extends Controller
     }
     
     
+    
+    
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    
     public function fetch_timelineillusts(Request $request){
-        //$isfull = false;
+        $isfull = false;
         
-        //$i_data = array();
-        //$_illust = array();
-        //$count = 0;
+        $p_data = array();
+        $_comments = array();
+        $count = 0;
         
-        //if(request()->count == 0){
-            $illusts = Illust::all()->sortBy('created_at')->take(10);
-
-            //if($illusts->count() < 10){
-            //    $isfull = true;
-            //}
+        if(request()->count == 0){
+            $illusts = Illust::orderBy('created_at', 'desc')->select(['id','path', 'title', 'user_id'])->limit(10)->get();
+            if($illusts->count()>0){
+                foreach($illusts as $illust){
+                    $_comment_with_key = array();
+                    $_comments = $illust->comments()->orderBy('created_at', "desc")->limit(10)->select(['id','comment', 'user_id'])->get();
+                    $_comment_with_key["comment"] = $_comments->toArray();
+                    $p_data[$count] = array_merge($illust->toArray(), $_comment_with_key);
+                    $count += 1;
+                }
+            }
             
-            //$comments = Illust::find($illusts->id)->comments()->limit(10)->get();
+            if($illusts->count() < 10){
+                $isfull = true;
+            }
             
-            return response([
-                            "illust_data" => $illusts,
-                            //"isfull" => $isfull,
-                            ]);
-        //}
+            return response(["post_data" => $p_data,
+                                 "isfull" => $isfull]);
+        }
         
-        //$illusts = Illust::orderBy('created_at', 'desc')->offset(request()->count * 10)->limit(10)->get();
         
-        //if($illusts->count() < 10){
-        //    $isfull = true;
-        //}
-
-        //return response([
-        //                "illust_data" => $illusts,
-        //                "isfull" => $isfull,
-        //                ]);
+        $illusts = Illust::orderBy('created_at', 'desc')->select(['id','path', 'title', 'user_id'])->offset(request()->count * 10)->limit(10)->get();
+        
+        if($illusts->count()>0){
+            foreach($illusts as $illust){
+                $_comment_with_key = array();
+                $_comments = $illust->comments()->orderBy('created_at', "desc")->limit(10)->select(['id','comment', 'user_id'])->get();
+                $_comment_with_key["comment"] = $_comments->toArray();
+                $p_data[$count] = array_merge($illust->toArray(), $_comment_with_key);
+                $count += 1;
+            }
+        }
+        
+        if($illusts->count() < 10){
+                $isfull = true;
+            }
+        
+        return response(["post_data" => $p_data,
+                             "isfull" => $isfull]);
+        
+        
     }
+    
 }

@@ -19,13 +19,13 @@ export const Post_Timeline = React.memo(props => {
                 <div className="h-64 w-64 mx-auto my-2 bg-green-100"><a onClick={clickHandle}>{props.data.path}</a></div>
                 <div className="box-border border-4 border-red-500 card-body">
                     <h5 className="text-lg">{props.data.title}</h5>
-                    <div>Comment here</div>
+                    <p>User: {props.data.user_id}</p>
                     <a href="#" className="btn btn-primary">favorite</a>
                 </div>
             </div>
             <div className="absolute inset-0 bg-opacity-70 hidden comment-timeline w-72 h-96 bg-red-100 box-border border-2 border-black">
                 <div className="overflow-auto h-full w-full">
-                    {props.comments.forEach(n=> <Comment_Timeline key={n.id} comment={n.comment} />)}
+                    {props.data.comment.length? props.data.comment.map(n=> <Comment_Timeline key={n.id} comment={n.comment} />): <p className="py-1 px-2 break-words bg-white box-border border-2 border-green-500">No Comments</p>}
                 </div>
             </div>
         </div>

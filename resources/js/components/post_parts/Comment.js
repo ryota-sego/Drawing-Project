@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-export const Comment_Timeline = props => {
-    return <h1>Wrapページ</h1>;
-}
+export const Comment_Timeline = React.memo( props => {
+    return <p className="py-1 px-2 break-words bg-white box-border border-2 border-green-500">{props.comment}</p>;
+},(prev, next)=>{return true})
 
 export function Comment_illustDetail() {
     return <h1>Wrapページ</h1>;

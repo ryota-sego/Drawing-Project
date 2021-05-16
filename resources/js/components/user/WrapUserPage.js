@@ -19,7 +19,6 @@ export default class WrapUserPage extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            'content':'detail',// [detail, comments, posts, favorites]
             'user_data':{'id': 'loading',
                          'name': 'loading',
                          'icon': 'null',

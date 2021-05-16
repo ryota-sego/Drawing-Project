@@ -209,22 +209,25 @@ export const Api_FetchUserDetails = (id, setUserDetails) => {
 
 
 let ongoing10 = false
-export const Api_FetchTimeLineData = (count, setUserIllustData) => {
+export const Api_FetchTimeLineData = (count, setTimelineData) => {
     if(ongoing10 == false){
         ongoing10 = true;
-        axios.post('api/fetch_timeineillusts', {'count':count})
+        console.log("timeline api_inside")
+        axios.post('/fetch_timeineillusts', {'count':count})
                 .then(res =>{
-                    const data = res.data.illust_data
+                    console.log(res.data);
+                    const data = res.data.post_data
                     const isfull = res.data.isfull
-                    setUserIllustData(data, isfull);
-                    console.log(res);
+                    setTimelineData(data, isfull);
                     ongoing10 = false;
                 })
                 .catch(e=>{
-                    console.log(e.response);
+                    console.log(e);
                     ongoing10 = false;
                 })
+                
     }
+    console.log("timeline api_outside")
 }
 
 let ongoing11 = false

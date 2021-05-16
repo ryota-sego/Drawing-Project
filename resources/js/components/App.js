@@ -88,7 +88,7 @@ class App extends React.Component {
 {/*timeline page*/}
                         <Route path="/timeline" render={(routeProps)=> <WrapTimelinePage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
 {/*detail page*/}
-                        <Route path="/detail/illust" render={(routeProps)=> <WrapDetailPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
+                        <Route path="/illust/:illust_id" render={(routeProps)=> <WrapDetailPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
 {/*user page*/}                                                     
                         <Route path="/user/:userid" render={(routeProps)=> <WrapUserPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
 {/*login page*/}
