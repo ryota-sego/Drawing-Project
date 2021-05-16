@@ -133,8 +133,8 @@ class UserController extends Controller
             
         $user->save();
         
-        $cookie = Cookie::make('my_token', $token);//cookieを作成
-        $cookie_2 = Cookie::make('loggedin', true,0,null,null,null,false);
+        $cookie = Cookie::make('my_token', $token, 4320);//cookieを作成
+        $cookie_2 = Cookie::make('loggedin', true, 4320,null,null,null,false);
         
         return response([
             'user_data' => $user,

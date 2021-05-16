@@ -2108,6 +2108,15 @@ var App = /*#__PURE__*/function (_React$Component) {
     _this.setIsGuest = _this.setIsGuest.bind(_assertThisInitialized(_this));
     _this.setGuest = _this.setGuest.bind(_assertThisInitialized(_this));
     _this.setUserData = _this.setUserData.bind(_assertThisInitialized(_this));
+
+    if (js_cookie__WEBPACK_IMPORTED_MODULE_2___default().get('loggedin') != null) {
+      (0,_api_Api__WEBPACK_IMPORTED_MODULE_11__.Api_LoginWithToken)(_this.setIsGuest);
+    } else {
+      _this.setState({
+        guest: true
+      });
+    }
+
     return _this;
   }
 
@@ -2153,22 +2162,12 @@ var App = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "componentDidMount",
-    value: function componentDidMount() {
-      if (js_cookie__WEBPACK_IMPORTED_MODULE_2___default().get('loggedin') != null) {
-        (0,_api_Api__WEBPACK_IMPORTED_MODULE_11__.Api_LoginWithToken)(this.setIsGuest);
-      } else {
-        this.setState({
-          guest: true
-        });
-      }
-    }
+    value: function componentDidMount() {}
   }, {
     key: "render",
     value: function render() {
       var _this3 = this;
 
-      console.log(this.state.guest);
-      console.log(this.state.user_data);
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.BrowserRouter, {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
           className: "h-full w-screen",
@@ -2271,7 +2270,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Api_FetchUserComments": () => (/* binding */ Api_FetchUserComments),
 /* harmony export */   "Api_FetchUserDetails": () => (/* binding */ Api_FetchUserDetails),
 /* harmony export */   "Api_FetchTimeLineData": () => (/* binding */ Api_FetchTimeLineData),
-/* harmony export */   "Api_FetchTimeLineData_Reflesh": () => (/* binding */ Api_FetchTimeLineData_Reflesh)
+/* harmony export */   "Api_FetchTimeLineData_Reflesh": () => (/* binding */ Api_FetchTimeLineData_Reflesh),
+/* harmony export */   "Api_FetchIllust_Detail": () => (/* binding */ Api_FetchIllust_Detail),
+/* harmony export */   "Api_FetchComment_Detail": () => (/* binding */ Api_FetchComment_Detail)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
@@ -2382,7 +2383,8 @@ var Api_LordIllust = function Api_LordIllust() {
     console.log('nooo');
     console.log(e.response);
   });
-};
+}; // user  user  user  user  user  user  user  user  user  user  user  user  user  user  user  user  user  user  user 
+
 var ongoing6 = false;
 var Api_FetchUserData = function Api_FetchUserData(id, setUserData) {
   if (ongoing6 === false) {
@@ -2470,7 +2472,8 @@ var Api_FetchUserDetails = function Api_FetchUserDetails(id, setUserDetails) {
       ongoing9 = false;
     });
   }
-};
+}; // timeline  timeline  timeline  timeline  timeline  timeline  timeline  timeline  timeline  timeline  timeline  timeline
+
 var ongoing10 = false;
 var Api_FetchTimeLineData = function Api_FetchTimeLineData(count, setTimelineData) {
   if (ongoing10 == false) {
@@ -2506,6 +2509,21 @@ var Api_FetchTimeLineData_Reflesh = function Api_FetchTimeLineData_Reflesh(count
       ongoing11 = false;
     });
   }
+}; // detail  detail  detail  detail  detail  detail  detail  detail  detail  detail  detail  detail  detail  detail  detail  detail 
+
+var ongoing12 = false;
+var Api_FetchIllust_Detail = function Api_FetchIllust_Detail(illust_id, setIllustData) {
+  //if(ongoing12 == false){
+  if (false) {}
+
+  console.log("Fetch Illust!!!!");
+};
+var ongoing13 = false;
+var Api_FetchComment_Detail = function Api_FetchComment_Detail(illust_id, count, setCommentData) {
+  //if(ongoing13 == false){
+  if (false) {}
+
+  console.log("Fetch Comments!!!!");
 };
 
 /***/ }),
@@ -3398,8 +3416,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash.throttle */ "./node_modules/lodash.throttle/index.js");
 /* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _post_parts_Comment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../post_parts/Comment */ "./resources/js/components/post_parts/Comment.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _api_Api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../api/Api */ "./resources/js/components/api/Api.js");
+/* harmony import */ var _common_Loading__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/Loading */ "./resources/js/components/common/Loading.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -3421,11 +3453,15 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
 
 
+
+
+var ISLOADING = false;
 
 var WrapDetailPage = /*#__PURE__*/function (_React$Component) {
   _inherits(WrapDetailPage, _React$Component);
@@ -3438,16 +3474,43 @@ var WrapDetailPage = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, WrapDetailPage);
 
     _this = _super.call(this, props);
+
+    _defineProperty(_assertThisInitialized(_this), "handleScroll", function (e) {
+      console.log("scroool");
+
+      if (!_this.state.isfull) {
+        if (!ISLOADING) {
+          if (_this.node.scrollHeight - _this.node.scrollTop - _this.node.clientHeight < 1) {
+            ISLOADING = true;
+
+            _this.loadNewComments();
+          }
+        } else {
+          console.log("loading now");
+        }
+      }
+    });
+
     _this.state = {
-      'loading': '',
+      'il_loading': false,
+      'com_loading': true,
       'illust_data': [],
-      'loaded_comment': [],
+      'loaded_comments': [],
       'loaded_count': 0,
       'is_full': false,
       'is_my_illust': false
     };
     _this.handleScroll = _this.handleScroll.bind(_assertThisInitialized(_this));
     _this.handleScroll_throttled = lodash_throttle__WEBPACK_IMPORTED_MODULE_1___default()(_this.handleScroll, 500);
+    _this.setNewComments_BraekLoading = _this.setNewComments_BraekLoading.bind(_assertThisInitialized(_this));
+    _this.setIllustData = _this.setIllustData.bind(_assertThisInitialized(_this));
+    _this.fetchIllustData = _this.fetchIllustData.bind(_assertThisInitialized(_this));
+    _this.fetchCommentData = _this.fetchCommentData.bind(_assertThisInitialized(_this));
+
+    _this.fetchIllustData();
+
+    _this.fetchCommentData();
+
     return _this;
   }
 
@@ -3459,30 +3522,51 @@ var WrapDetailPage = /*#__PURE__*/function (_React$Component) {
       };
     }
   }, {
+    key: "fetchIllustData",
+    value: function fetchIllustData() {
+      (0,_api_Api__WEBPACK_IMPORTED_MODULE_3__.Api_FetchIllust_Detail)(this.props.match.params.illust_id, this.setIllustData);
+    }
+  }, {
+    key: "fetchCommentData",
+    value: function fetchCommentData() {
+      (0,_api_Api__WEBPACK_IMPORTED_MODULE_3__.Api_FetchComment_Detail)(this.props.match.params.illust_id, this.state.loaded_count, this.setNewComments_BraekLoading);
+    }
+  }, {
+    key: "setIllustData",
+    value: function setIllustData(ill_data) {
+      this.setState({
+        illust_data: _toConsumableArray(ill_data),
+        il_loading: false,
+        is_my_illust: ill_data.user_id == this.props.user_id
+      });
+    }
+  }, {
+    key: "setNewComments_BraekLoading",
+    value: function setNewComments_BraekLoading(comments, is_full) {
+      var com = this.state.loaded_comments.concat([]);
+      com.push.apply(com, _toConsumableArray(comments));
+      this.setState({
+        loaded_comments: _toConsumableArray(com),
+        com_loading: false,
+        loaded_count: this.state.loaded_count + 1,
+        isfull: is_full
+      });
+      ISLOADING = false;
+    }
+  }, {
     key: "render",
     value: function render() {
-      return !this.state.user_mount ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(Loading, {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      return !this.state.il_loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_common_Loading__WEBPACK_IMPORTED_MODULE_4__.default, {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         id: "user_page_wrap",
         className: "wrap-page-share pt-0 w-full h-full",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           className: "flex flex-row w-full bg-blue-300 h-full",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            id: "user_side_pane",
-            className: "hidden md:block flex-none h-full bg-blue-500",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(SidePane, {
-              side_pane_type: "userpage",
-              base_url: "".concat(url),
-              user_data: this.state.user_data
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
             className: "w-full h-full bg-blue-500",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              className: "w-full h-auto bg-blue-800",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(Nav, {})
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
               className: "h-auto w-full bg-blue-800"
-            })]
-          })]
+            })
+          })
         })
       });
     }
@@ -4019,11 +4103,11 @@ var Comment_Timeline = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.memo(func
 }, function (prev, next) {
   return true;
 });
-function Comment_illustDetail() {
+var Comment_illustDetail = function Comment_illustDetail() {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h1", {
     children: "Wrap\u30DA\u30FC\u30B8"
   });
-}
+};
 
 /***/ }),
 

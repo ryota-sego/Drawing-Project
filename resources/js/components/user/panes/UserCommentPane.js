@@ -65,7 +65,7 @@ class UserCommentPane extends React.Component{
                 
             }
         }
-    };
+    }
     
     
     render(){

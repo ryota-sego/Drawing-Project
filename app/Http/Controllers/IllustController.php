@@ -149,4 +149,44 @@ class IllustController extends Controller
         
     }
     
+    
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
+    
+    public function fetch_detailillust(Request $request){
+
+        $illust = Illust::where('id', request()->id)->orderBy('created_at', 'desc')->first();
+        
+        return response([
+                        "illust_data" => $illust,
+                        ]);
+    }
+    
+    
+    
+    public function fetch_detailcomments(Request $request){
+        $isfull = false;
+        
+        if(request()->count == 0){
+            $comments = Illust::comments()->orderBy('created_at','desc')->select(['id','comment', 'user_id'])->limit(10)->get();
+            
+            if($comments->count() < 10){
+                $isfull = true;
+            }
+            
+            return response(["comment_data" => $comments,
+                                 "isfull" => $isfull]);
+        }
+        
+        $comments = Illust::comments()->orderBy('created_at','desc')->select(['id','comment', 'user_id'])->offset(request()->count * 10)->limit(10)->get();
+            
+        if($comments->count() < 10){
+            $isfull = true;
+        }
+        
+        return response(["comment_data" => $comments,
+                                 "isfull" => $isfull]);
+    }
 }
+
+
+

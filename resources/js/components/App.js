@@ -40,6 +40,12 @@ class App extends React.Component {
         this.setIsGuest = this.setIsGuest.bind(this);
         this.setGuest = this.setGuest.bind(this);
         this.setUserData = this.setUserData.bind(this)
+        
+        if(Cookies.get('loggedin') != null){
+            Api_LoginWithToken(this.setIsGuest);
+        }else{
+            this.setState({guest: true});
+        }
     }
     
     setLoading(){
@@ -67,16 +73,10 @@ class App extends React.Component {
     }
     
     componentDidMount(){
-        if(Cookies.get('loggedin') != null){
-            Api_LoginWithToken(this.setIsGuest);
-        }else{
-            this.setState({guest: true});
-        }
+        
     }
     
     render(){
-        console.log(this.state.guest);
-        console.log(this.state.user_data);
         return(
             <Router>
                 <div className="h-full w-screen">

@@ -117,6 +117,7 @@ export const Api_LordIllust = () => {
 }
 
 
+// user  user  user  user  user  user  user  user  user  user  user  user  user  user  user  user  user  user  user 
 let ongoing6 = false
 export const Api_FetchUserData = (id, setUserData) => {
      if(ongoing6 === false){
@@ -207,7 +208,7 @@ export const Api_FetchUserDetails = (id, setUserDetails) => {
     }
 }
 
-
+// timeline  timeline  timeline  timeline  timeline  timeline  timeline  timeline  timeline  timeline  timeline  timeline
 let ongoing10 = false
 export const Api_FetchTimeLineData = (count, setTimelineData) => {
     if(ongoing10 == false){
@@ -246,4 +247,45 @@ export const Api_FetchTimeLineData_Reflesh = (count, setUserIllustData) => {
                     ongoing11 = false;
                 })
     }
+}
+
+// detail  detail  detail  detail  detail  detail  detail  detail  detail  detail  detail  detail  detail  detail  detail  detail 
+
+let ongoing12 = false
+export const Api_FetchIllust_Detail = (illust_id, setIllustData) => {
+    //if(ongoing12 == false){
+    if(false){
+        ongoing12 = true;
+        axios.get('/api/fetch_detailillust')
+                .then(res =>{
+                    const data = res.data.illust_data
+                    setIllustData(data);
+                    ongoing12 = false;
+                })
+                .catch(e=>{
+                    console.log(e.response);
+                    ongoing12 = false;
+                })
+    }
+    console.log("Fetch Illust!!!!");
+}
+
+let ongoing13 = false
+export const Api_FetchComment_Detail = (illust_id, count, setCommentData) => {
+    //if(ongoing13 == false){
+    if(false){
+        ongoing13 = true;
+        axios.get('/api/fetch_detailcomments')
+                .then(res =>{
+                    const data = res.data.comment_data
+                    const isfull = res.data.isfull
+                    setCommentData(data, isfull);
+                    ongoing13 = false;
+                })
+                .catch(e=>{
+                    console.log(e.response);
+                    ongoing13 = false;
+                })
+    }
+    console.log("Fetch Comments!!!!");
 }
