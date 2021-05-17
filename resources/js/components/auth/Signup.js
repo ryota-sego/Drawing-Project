@@ -25,7 +25,7 @@ export default class Signup extends React.Component {
     };
     
     render(){
-        const is_guest = this.props.isGuest;
+        const is_guest = this.props.guest;
         
         if(!is_guest){
             return(<Redirect push to="/home" />);

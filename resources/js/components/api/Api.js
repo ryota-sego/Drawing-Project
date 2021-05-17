@@ -287,3 +287,8 @@ export const Api_FetchComment_Detail = (illust_id, count, setCommentData) => {
     }
     console.log("Fetch Comments!!!!");
 }
+
+
+// add to favorite  add to favorite  add to favorite  add to favorite  add to favorite  add to favorite  add to favorite  add to favorite  add to favorite 
+
+// add comment to an illust  add comment to an illust  add comment to an illust  add comment to an illust  add comment to an illust  add comment to an illust 

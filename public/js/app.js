@@ -2216,7 +2216,7 @@ var App = /*#__PURE__*/function (_React$Component) {
               render: function render(routeProps) {
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_auth_Login__WEBPACK_IMPORTED_MODULE_9__.default, _objectSpread({
                   setIsGuest: _this3.setIsGuest,
-                  isGuest: _this3.state.guest
+                  guest: _this3.state.guest
                 }, routeProps));
               }
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
@@ -2225,7 +2225,7 @@ var App = /*#__PURE__*/function (_React$Component) {
               render: function render(routeProps) {
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_auth_Signup__WEBPACK_IMPORTED_MODULE_10__.default, _objectSpread({
                   setIsGuest: _this3.setIsGuest,
-                  isGuest: _this3.state.guest
+                  guest: _this3.state.guest
                 }, routeProps));
               }
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
@@ -2548,7 +2548,8 @@ var Api_FetchComment_Detail = function Api_FetchComment_Detail(illust_id, count,
   }
 
   console.log("Fetch Comments!!!!");
-};
+}; // add to favorite  add to favorite  add to favorite  add to favorite  add to favorite  add to favorite  add to favorite  add to favorite  add to favorite 
+// add comment to an illust  add comment to an illust  add comment to an illust  add comment to an illust  add comment to an illust  add comment to an illust
 
 /***/ }),
 
@@ -2653,7 +2654,7 @@ var Login = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      var is_guest = this.props.isGuest;
+      var is_guest = this.props.guest;
 
       if (!is_guest) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Redirect, {
@@ -2847,7 +2848,7 @@ var Signup = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      var is_guest = this.props.isGuest;
+      var is_guest = this.props.guest;
 
       if (!is_guest) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Redirect, {

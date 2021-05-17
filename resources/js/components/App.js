@@ -92,9 +92,9 @@ class App extends React.Component {
 {/*user page*/}                                                     
                         <Route path="/user/:userid" render={(routeProps)=> <WrapUserPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
 {/*login page*/}
-                        <Route exact path="/login" render={(routeProps)=> <Login setIsGuest={this.setIsGuest} isGuest={this.state.guest} {...routeProps} />} />
+                        <Route exact path="/login" render={(routeProps)=> <Login setIsGuest={this.setIsGuest} guest={this.state.guest} {...routeProps} />} />
 {/*signup page*/}
-                        <Route exact path="/signup" render={(routeProps)=> <Signup setIsGuest={this.setIsGuest} isGuest={this.state.guest} {...routeProps} />} />
+                        <Route exact path="/signup" render={(routeProps)=> <Signup setIsGuest={this.setIsGuest} guest={this.state.guest} {...routeProps} />} />
 {/*default (drawing page)*/}
                         <Route>
                             <Redirect to="/home" />
