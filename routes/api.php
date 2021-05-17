@@ -28,8 +28,6 @@ Route::post("/fetch_userfavorites", [UserController::class, 'fetch_userfavorites
 Route::post("/fetch_usercomments", [UserController::class, 'fetch_usercomments']);
 Route::post("/test", [UserController::class, 'test']);
 
-Route::post("/fetch_detailillust", [IllustController::class, 'fetch_detailillust']);
-Route::post("/fetch_detailcomments", [IllustController::class, 'fetch_detailcomments']);
 
 Route::get("/isLoggedIn", [UserController::class, 'isLoggedIn']);
 

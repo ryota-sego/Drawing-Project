@@ -73,6 +73,8 @@ nav {
 }
 
 
+.canvas-manipuration {
+}
 
 .post-timeline:hover + .comment-timeline {
     display: block;

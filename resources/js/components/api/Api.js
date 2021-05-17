@@ -46,7 +46,6 @@ export function Api_LoginWithToken(setIsGuest){
                         const data = res.data.user_data;
                         setIsGuest(data);
                         console.log("initial_login")
-                        console.log(res);
                         ongoing3 = false
                     })
                     .catch(e => {
@@ -198,6 +197,7 @@ export const Api_FetchUserDetails = (id, setUserDetails) => {
                     const favs = res.data.favs
                     const coms = res.data.coms
                     const ills = res.data.ills
+                    console.log(coms);
                     setUserDetails(favs, coms, ills);
                     ongoing9 = false;
                 })
@@ -253,12 +253,11 @@ export const Api_FetchTimeLineData_Reflesh = (count, setUserIllustData) => {
 
 let ongoing12 = false
 export const Api_FetchIllust_Detail = (illust_id, setIllustData) => {
-    //if(ongoing12 == false){
-    if(false){
+    if(ongoing12 == false){
         ongoing12 = true;
-        axios.get('/api/fetch_detailillust')
+        axios.post('/fetch_detailillust', {'id': illust_id})
                 .then(res =>{
-                    const data = res.data.illust_data
+                    const data = res.data.illust_data;
                     setIllustData(data);
                     ongoing12 = false;
                 })
@@ -272,13 +271,12 @@ export const Api_FetchIllust_Detail = (illust_id, setIllustData) => {
 
 let ongoing13 = false
 export const Api_FetchComment_Detail = (illust_id, count, setCommentData) => {
-    //if(ongoing13 == false){
-    if(false){
+    if(ongoing13 == false){
         ongoing13 = true;
-        axios.get('/api/fetch_detailcomments')
+        axios.post('/fetch_detailcomments', {'id': illust_id, 'count':count})
                 .then(res =>{
                     const data = res.data.comment_data
-                    const isfull = res.data.isfull
+                    const isfull = res.data.isfull;
                     setCommentData(data, isfull);
                     ongoing13 = false;
                 })

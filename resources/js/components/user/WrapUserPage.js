@@ -63,6 +63,7 @@ export default class WrapUserPage extends React.Component {
         }
         
         
+        
         return !this.state.user_mount?
             (
             <Loading />

@@ -32049,6 +32049,9 @@ nav {
   height: 34px;
 }
 
+.canvas-manipuration {
+}
+
 .post-timeline:hover + .comment-timeline {
   display: block;
 }

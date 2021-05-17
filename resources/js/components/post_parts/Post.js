@@ -1,5 +1,5 @@
 import Sketch from "react-p5";
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   NavLink,
 } from "react-router-dom";
@@ -41,10 +41,12 @@ export const Post_usercommentpane = React.memo(props => {
     return (
         <div className="w-80 h-48 bg-red-100 box-border border-2 border-black flex flex-row">
             <div className="w-36 h-auto">
-                <div className="h-36 w-36 mx-auto my-2 bg-green-100 text-lg break-words "><a onClick={clickHandle}>{props.data.path}</a></div>
-                <div className="flex flex-row">
-                    <a href="" className="inset-x-0 bottom-0 btn btn-primary">favorite</a>
-                    <NavLink to={`/user/${props.data.user_id}/detail`} className="inline-block w-full mx-1 my-1" onClick={props.userUnMount}>GoToUser</NavLink>
+                <div className="h-36 w-36 mx-auto my-2 bg-green-100 text-lg break-words">
+                    <NavLink to={`/illust/${props.data.illust_id}`}>{props.data.path}</NavLink>
+                </div>
+                <div className="flex flex-between justify-center content-center">
+                    <button href="#" className="btn btn-primary">favorite</button>
+                    <NavLink to={`/user/${props.data.user_id}/detail`} className="inline-block w-full mx-1 my-1" onClick={props.userUnMount}>UserPage</NavLink>
                 </div>
             </div>    
             <div className="h-auto px-1 py-1 w-auto box-border border-4 border-red-500">
@@ -60,14 +62,16 @@ export const Post_userfavoritepane = props => {
     }
     return (
         <div className="w-72 h-88 bg-red-100 box-border border-2 border-black">
-            <div className="h-64 w-64 mx-auto my-2 bg-green-100"><a href="#" onClick={clickHandle}>{props.data.path}</a></div>
+            <div className="h-64 w-64 mx-auto my-2 bg-green-100">
+                <NavLink to={`/illust/${props.data.illust_id}`}>{props.data.path}</NavLink>
+            </div>
             <div className="h-auto w-full box-border border-4 border-red-500">
                 <div className="w-full text-xs box-border border-4 border-yellow-400">
                     <h5 className="text-lg">{props.data.title}</h5>
                 </div>
-                <div className="flex flex-row">
-                <a href="" className="inset-x-0 bottom-0 btn btn-primary">favorite</a>
-                <NavLink to={`/user/${props.data.user_id}/detail`} className="inline-block w-full mx-1 my-1" onClick={props.userUnMount}>GoToUser</NavLink>
+                <div className="flex flex-between justify-center content-center">
+                    <button href="#" className="btn btn-primary">favorite</button>
+                    <NavLink to={`/user/${props.data.user_id}/detail`} className="inline-block w-full mx-1 my-1" onClick={props.userUnMount}>GoToUser</NavLink>
                 </div>
             </div>
        </div>
@@ -82,14 +86,16 @@ export const Post_userdrawingpane = props => {
     }
     return (
         <div className="w-72 h-96 bg-red-100 box-border border-2 border-black">
-            <div className="h-64 w-64 mx-auto my-2 bg-green-100"><a onClick={clickHandle}>{props.data.path}</a></div>
+            <div className="h-64 w-64 mx-auto my-2 bg-green-100">
+                <NavLink to={`/illust/${props.data.id}`}>{props.data.path}</NavLink>
+            </div>
             <div className="box-border border-4 border-red-500 card-body">
                 <h5 className="text-lg">{props.data.title}</h5>
                 <div className="w-full text-xs box-border border-4 border-yellow-400">
                     <p className="w-full break-words xs">{props.data.description}</p>
                 </div>
                 
-                <a href="#" className="btn btn-primary">favorite</a>
+                <button href="#" className="btn btn-primary">favorite</button>
             </div>
         </div>
     );

@@ -178,13 +178,29 @@ class UserController extends Controller
     
     public function fetch_userdetails(Request $request){
         $user_id = request()->id;
-        $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["illust_id","path","title","illusts.user_id"])->limit(3)->get();
-        $comments = User::find($user_id)->comments()->orderBy('created_at', 'desc')->select(["id","illust_id", "comment", "user_id"])->limit(3)->get();
+        $c_data = array();
+        $_comment = array();
+        $count = 0;
+        
+        $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["favorites.id", "illust_id","path","title","illusts.user_id"])->limit(3)->get();
+        
+        $comments = COmment::where('user_id', $user_id)->orderBy('created_at', 'desc')->select(["id","illust_id", "comment", "user_id"])->limit(3)->get();
+        
+        if($comments->count()>0){
+                foreach ($comments as $comment){
+                    $_comment = array_merge($comment->toArray(), Illust::where('id', $comment->illust_id)->first()->toArray());
+                    $c_data[$count] = $_comment;
+                    $count += 1;
+                }
+            }
+        
+        
         $illusts = Illust::where('user_id', request()->id)->orderBy('created_at', 'desc')->select(["id","path","title"])->limit(3)->get();
+        
         return response([
                         "ills" => $illusts,
                         "favs" => $favorites,
-                        "coms" => $comments,
+                        "coms" => $c_data,
                         ]);
         
     }
@@ -253,7 +269,7 @@ class UserController extends Controller
         
         if(request()->count == 0){
             
-            $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["illust_id","path","title","illusts.user_id"])->limit(10)->get();
+            $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["id","illust_id","path","title","illusts.user_id"])->limit(10)->get();
 
             if($favorites->count() < 10){
                 $isfull = true;
