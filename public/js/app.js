@@ -2272,7 +2272,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Api_FetchTimeLineData": () => (/* binding */ Api_FetchTimeLineData),
 /* harmony export */   "Api_FetchTimeLineData_Reflesh": () => (/* binding */ Api_FetchTimeLineData_Reflesh),
 /* harmony export */   "Api_FetchIllust_Detail": () => (/* binding */ Api_FetchIllust_Detail),
-/* harmony export */   "Api_FetchComment_Detail": () => (/* binding */ Api_FetchComment_Detail)
+/* harmony export */   "Api_FetchComment_Detail": () => (/* binding */ Api_FetchComment_Detail),
+/* harmony export */   "Api_AddToFavorite": () => (/* binding */ Api_AddToFavorite),
+/* harmony export */   "Api_AddComment": () => (/* binding */ Api_AddComment),
+/* harmony export */   "Api_Test": () => (/* binding */ Api_Test)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
@@ -2526,8 +2529,6 @@ var Api_FetchIllust_Detail = function Api_FetchIllust_Detail(illust_id, setIllus
       ongoing12 = false;
     });
   }
-
-  console.log("Fetch Illust!!!!");
 };
 var ongoing13 = false;
 var Api_FetchComment_Detail = function Api_FetchComment_Detail(illust_id, count, setCommentData) {
@@ -2546,10 +2547,49 @@ var Api_FetchComment_Detail = function Api_FetchComment_Detail(illust_id, count,
       ongoing13 = false;
     });
   }
-
-  console.log("Fetch Comments!!!!");
 }; // add to favorite  add to favorite  add to favorite  add to favorite  add to favorite  add to favorite  add to favorite  add to favorite  add to favorite 
-// add comment to an illust  add comment to an illust  add comment to an illust  add comment to an illust  add comment to an illust  add comment to an illust
+
+var ongoing14 = false;
+var Api_AddToFavorite = function Api_AddToFavorite(illust_id, user_id) {
+  if (ongoing14 == false) {
+    ongoing14 = true;
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/addfavorite', {
+      'il_id': illust_id,
+      'us_id': user_id
+    }).then(function (res) {
+      ongoing14 = false;
+    })["catch"](function (e) {
+      console.log(e.response);
+      ongoing14 = false;
+    });
+  }
+}; // add comment to an illust  add comment to an illust  add comment to an illust  add comment to an illust  add comment to an illust  add comment to an illust 
+
+var ongoing15 = false;
+var Api_AddComment = function Api_AddComment(illust_id, user_id, comment) {
+  if (ongoing15 == false) {
+    ongoing15 = true;
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/addcomment', {
+      'il_id': illust_id,
+      'us_id': user_id,
+      'comment': comment
+    }).then(function (res) {
+      ongoing15 = false;
+    })["catch"](function (e) {
+      console.log(e.response);
+      ongoing15 = false;
+    });
+  }
+};
+var Api_Test = function Api_Test() {
+  axios__WEBPACK_IMPORTED_MODULE_0___default().get('/test').then(function (res) {
+    console.log(res);
+    ongoing15 = false;
+  })["catch"](function (e) {
+    console.log(e.response);
+    ongoing15 = false;
+  });
+};
 
 /***/ }),
 
@@ -3026,12 +3066,21 @@ var Header = /*#__PURE__*/function (_React$Component) {
   var _super = _createSuper(Header);
 
   function Header(props) {
+    var _this;
+
     _classCallCheck(this, Header);
 
-    return _super.call(this, props);
+    _this = _super.call(this, props);
+    _this.clickHandle = _this.clickHandle.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(Header, [{
+    key: "clickHandle",
+    value: function clickHandle() {
+      (0,_api_Api__WEBPACK_IMPORTED_MODULE_1__.Api_Test)();
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("nav", {

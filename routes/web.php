@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\IllustController;
 
+Route::get("/test", [UserController::class, 'test']);
+
 Route::post("/fetch_userdata", [UserController::class, 'fetch_userdata']);
 
 Route::post("/fetch_timeineillusts", [IllustController::class, 'fetch_timelineillusts']);

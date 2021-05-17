@@ -226,6 +226,11 @@ class UserController extends Controller
         return DB::table('users')->where('token', $token)->exists();
     }
     
+    public function test(Request $request){
+        $answer = DB::table('users')->where('email',"asas@asas")->exists();
+        return response(["ans"=> $answer]);
+    }
+    
     private function isTokenValid($token){ //bool
         $user = User::where('token', $token)->first();
         $carbon_expire = $user->token_created_at;
@@ -243,6 +248,12 @@ class UserController extends Controller
     
     private function getUser($id){ //user
         return User::where('id', $id)->first();
+    }
+    
+    private function isMe($token, $id){
+        $db_token = User::where('id', $id)->select(['token'])->get()->toArray();
+        
+        return $token == $db_token['token'];
     }
     
     //private function refreshToken($id){
@@ -292,8 +303,31 @@ class UserController extends Controller
                         ]);
     }
     
+    
+    public function add_to_favorite(Request $request){
+        $user_id = request()->us_id;
+        $illust_id = request()->il_id;
+        $token = Cookie::get('my_token');
+        if($this->isUserExists($id) && $this->isTokenExists($token)){
+            if($this->isTokenValid($token) && $this->isMe($token, $user_id)){
+                $user = User::where('id', $user_id)->first();
+                if(is_favorited($user, $illust_id)){
+                    $user->favorited_illusts()->detach($illust_id);
+                }else{
+                    $user->favorited_illusts()->attach($illust_id);
+                }
+            }
+        }
+        
+    }
+    
     //=============================================================================================================
     //privates
+    
+    private function is_favorited($user, $illust_id){
+        return $user->favorited_illusts()->where('illust_id', $illust_id)->exists();
+    }
+    
     
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
     //comment 関係
@@ -346,6 +380,13 @@ class UserController extends Controller
                         "comment_data" => $comments,
                         "isfull" => $isfull,
                         ]);
+    }
+    
+    
+    public function add_comment(Request $request){
+        
+        $comment = new Comment;
+        
     }
     
     //=============================================================================================================

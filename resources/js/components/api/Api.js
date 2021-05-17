@@ -266,7 +266,6 @@ export const Api_FetchIllust_Detail = (illust_id, setIllustData) => {
                     ongoing12 = false;
                 })
     }
-    console.log("Fetch Illust!!!!");
 }
 
 let ongoing13 = false
@@ -285,10 +284,52 @@ export const Api_FetchComment_Detail = (illust_id, count, setCommentData) => {
                     ongoing13 = false;
                 })
     }
-    console.log("Fetch Comments!!!!");
 }
 
 
 // add to favorite  add to favorite  add to favorite  add to favorite  add to favorite  add to favorite  add to favorite  add to favorite  add to favorite 
 
+let ongoing14 = false
+export const Api_AddToFavorite = (illust_id, user_id) => {
+    if(ongoing14 == false){
+        ongoing14 = true;
+        axios.post('api/addfavorite', {'il_id': illust_id, 'us_id':user_id})
+                .then(res =>{
+                    ongoing14 = false;
+                })
+                .catch(e=>{
+                    console.log(e.response);
+                    ongoing14 = false;
+                })
+    }
+}
+
 // add comment to an illust  add comment to an illust  add comment to an illust  add comment to an illust  add comment to an illust  add comment to an illust 
+
+let ongoing15 = false
+export const Api_AddComment = (illust_id, user_id, comment) => {
+    if(ongoing15 == false){
+        ongoing15 = true;
+        axios.post('api/addcomment', {'il_id': illust_id, 'us_id':user_id, 'comment':comment})
+                .then(res =>{
+                    ongoing15 = false;
+                })
+                .catch(e=>{
+                    console.log(e.response);
+                    ongoing15 = false;
+                })
+    }
+}
+
+
+export const Api_Test = () => {
+    axios.get('/test')
+            .then(res =>{
+                console.log(res);
+                ongoing15 = false;
+            })
+            .catch(e=>{
+                console.log(e.response);
+                ongoing15 = false;
+            })
+}

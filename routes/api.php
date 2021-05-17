@@ -15,6 +15,8 @@ use App\Http\Controllers\IllustController;
 |
 */
 
+Route::get("/test", [UserController::class, 'test']);
+
 //登録、ログイン、ログアウト
 Route::post("/signup", [UserController::class, 'signup']);
 Route::get("/login_init",[UserController::class, 'login_init']);
@@ -26,8 +28,9 @@ Route::post("/fetch_timeineillusts", [IllustController::class, 'fetch_timelineil
 Route::post("/fetch_userdata", [UserController::class, 'fetch_userdata']);
 Route::post("/fetch_userfavorites", [UserController::class, 'fetch_userfavorites']);
 Route::post("/fetch_usercomments", [UserController::class, 'fetch_usercomments']);
-Route::post("/test", [UserController::class, 'test']);
 
+Route::post("/addfavorite", [UserController::class, 'add_to_favorite']);
+Route::post("/addcomment", [UserController::class, 'add_comment']);
 
 Route::get("/isLoggedIn", [UserController::class, 'isLoggedIn']);
 
