@@ -68,15 +68,15 @@ export default class UserDetailPane extends React.Component {
                 (<div className="w-full pt-2 sm:pt-4 px-2 sm:px-4 pb-2">
                     <p>UserIllusts</p>
                     <div className="w-full flex flex-row justify-around gap-1 sm:gap-2 md:gap-4 bg-red-300">{/*toukousakuhinn*/}
-                        {this.state.loaded_illusts.map(n => <Post_userdrawingpane key={n.id} data={n} />)}
+                        {this.state.loaded_illusts.map(n => <Post_userdrawingpane key={n.id} user_id={this.props.user_data.id} data={n} />)}
                     </div>
                     <p>UserFavoritedIllusts</p>
                     <div className="w-full flex flex-row justify-around gap-1 sm:gap-2 md:gap-4 bg-red-500">{/*okiniiri*/}
-                        {this.state.loaded_favorites.map(n => <Post_userfavoritepane key={n.id} data={n} userUnMount={this.props.userUnMount} />)}
+                        {this.state.loaded_favorites.map(n => <Post_userfavoritepane key={n.id} data={n} user_id={this.props.user_data.id} userUnMount={this.props.userUnMount} />)}
                     </div>
                     <p>UserComments</p>
                     <div className="w-full flex flex-row justify-around gap-1 sm:gap-2 md:gap-4 bg-red-500">{/*okiniiri*/}
-                        {this.state.loaded_comments.map(n => <Post_usercommentpane key={n.id} data={n} userUnMount={this.props.userUnMount} />)}
+                        {this.state.loaded_comments.map(n => <Post_usercommentpane key={n.id} data={n} user_id={this.props.user_data.id} userUnMount={this.props.userUnMount} />)}
                     </div>
                 </div>)
                 }

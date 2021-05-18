@@ -40,7 +40,7 @@ export const Post_Timeline = React.memo(props => {
 export const Post_usercommentpane = React.memo(props => {
     const clickHandle = (e) => {
         e.preventDefault();
-        Api_AddToFavorite(props.data.id, props.user_id)
+        Api_AddToFavorite(props.data.illust_id, props.user_id)
     }
     
     return (
@@ -64,13 +64,13 @@ export const Post_usercommentpane = React.memo(props => {
 export const Post_userfavoritepane = props => {
     const clickHandle = (e) => {
         e.preventDefault();
-        Api_AddToFavorite(props.data.id, props.user_id)
+        Api_AddToFavorite(props.data.illust_id, props.user_id)
     }
     
     return (
         <div className="w-72 h-88 bg-red-100 box-border border-2 border-black">
             <div className="h-64 w-64 mx-auto my-2 bg-green-100">
-                <NavLink to={`/illust/${props.data.illust_id}`}>{props.data.path}</NavLink>
+                <NavLink to={`/illust/${props.data.illust_id}`} className="truncate break-all">{props.data.path}</NavLink>
             </div>
             <div className="h-auto w-full box-border border-4 border-red-500">
                 <div className="w-full text-xs box-border border-4 border-yellow-400">
@@ -96,7 +96,7 @@ export const Post_userdrawingpane = props => {
     return (
         <div className="w-72 h-96 bg-red-100 box-border border-2 border-black">
             <div className="h-64 w-64 mx-auto my-2 bg-green-100">
-                <NavLink to={`/illust/${props.data.id}`}>{props.data.path}</NavLink>
+                <NavLink to={`/illust/${props.data.id}`} className="truncate break-all">{props.data.path}</NavLink>
             </div>
             <div className="box-border border-4 border-red-500 card-body">
                 <h5 className="text-lg">{props.data.title}</h5>

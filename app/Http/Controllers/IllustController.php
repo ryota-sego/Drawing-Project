@@ -58,15 +58,17 @@ class IllustController extends Controller
     }
     
     public function store_illust_blob(Request $request){
+        
         $token = Cookie::get('my_token');
         $user = User::get_me($token);
         $illust = $user->illusts()
                         ->create([
-                            'title' => "test",
+                            'title' => request()->get("title"),
+                            'description' => request()->get("description"),
                             'path' => request()->get('drawing'),
                         ]);
                         
-        return response(['answer' => $illust->path]);
+        return response(['answer' => $illust]);
     }
     
     public function fetch_userillusts(Request $request){
@@ -98,12 +100,6 @@ class IllustController extends Controller
     
     
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    
-                    //$_comment_with_key = array();
-                    //$_comments = $illust->comments()->orderBy('created_at', "desc")->limit(5)->select(['id','comment', 'user_id'])->get();
-                    //$_comment_with_key["comment"] = $_comments->toArray();
-                    //$p_data[$count] = array_merge($illust->toArray(), $_comment_with_key);
-                    //$count += 1;
     
     public function fetch_timelineillusts(Request $request){
         $isfull = false;

@@ -32063,11 +32063,6 @@ textarea {
   padding-bottom: 12rem;
 }
 
-.canvas-manipuration {
-  height: 500px;
-  width: 500px;
-}
-
 .post-timeline:hover + .comment-timeline {
   display: block;
 }

@@ -210,7 +210,7 @@ class UserController extends Controller
         
         if($comments->count()>0){
                 foreach ($comments as $comment){
-                    $_comment = array_merge($comment->toArray(), Illust::where('id', $comment->illust_id)->first()->toArray());
+                    $_comment = array_merge($comment->toArray(), Illust::where('id', $comment->illust_id)->select(["path","title"])->first()->toArray());
                     $c_data[$count] = $_comment;
                     $count += 1;
                 }
@@ -401,7 +401,7 @@ class UserController extends Controller
         }
         
         return response([
-                        "comment_data" => $comments,
+                        "comment_data" => $c_data,
                         "isfull" => $isfull,
                         ]);
     }

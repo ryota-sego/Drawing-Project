@@ -1,18 +1,12 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
 
-import { Api_Logout, Api_AddToFavorite, Api_AddComment } from '../api/Api';
+import { Api_Logout } from '../api/Api';
 
 export default class Header extends React.Component{
     
     constructor(props){
         super(props);
-        this.clickHandle = this.clickHandle.bind(this)
-    }
-    
-    clickHandle(){
-        //Api_AddToFavorite(120, 16);
-        Api_AddComment(120, 16, "goodgood");
     }
     
     render(){
@@ -24,9 +18,6 @@ export default class Header extends React.Component{
                         <LeftHeaderComponent isGuest={this.props.guest} />
         {/* +++++++中央の要素++++++++ */}
                         <div className="bg-red-500 ">
-                            <div className="flex-shrink-0 flex items-baseline">
-                                <button onClick={this.clickHandle}>Test</button>
-                            </div>
                             <div className="flex-shrink-0 flex items-baseline">
                                 <p className="text-white text-center max-w-2xl text-xl overflow-clip">Drawing Project</p>
                             </div>

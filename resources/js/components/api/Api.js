@@ -75,13 +75,14 @@ export function Api_Signup(email, name, password, setIsGuest){
 // illust     illust     illust     illust     illust     illust     illust     illust     illust     illust    
 
 let ongoing5 = false
-export function Api_StoreIllust_blob(blobed_drawing){
+export function Api_StoreIllust_url(title, description, urled_cnv){
      if(ongoing5 === false){
         ongoing5 = true    
-        const drawing_to_json = JSON.stringify(blobed_drawing);
-        axios.post('api/store_illust_blob', {'drawing': drawing_to_json})
+        //const drawing_to_json = JSON.stringify(blobed_drawing);
+        axios.post('api/store_illust_blob', {'title':title,'description': description, 'drawing': urled_cnv})
                     .then(res => {
                         console.log("successfully stored")
+                        console.log(res.data);
                         ongoing5 = false
                     })
                     .catch(e => {

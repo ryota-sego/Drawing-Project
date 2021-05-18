@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Sketch from "react-p5";
 import Blob from "cross-blob";
+import { Redirect } from "react-router-dom";
+
 
 import SidePane from '../common/SidePane';
 
-import { Api_StoreIllust_blob } from '../api/Api'
+import { Api_StoreIllust_url } from '../api/Api'
+import PopupBeforeSubmit from './PopupBeforeSubmit'
 
 
 //システムTier1（ピクセル単位でのカラーリングではなく、色と位置に応じたカラーリング(消しゴム不可)）
@@ -58,13 +61,17 @@ export default class WrapDrawingPage extends React.Component {
             'drawing':[],
             'drawing_blob':null,
             'canvas': null,
-            
+            'before_submit':false
         }
+        
         this.illustStore_blob = this.illustStore_blob.bind(this)
         this.setDrawing = this.setDrawing.bind(this)
         this.setColor = this.setColor.bind(this)
         this.setTool = this.setTool.bind(this)
         this.saveCanvas = this.saveCanvas.bind(this)
+        
+        this.closePopup = this.closePopup.bind(this);
+        this.showPopup = this.showPopup.bind(this)
     }
     
     setDrawing(line){
@@ -75,14 +82,22 @@ export default class WrapDrawingPage extends React.Component {
     	console.log(this.state.drawing.length);
     }
     
+    showPopup(){
+    	this.setState({before_submit:true})
+    }
+    
+    closePopup(){
+    	this.setState({before_submit:false});
+    }
+    
     saveCanvas(){
     	SAVECANVAS = true;
     }
     
-    async illustStore_blob(){//base64 dataurl
-    	const blobed_cnv = await getBlobedCnv();
-    	console.log(blobed_cnv);
-    	await Api_StoreIllust_blob(blobed_cnv);
+    illustStore_blob(title, description){//base64 dataurl
+    	const urled_cnv = getBlobedCnv();
+    	console.log(urled_cnv);
+    	Api_StoreIllust_url(title, description, urled_cnv);
     }
     
     setColor(c){
@@ -96,9 +111,17 @@ export default class WrapDrawingPage extends React.Component {
     }
     
     render(){
+    	if(this.props.match.params.illust_id !== null && this.props.guest){
+    		return <Redirect to="/home" />
+    	}
+    	
+    	
+    	
         return(
             <div id="drawing_page_wrap" className="wrap-page-share border-b-2 w-full h-full border-black">
-            	<div className="px-2 py-4 h-full w-full bg-blue-500">
+            	
+            	<div className="relative px-2 py-4 h-full w-full bg-blue-500">
+            		{this.state.before_submit?<PopupBeforeSubmit user_id={this.props.user_data.id} closePopup={this.closePopup} submitIllust={this.illustStore_blob} />: <div className="hidden"></div>}
 			    	<div className="mb-3 border-4 border-black flex">
 			            <div className="w-3/4 flex flex-row justify-around content-center bg-blue-200">
 			                <div className="w-40">
@@ -109,7 +132,7 @@ export default class WrapDrawingPage extends React.Component {
 			                </div>
 			            </div>
 			            <div className="w-1/4 flex flex-row justify-around content-center bg-blue-400">
-			            	<button className="py-3 px-2 bg-red-500" onClick={this.illustStore_blob}>保存する</button>
+			            	<button className="py-3 px-2 bg-red-500" onClick={this.showPopup}>保存へ進む</button>
 			            </div>
 	                </div>
 	                <div className="flex flex-row justify-center md:justify-between content-center border-2 border-red min-width-550">
@@ -190,7 +213,7 @@ const SketchP5 = (props) => {
 	const setup = (p5, canvasParentRef) => {
 		// use parent to render the canvas in this ref
 		// (without that p5 will render the canvas outside of your component)
-		const canvas = p5.createCanvas(1000, 1000).parent(canvasParentRef);
+		const canvas = p5.createCanvas(500, 500).parent(canvasParentRef);
 		canvas.style('height', '500px');
 		canvas.style('width', '500px');
 		canvas.mousePressed(startPath);

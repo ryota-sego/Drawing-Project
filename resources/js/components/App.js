@@ -85,6 +85,8 @@ class App extends React.Component {
                     <Switch>
 {/*drawing page*/}
                         <Route exact path="/home" render={(routeProps)=> <WrapDrawingPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
+{/*edit page*/}
+                        <Route exact path="/home/:illust_id" render={(routeProps)=> <WrapDrawingPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
 {/*timeline page*/}
                         <Route path="/timeline" render={(routeProps)=> <WrapTimelinePage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
 {/*detail page*/}
