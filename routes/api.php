@@ -29,8 +29,7 @@ Route::post("/fetch_userdata", [UserController::class, 'fetch_userdata']);
 Route::post("/fetch_userfavorites", [UserController::class, 'fetch_userfavorites']);
 Route::post("/fetch_usercomments", [UserController::class, 'fetch_usercomments']);
 
-Route::post("/addfavorite", [UserController::class, 'add_to_favorite']);
-Route::post("/addcomment", [UserController::class, 'add_comment']);
+
 
 Route::get("/isLoggedIn", [UserController::class, 'isLoggedIn']);
 

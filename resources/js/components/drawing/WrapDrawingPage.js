@@ -191,7 +191,8 @@ const SketchP5 = (props) => {
 		// use parent to render the canvas in this ref
 		// (without that p5 will render the canvas outside of your component)
 		const canvas = p5.createCanvas(1000, 1000).parent(canvasParentRef);
-		canvas.addClass('canvas-manipuration');
+		canvas.style('height', '500px');
+		canvas.style('width', '500px');
 		canvas.mousePressed(startPath);
 		canvas.mouseReleased(endPath);
 		started = false;

@@ -2553,10 +2553,11 @@ var ongoing14 = false;
 var Api_AddToFavorite = function Api_AddToFavorite(illust_id, user_id) {
   if (ongoing14 == false) {
     ongoing14 = true;
-    axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/addfavorite', {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post('/addfavorite', {
       'il_id': illust_id,
       'us_id': user_id
     }).then(function (res) {
+      console.log(res);
       ongoing14 = false;
     })["catch"](function (e) {
       console.log(e.response);
@@ -2569,11 +2570,12 @@ var ongoing15 = false;
 var Api_AddComment = function Api_AddComment(illust_id, user_id, comment) {
   if (ongoing15 == false) {
     ongoing15 = true;
-    axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/addcomment', {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post('/addcomment', {
       'il_id': illust_id,
       'us_id': user_id,
       'comment': comment
     }).then(function (res) {
+      console.log(res);
       ongoing15 = false;
     })["catch"](function (e) {
       console.log(e.response);
@@ -3078,7 +3080,8 @@ var Header = /*#__PURE__*/function (_React$Component) {
   _createClass(Header, [{
     key: "clickHandle",
     value: function clickHandle() {
-      (0,_api_Api__WEBPACK_IMPORTED_MODULE_1__.Api_Test)();
+      //Api_AddToFavorite(120, 16);
+      (0,_api_Api__WEBPACK_IMPORTED_MODULE_1__.Api_AddComment)(120, 16, "goodgood");
     }
   }, {
     key: "render",
@@ -3091,15 +3094,21 @@ var Header = /*#__PURE__*/function (_React$Component) {
             className: "h-full w-full flex justify-between items-center border-b-2 border-gray-100 md:space-x-10",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(LeftHeaderComponent, {
               isGuest: this.props.guest
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
               className: "bg-red-500 ",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                className: "flex-shrink-0 flex items-baseline",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                  onClick: this.clickHandle,
+                  children: "Test"
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
                 className: "flex-shrink-0 flex items-baseline",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
                   className: "text-white text-center max-w-2xl text-xl overflow-clip",
                   children: "Drawing Project"
                 })
-              })
+              })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(RightHeaderComponent, {
               isGuest: this.props.guest,
               setGuest: this.props.setGuest,
@@ -4117,7 +4126,8 @@ var SketchP5 = function SketchP5(props) {
     // use parent to render the canvas in this ref
     // (without that p5 will render the canvas outside of your component)
     var canvas = p5.createCanvas(1000, 1000).parent(canvasParentRef);
-    canvas.addClass('canvas-manipuration');
+    canvas.style('height', '500px');
+    canvas.style('width', '500px');
     canvas.mousePressed(startPath);
     canvas.mouseReleased(endPath);
     started = false;

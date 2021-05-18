@@ -32050,6 +32050,8 @@ nav {
 }
 
 .canvas-manipuration {
+  height: 500px;
+  width: 500px;
 }
 
 .post-timeline:hover + .comment-timeline {

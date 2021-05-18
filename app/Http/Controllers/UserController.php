@@ -31,6 +31,28 @@ class UserController extends Controller
     //signin/login状態の管理には、token(cookie)、id(user)を利用する。
     // dbtableを編集した後は、必ずsave()!!
     // $request->cookie('cookie_name') == Cookie::get('cookie_name')
+        
+        //テンプレ
+        
+        //$user_id = request()->user_id;
+        //$token = Cookie::get('my_token');
+        //
+        //if($this->isUserExists($user_id) && $this->isTokenExists($token)){ //check a token, a user
+        //
+        //    if($this->isTokenValid($token) && $this->isMe($token, $user_id)){ // check token valid?, user-token's relation
+        //    
+        //        //============main function===========
+        //        
+        //        return response(['message'=>'success',
+        //                        ]);
+        //    }
+        // 
+        //    //===========when token invalid or token is not related to requested user================
+        //    return response(['message'=>'token validation fail or ur token and id have no relation']);
+        //}
+        //
+        // //when user or token doesn't exists
+        //return response(['message'=>'user or token doesn`t exists']);
     
     public function signup(Request $request){
 
@@ -251,9 +273,8 @@ class UserController extends Controller
     }
     
     private function isMe($token, $id){
-        $db_token = User::where('id', $id)->select(['token'])->get()->toArray();
-        
-        return $token == $db_token['token'];
+        $db_token = User::where('id', $id)->first()->token;
+        return $token == $db_token;
     }
     
     //private function refreshToken($id){
@@ -308,17 +329,20 @@ class UserController extends Controller
         $user_id = request()->us_id;
         $illust_id = request()->il_id;
         $token = Cookie::get('my_token');
-        if($this->isUserExists($id) && $this->isTokenExists($token)){
-            if($this->isTokenValid($token) && $this->isMe($token, $user_id)){
-                $user = User::where('id', $user_id)->first();
-                if(is_favorited($user, $illust_id)){
-                    $user->favorited_illusts()->detach($illust_id);
-                }else{
-                    $user->favorited_illusts()->attach($illust_id);
-                }
-            }
-        }
         
+        if($this->isUserExists($user_id) && $this->isTokenExists($token)){ //check a token, a user
+        
+            if($this->isTokenValid($token) && $this->isMe($token, $user_id)){ // check token valid?, user-token relation
+            
+                //============main function===========
+                $user = User::where('id', $user_id)->first();
+                $user->favorited_illusts()->toggle([$illust_id]);
+                
+                return response(['message'=>'success']);
+            }
+            return response(['message'=>'token validation fail or ur token and id have no relation']);
+        }
+        return response(['message'=>'user or token doesn`t exists']);
     }
     
     //=============================================================================================================
@@ -384,9 +408,29 @@ class UserController extends Controller
     
     
     public function add_comment(Request $request){
+        $user_id = request()->us_id;
+        $illust_id = request()->il_id;
+        $token = Cookie::get('my_token');
         
-        $comment = new Comment;
+        if($this->isUserExists($user_id) && $this->isTokenExists($token)){ //check a token, a user
         
+            if($this->isTokenValid($token) && $this->isMe($token, $user_id)){ // check token valid?, user-token relation
+            
+                //============main function===========
+                $comment = new Comment;
+                $comment->user_id = $user_id;
+                $comment->illust_id = $illust_id;
+                $comment->comment = request()->comment;
+                
+                $comment->save();
+                
+                return response(['message'=>'success',
+                                 'comment'=>$comment,
+                                ]);
+            }
+            return response(['message'=>'token validation fail or ur token and id have no relation']);
+        }
+        return response(['message'=>'user or token doesn`t exists']);
     }
     
     //=============================================================================================================

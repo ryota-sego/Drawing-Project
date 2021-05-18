@@ -1,32 +1,4 @@
-要対応
-ok:DidMountにおけるapiリクエストで、データを取得できない
 
-headerのアイコンから、自身の詳細ページへの遷移リンクをポップアップで表示する。
-
-
-
-npm run watchが動かないとき
-  
-nvm alias default v12.16.1  
-  
-npm i  
-  
-npm run watch  
-  
-  
-CSSの読み込み  
-<link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
-Routingは、laravelで行う。
-
-Reactでの表示処理は、　　
-Axiosでリクエスト⇒DB更新/Validエラー⇒結果を受け取る⇒表示の処理　　
-
-[Http/Kernel.php]  
-jsからのアピ利用 https://laravel.com/docs/8.x/passport#consuming-your-api-with-javascript Consuming Your API With JavaScript
-            \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,  
-  
-npm  run build -prod  
 
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>

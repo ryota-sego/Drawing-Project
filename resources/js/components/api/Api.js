@@ -293,8 +293,9 @@ let ongoing14 = false
 export const Api_AddToFavorite = (illust_id, user_id) => {
     if(ongoing14 == false){
         ongoing14 = true;
-        axios.post('api/addfavorite', {'il_id': illust_id, 'us_id':user_id})
+        axios.post('/addfavorite', {'il_id': illust_id, 'us_id':user_id})
                 .then(res =>{
+                    console.log(res);
                     ongoing14 = false;
                 })
                 .catch(e=>{
@@ -310,8 +311,9 @@ let ongoing15 = false
 export const Api_AddComment = (illust_id, user_id, comment) => {
     if(ongoing15 == false){
         ongoing15 = true;
-        axios.post('api/addcomment', {'il_id': illust_id, 'us_id':user_id, 'comment':comment})
+        axios.post('/addcomment', {'il_id': illust_id, 'us_id':user_id, 'comment':comment})
                 .then(res =>{
+                    console.log(res);
                     ongoing15 = false;
                 })
                 .catch(e=>{

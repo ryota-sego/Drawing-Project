@@ -6,6 +6,9 @@ use App\Http\Controllers\IllustController;
 
 Route::get("/test", [UserController::class, 'test']);
 
+Route::post("/addfavorite", [UserController::class, 'add_to_favorite']);
+Route::post("/addcomment", [UserController::class, 'add_comment']);
+
 Route::post("/fetch_userdata", [UserController::class, 'fetch_userdata']);
 
 Route::post("/fetch_timeineillusts", [IllustController::class, 'fetch_timelineillusts']);
