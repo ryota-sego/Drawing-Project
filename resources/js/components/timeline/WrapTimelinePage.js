@@ -89,7 +89,7 @@ export default class WrapTimelinePage extends React.Component {
                 </div>
                 <div className="box-border timeline-main w-full flex flex-row justify-center md:justify-between content-center">
                     <div id="scrolll" className="h-full w-full py-2 sm:py-4 px-2 sm:px-4 flex flex-wrap justify-around content-start overflow-auto gap-1 sm:gap-2 md:gap-4 pd-2 bg-green-900" onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
-                        {this.state.loaded_posts.length? this.state.loaded_posts.map(n => <Post_Timeline key={n.id} data={n} />) : <Loading />}
+                        {this.state.loaded_posts.length? this.state.loaded_posts.map(n => <Post_Timeline key={n.id} data={n} user_id={this.props.user_data.id} />) : <Loading />}
                     </div>
                 </div>
             </div>

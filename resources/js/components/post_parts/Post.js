@@ -6,29 +6,32 @@ import {
 
 import { Comment_Timeline } from './Comment';
 
+import { Api_AddToFavorite } from '../api/Api';
+
 //<NavLink to={`${props.base_url}/comments`} className="inline-block w-full mx-1 my-1 ">コメント</NavLink>
 
 export const Post_Timeline = React.memo(props => {
     const clickHandle = (e) => {
         e.preventDefault();
+        Api_AddToFavorite(props.data.id, props.user_id)
     }
     
     return (
-        <div className="relative w-72 h-96">
+        <NavLink to={`/illust/${props.data.id}`} className="relative w-72 h-96">
             <div className="absolute inset-0 post-timeline overflow-hidden w-72 h-96 bg-red-100 box-border border-2 border-black">
                 <div className="h-64 w-64 mx-auto my-2 bg-green-100"><a onClick={clickHandle}>{props.data.path}</a></div>
                 <div className="box-border border-4 border-red-500 card-body">
                     <h5 className="text-lg">{props.data.title}</h5>
-                    <p>User: {props.data.user_id}</p>
-                    <a href="#" className="btn btn-primary">favorite</a>
+                    <p>User: {props.data[0].name}</p>
+                    <a onClick={clickHandle} href="" className="block btn btn-primary h-8 w-16 bg-blue-100 z-50">favorite</a>
                 </div>
             </div>
-            <div className="absolute inset-0 bg-opacity-70 hidden comment-timeline w-72 h-96 bg-red-100 box-border border-2 border-black">
+            <div className="absolute inset-x-0 top-0 bg-opacity-70 hidden comment-timeline w-72 h-76 bg-red-100 box-border">
                 <div className="overflow-auto h-full w-full">
                     {props.data.comment.length? props.data.comment.map(n=> <Comment_Timeline key={n.id} comment={n.comment} />): <p className="py-1 px-2 break-words bg-white box-border border-2 border-green-500">No Comments</p>}
                 </div>
             </div>
-        </div>
+        </NavLink>
     );
 },(prev, next)=>{return true})
 
@@ -37,7 +40,9 @@ export const Post_Timeline = React.memo(props => {
 export const Post_usercommentpane = React.memo(props => {
     const clickHandle = (e) => {
         e.preventDefault();
+        Api_AddToFavorite(props.data.id, props.user_id)
     }
+    
     return (
         <div className="w-80 h-48 bg-red-100 box-border border-2 border-black flex flex-row">
             <div className="w-36 h-auto">
@@ -45,11 +50,11 @@ export const Post_usercommentpane = React.memo(props => {
                     <NavLink to={`/illust/${props.data.illust_id}`}>{props.data.path}</NavLink>
                 </div>
                 <div className="flex flex-between justify-center content-center">
-                    <button href="#" className="btn btn-primary">favorite</button>
+                    <a onClick={clickHandle} href="" className="block btn btn-primary h-8 w-16 bg-blue-100 z-50">favorite</a>
                     <NavLink to={`/user/${props.data.user_id}/detail`} className="inline-block w-full mx-1 my-1" onClick={props.userUnMount}>UserPage</NavLink>
                 </div>
             </div>    
-            <div className="h-auto px-1 py-1 w-auto box-border border-4 border-red-500">
+            <div className="h-auto px-1 py-1 usercomment box-border border-4 border-red-500">
                     <p className="w-full break-words text-sm">{props.data.comment}</p>
             </div>
         </div>
@@ -59,7 +64,9 @@ export const Post_usercommentpane = React.memo(props => {
 export const Post_userfavoritepane = props => {
     const clickHandle = (e) => {
         e.preventDefault();
+        Api_AddToFavorite(props.data.id, props.user_id)
     }
+    
     return (
         <div className="w-72 h-88 bg-red-100 box-border border-2 border-black">
             <div className="h-64 w-64 mx-auto my-2 bg-green-100">
@@ -70,7 +77,7 @@ export const Post_userfavoritepane = props => {
                     <h5 className="text-lg">{props.data.title}</h5>
                 </div>
                 <div className="flex flex-between justify-center content-center">
-                    <button href="#" className="btn btn-primary">favorite</button>
+                    <a onClick={clickHandle} href="" className="block btn btn-primary h-8 w-16 bg-blue-100 z-50">favorite</a>
                     <NavLink to={`/user/${props.data.user_id}/detail`} className="inline-block w-full mx-1 my-1" onClick={props.userUnMount}>GoToUser</NavLink>
                 </div>
             </div>
@@ -83,7 +90,9 @@ export const Post_userfavoritepane = props => {
 export const Post_userdrawingpane = props => {
     const clickHandle = (e) => {
         e.preventDefault();
+        Api_AddToFavorite(props.data.id, props.user_id)
     }
+    
     return (
         <div className="w-72 h-96 bg-red-100 box-border border-2 border-black">
             <div className="h-64 w-64 mx-auto my-2 bg-green-100">
@@ -95,7 +104,7 @@ export const Post_userdrawingpane = props => {
                     <p className="w-full break-words xs">{props.data.description}</p>
                 </div>
                 
-                <button href="#" className="btn btn-primary">favorite</button>
+                <a onClick={clickHandle} href="" className="block btn btn-primary h-8 w-16 bg-blue-100 z-50">favorite</a>
             </div>
         </div>
     );

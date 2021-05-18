@@ -213,7 +213,6 @@ let ongoing10 = false
 export const Api_FetchTimeLineData = (count, setTimelineData) => {
     if(ongoing10 == false){
         ongoing10 = true;
-        console.log("timeline api_inside")
         axios.post('/fetch_timeineillusts', {'count':count})
                 .then(res =>{
                     console.log(res.data);
@@ -227,25 +226,6 @@ export const Api_FetchTimeLineData = (count, setTimelineData) => {
                     ongoing10 = false;
                 })
                 
-    }
-    console.log("timeline api_outside")
-}
-
-let ongoing11 = false
-export const Api_FetchTimeLineData_Reflesh = (count, setUserIllustData) => {
-    if(ongoing11 == false){
-        ongoing11 = true;
-        axios.get('api/fetch_userillusts')
-                .then(res =>{
-                    const data = res.data.illust_data
-                    const isfull = res.data.isfull
-                    setUserIllustData(data, isfull);
-                    ongoing11 = false;
-                })
-                .catch(e=>{
-                    console.log(e.response);
-                    ongoing11 = false;
-                })
     }
 }
 

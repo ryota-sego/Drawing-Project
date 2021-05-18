@@ -206,7 +206,7 @@ class UserController extends Controller
         
         $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["favorites.id", "illust_id","path","title","illusts.user_id"])->limit(3)->get();
         
-        $comments = COmment::where('user_id', $user_id)->orderBy('created_at', 'desc')->select(["id","illust_id", "comment", "user_id"])->limit(3)->get();
+        $comments = User::find($user_id)->comments()->orderBy('created_at', 'desc')->select(["id", "illust_id", "comment", "user_id"])->limit(3)->get();
         
         if($comments->count()>0){
                 foreach ($comments as $comment){
@@ -301,7 +301,7 @@ class UserController extends Controller
         
         if(request()->count == 0){
             
-            $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["id","illust_id","path","title","illusts.user_id"])->limit(10)->get();
+            $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["favorites.id","illust_id","path","title","illusts.user_id"])->limit(10)->get();
 
             if($favorites->count() < 10){
                 $isfull = true;
@@ -313,7 +313,7 @@ class UserController extends Controller
                             ]);
         }
 
-        $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["illust_id","path","title","illusts.user_id"])->offset(request()->count * 10)->limit(10)->get();
+        $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["favorites.id","illust_id","path","title","illusts.user_id"])->offset(request()->count * 10)->limit(10)->get();
         if($favorites->count() < 10){
             $isfull = true;
         }

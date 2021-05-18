@@ -4,7 +4,7 @@ import throttle from 'lodash.throttle';
 
 import { Comment_illustDetail } from '../post_parts/Comment'
 import { Api_FetchIllust_Detail, Api_FetchComment_Detail } from '../api/Api'
-
+import CommentSubmitForm from './CommentSubmitForm'
 
 
 import Loading from '../common/Loading'
@@ -22,7 +22,7 @@ export default class WrapDetailPage extends React.Component {
             'loaded_comments':[],
             'loaded_count':0,
             'is_full':false,
-            'is_my_illust':false,
+            'is_my_illust':false
         }
         this.handleScroll = this.handleScroll.bind(this);
         this.handleScroll_throttled = throttle(this.handleScroll, 500)
@@ -33,6 +33,9 @@ export default class WrapDetailPage extends React.Component {
         this.fetchIllustData = this.fetchIllustData.bind(this);
         this.fetchCommentData = this.fetchCommentData.bind(this);
         
+        this.CommentRefresh = this.CommentRefresh.bind(this);
+        
+        this.node = React.createRef();
         
         this.fetchIllustData()
         this.fetchCommentData()
@@ -50,6 +53,14 @@ export default class WrapDetailPage extends React.Component {
     
     fetchCommentData(){
         Api_FetchComment_Detail(this.props.match.params.illust_id, this.state.loaded_count, this.setNewComments_BraekLoading)
+    }
+    
+    CommentRefresh(){
+        this.setState({com_loading:true,
+                       loaded_comments: [],
+                       loaded_count: 0
+                    })
+        Api_FetchComment_Detail(this.props.match.params.illust_id, 0, this.setNewComments_BraekLoading)
     }
     
     
@@ -75,13 +86,12 @@ export default class WrapDetailPage extends React.Component {
     }
     
     handleScroll = (e) => {
-        console.log("scroool");
         if(!this.state.isfull){
             if(!ISLOADING){
                 
                 if(this.node.scrollHeight - this.node.scrollTop - this.node.clientHeight < 1){
                     ISLOADING = true;
-                    this.loadNewComments()
+                    this.fetchCommentData()
                 }
                 
             }else{
@@ -90,7 +100,6 @@ export default class WrapDetailPage extends React.Component {
             }
         }
     }
-    
     
     render(){
         return !this.state.il_loading?(
@@ -122,9 +131,14 @@ export default class WrapDetailPage extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div className="h-full w-1/3 bg-blue-800 overflow-auto px-8 py-8">
+                    <div className="relative h-full w-1/3 bg-blue-800 px-4 py-4">
                             {/*Comments*/}
-                            {!this.state.com_loading? this.state.loaded_comments.map(n=> <Comment_illustDetail key={n.id} data={n} />): <Loading />}
+                            <div className="detail-commentlist box-border w-full overflow-auto"  onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
+                                {!this.state.com_loading? this.state.loaded_comments.map(n=> <Comment_illustDetail key={n.id} data={n} />): <Loading />}
+                            </div>
+                            <div className="absolute inset-x-0 bottom-0 h-48 w-full bg-white">
+                                <CommentSubmitForm user_id={this.props.user_data.id} illust_id={this.props.match.params.illust_id} CommentRefresh={this.CommentRefresh} />
+                            </div>
                     </div>
                 </div>
             </div>

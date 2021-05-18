@@ -32049,6 +32049,20 @@ nav {
   height: 34px;
 }
 
+textarea {
+  resize: none;
+}
+
+.usercomment {
+  width: calc(100% - 9rem)
+}
+
+.detail-commentlist {
+  height: calc(100% - 12rem);
+  margin-bottom: -12rem;
+  padding-bottom: 12rem;
+}
+
 .canvas-manipuration {
   height: 500px;
   width: 500px;

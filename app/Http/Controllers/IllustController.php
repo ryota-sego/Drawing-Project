@@ -99,6 +99,12 @@ class IllustController extends Controller
     
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     
+                    //$_comment_with_key = array();
+                    //$_comments = $illust->comments()->orderBy('created_at', "desc")->limit(5)->select(['id','comment', 'user_id'])->get();
+                    //$_comment_with_key["comment"] = $_comments->toArray();
+                    //$p_data[$count] = array_merge($illust->toArray(), $_comment_with_key);
+                    //$count += 1;
+    
     public function fetch_timelineillusts(Request $request){
         $isfull = false;
         
@@ -111,40 +117,39 @@ class IllustController extends Controller
             if($illusts->count()>0){
                 foreach($illusts as $illust){
                     $_comment_with_key = array();
-                    $_comments = $illust->comments()->orderBy('created_at', "desc")->limit(10)->select(['id','comment', 'user_id'])->get();
+                    $user_name['name'] = $illust->user()->select(['name'])->first()->name;
+                    $_comments = $illust->comments()->orderBy('created_at', "desc")->limit(5)->select(['id','comment', 'user_id'])->get();
                     $_comment_with_key["comment"] = $_comments->toArray();
-                    $p_data[$count] = array_merge($illust->toArray(), $_comment_with_key);
+                    $_illust = $illust->toArray();
+                    array_push($_illust, $user_name);
+                    $p_data[$count] = array_merge($_illust, $_comment_with_key);
                     $count += 1;
                 }
             }
-            
-            if($illusts->count() < 10){
-                $isfull = true;
-            }
+            if($illusts->count() < 10) $isfull = true;
             
             return response(["post_data" => $p_data,
-                                 "isfull" => $isfull]);
+                             "isfull" => $isfull]);
         }
-        
         
         $illusts = Illust::orderBy('created_at', 'desc')->select(['id','path', 'title', 'user_id'])->offset(request()->count * 10)->limit(10)->get();
         
         if($illusts->count()>0){
             foreach($illusts as $illust){
                 $_comment_with_key = array();
-                $_comments = $illust->comments()->orderBy('created_at', "desc")->limit(10)->select(['id','comment', 'user_id'])->get();
+                $user_name = $illust->user()->select(['name'])->first();
+                $_comments = $illust->comments()->orderBy('created_at', "desc")->limit(5)->select(['id','comment', 'user_id'])->get();
                 $_comment_with_key["comment"] = $_comments->toArray();
-                $p_data[$count] = array_merge($illust->toArray(), $_comment_with_key);
+                $_illust = $illust->toArray();
+                array_push($_illust, $user_name);
+                $p_data[$count] = array_merge($_illust, $_comment_with_key);
                 $count += 1;
             }
         }
-        
-        if($illusts->count() < 10){
-                $isfull = true;
-            }
+        if($illusts->count() < 10) $isfull = true;
         
         return response(["post_data" => $p_data,
-                             "isfull" => $isfull]);
+                         "isfull" => $isfull]);
         
         
     }
