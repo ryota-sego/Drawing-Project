@@ -93,6 +93,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Illust::class, 'favorites', 'user_id', 'illust_id')->withTimestamps();
     }
     
+    public function is_favorited($illust_id){
+        return $this->belongsToMany(Illust::class, 'favorites', 'user_id', 'illust_id')->where('illust_id', $illust_id)->exists();
+    }
+    
     //=============================================================================================================
     //privates
     

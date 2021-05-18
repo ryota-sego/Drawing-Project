@@ -248,11 +248,6 @@ class UserController extends Controller
         return DB::table('users')->where('token', $token)->exists();
     }
     
-    public function test(Request $request){
-        $answer = DB::table('users')->where('email',"asas@asas")->exists();
-        return response(["ans"=> $answer]);
-    }
-    
     private function isTokenValid($token){ //bool
         $user = User::where('token', $token)->first();
         $carbon_expire = $user->token_created_at;
@@ -298,6 +293,7 @@ class UserController extends Controller
     public function fetch_userfavorites(Request $request){
         $isfull = false;
         $user_id = request()->id;
+        $user = $this->getTokenUser(Cookie::get('cookie_name'));
         
         if(request()->count == 0){
             

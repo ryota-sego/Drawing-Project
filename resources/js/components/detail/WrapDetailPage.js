@@ -68,7 +68,7 @@ export default class WrapDetailPage extends React.Component {
         console.log(ill_data);
         this.setState({illust_data: ill_data,
                        il_loading: false,
-                       is_my_illust: ill_data.user_id == this.props.user_id,
+                       is_my_illust: ill_data.user_id == this.props.user_data.id,
         })
     }
     
@@ -110,22 +110,24 @@ export default class WrapDetailPage extends React.Component {
                         {/*content*/}
                         <div className="relative w-full h-full">
                             <div className="w-full h-64 bg-yellow-500 px-8 py-2">{/*IllustArea*/}
-                                <span className="w-full h-56">{this.state.illust_data.path}</span>
-                                <p>{this.state.illust_data.title}</p>
+                                <span className="w-full h-full break-all truncate">{this.state.illust_data.path}</span>
                             </div>
                             <div className="absolute inset-x-0 bottom-0 px-8 py-2 bg-green-100">{/*InfoArea*/}
-                                <div className="w-full flex flex-start justify-start gap-8 bg-green-400">{/*UserInfo*/}
+                                <p>{this.state.illust_data.title}</p>
+                                <div className="w-full flex content-center justify-between gap-8 bg-green-400">{/*UserInfo*/}
                                     <div className=" bg-green-800 h-12 w-12">
                                         <NavLink to={`/user/${this.state.illust_data.user_id}/detail`}>{this.state.illust_data.user[0].icon}</NavLink>
                                     </div>
-                                    <div className="h-12 w-36 flex flex-center content-center justify-center">
+                                    <div className="h-12 w-36 flex content-center justify-center">
                                         <NavLink to={`/user/${this.state.illust_data.user_id}/detail`}>{this.state.illust_data.user[0].name}</NavLink>
                                     </div>
-                                    <div>
-                                        <p>placeHolder</p>
+                                    <div className="flex justify-end content-center">
+                                        <button>Favorite</button>
+                                        <button>Download</button>
+                                        {this.state.is_my_illust?<NavLink to={`/edit/${this.state.illust_data.user[0].name}/${this.props.match.params.illust_id}`}>編集する</NavLink>:<div className="hidden" />}
                                     </div>
                                 </div>
-                                <div className="bg-purple-200">{/*IllustDetail*/}
+                                <div className="bg-purple-200 w-100 h-32 overflow-auto">{/*IllustDetail*/}
                                     <span>{this.state.illust_data.description}</span>
                                 </div>
                             </div>

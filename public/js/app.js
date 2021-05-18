@@ -2188,7 +2188,7 @@ var App = /*#__PURE__*/function (_React$Component) {
               }
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
               exact: true,
-              path: "/home/:illust_id",
+              path: "/edit/:userid/:illustid",
               render: function render(routeProps) {
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_drawing_WrapDrawingPage__WEBPACK_IMPORTED_MODULE_6__.default, _objectSpread({
                   guest: _this3.state.guest,
@@ -3683,7 +3683,7 @@ var WrapDetailPage = /*#__PURE__*/function (_React$Component) {
       this.setState({
         illust_data: ill_data,
         il_loading: false,
-        is_my_illust: ill_data.user_id == this.props.user_id
+        is_my_illust: ill_data.user_id == this.props.user_data.id
       });
     }
   }, {
@@ -3714,18 +3714,18 @@ var WrapDetailPage = /*#__PURE__*/function (_React$Component) {
             className: "w-2/3 h-full bg-blue-500",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
               className: "relative w-full h-full",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
                 className: "w-full h-64 bg-yellow-500 px-8 py-2",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                  className: "w-full h-56",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                  className: "w-full h-full break-all truncate",
                   children: this.state.illust_data.path
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
-                  children: this.state.illust_data.title
-                })]
+                })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
                 className: "absolute inset-x-0 bottom-0 px-8 py-2 bg-green-100",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-                  className: "w-full flex flex-start justify-start gap-8 bg-green-400",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+                  children: this.state.illust_data.title
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+                  className: "w-full flex content-center justify-between gap-8 bg-green-400",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
                     className: " bg-green-800 h-12 w-12",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.NavLink, {
@@ -3733,18 +3733,26 @@ var WrapDetailPage = /*#__PURE__*/function (_React$Component) {
                       children: this.state.illust_data.user[0].icon
                     })
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                    className: "h-12 w-36 flex flex-center content-center justify-center",
+                    className: "h-12 w-36 flex content-center justify-center",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.NavLink, {
                       to: "/user/".concat(this.state.illust_data.user_id, "/detail"),
                       children: this.state.illust_data.user[0].name
                     })
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
-                      children: "placeHolder"
-                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+                    className: "flex justify-end content-center",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+                      children: "Favorite"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+                      children: "Download"
+                    }), this.state.is_my_illust ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.NavLink, {
+                      to: "/edit/".concat(this.state.illust_data.user[0].name, "/").concat(this.props.match.params.illust_id),
+                      children: "\u7DE8\u96C6\u3059\u308B"
+                    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                      className: "hidden"
+                    })]
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                  className: "bg-purple-200",
+                  className: "bg-purple-200 w-100 h-32 overflow-auto",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
                     children: this.state.illust_data.description
                   })
