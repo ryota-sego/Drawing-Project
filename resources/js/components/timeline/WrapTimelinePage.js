@@ -1,6 +1,6 @@
 import React  from 'react';
 import throttle from 'lodash.throttle';
-
+import { Redirect } from "react-router-dom";
 import { Api_FetchTimeLineData } from '../api/Api'
 
 import Loading from '../common/Loading'
@@ -26,6 +26,10 @@ export default class WrapTimelinePage extends React.Component {
         this.handleScroll_throttled = throttle(this.handleScroll, 500);
         this.node = React.createRef();
         
+        
+    }
+    
+    setNameAndTitle(){
         
     }
     
@@ -70,6 +74,9 @@ export default class WrapTimelinePage extends React.Component {
     
     render(){
         console.log("rerender_timeline")
+        if(this.props.user_data.id === 'guest' || this.props.guest){
+            <Redirect to="/home" />
+        }
         
         return(
         <div id="timeline_wrap" className="wrap-page-share pt-0 w-full h-full">
@@ -89,7 +96,7 @@ export default class WrapTimelinePage extends React.Component {
                 </div>
                 <div className="box-border timeline-main w-full flex flex-row justify-center md:justify-between content-center">
                     <div id="scrolll" className="h-full w-full py-2 sm:py-4 px-2 sm:px-4 flex flex-wrap justify-around content-start overflow-auto gap-1 sm:gap-2 md:gap-4 pd-2 bg-green-900" onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
-                        {this.state.loaded_posts.length? this.state.loaded_posts.map(n => <Post_Timeline key={n.id} data={n} user_id={this.props.user_data.id} />) : <Loading />}
+                        {this.state.loaded_posts.length? this.state.loaded_posts.map(n => <Post_Timeline key={n.id} data={n} user_id={this.props.user_data.id} login_user_id={this.props.user_data.id} />) : <Loading />}
                     </div>
                 </div>
             </div>

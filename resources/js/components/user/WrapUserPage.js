@@ -83,10 +83,10 @@ export default class WrapUserPage extends React.Component {
                         <div className="h-auto w-full bg-blue-800">
                             {/*Panes*/}
                             <Switch>
-                                <Route path={`${url}/detail`} render={(routeProps)=><UserDetailPane guest={this.props.guest} user_data={this.state.user_data} user_id={this.props.match.params.userid} userUnMount={this.userUnMount} {...routeProps} />}/>
-                                <Route path={`${url}/illusts`} render={(routeProps)=><UserDrawingPane guest={this.props.guest} user_id={this.props.match.params.userid} url={url} {...routeProps} userUnMount={this.userUnMount} />}/>
-                                <Route path={`${url}/favorites`} render={(routeProps)=><UserFavoritePane guest={this.props.guest} user_id={this.props.match.params.userid} url={url} {...routeProps} userUnMount={this.userUnMount} />}/>
-                                <Route path={`${url}/comments`} render={(routeProps)=><UserCommentPane guest={this.props.guest} user_id={this.props.match.params.userid} url={url} {...routeProps} userUnMount={this.userUnMount} />}/>
+                                <Route path={`${url}/detail`} render={(routeProps)=><UserDetailPane guest={this.props.guest} user_data={this.state.user_data} user_id={this.props.match.params.userid} login_user_id={this.props.user_data.id} userUnMount={this.userUnMount} {...routeProps} />}/>
+                                <Route path={`${url}/illusts`} render={(routeProps)=><UserDrawingPane guest={this.props.guest} user_id={this.props.match.params.userid} login_user_id={this.props.user_data.id} url={url} {...routeProps} userUnMount={this.userUnMount} />}/>
+                                <Route path={`${url}/favorites`} render={(routeProps)=><UserFavoritePane guest={this.props.guest} user_id={this.props.match.params.userid} login_user_id={this.props.user_data.id} url={url} {...routeProps} userUnMount={this.userUnMount} />}/>
+                                <Route path={`${url}/comments`} render={(routeProps)=><UserCommentPane guest={this.props.guest} user_id={this.props.match.params.userid} login_user_id={this.props.user_data.id} url={url} {...routeProps} userUnMount={this.userUnMount} />}/>
                             </Switch>
                         </div>
                     </div>

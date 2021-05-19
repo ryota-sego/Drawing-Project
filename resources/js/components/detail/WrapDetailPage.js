@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom";
 import throttle from 'lodash.throttle';
 
 import { Comment_illustDetail } from '../post_parts/Comment'
-import { Api_FetchIllust_Detail, Api_FetchComment_Detail } from '../api/Api'
+import { Api_FetchIllust_Detail, Api_FetchComment_Detail, Api_AddToFavorite } from '../api/Api'
 import CommentSubmitForm from './CommentSubmitForm'
 
 
@@ -22,7 +22,8 @@ export default class WrapDetailPage extends React.Component {
             'loaded_comments':[],
             'loaded_count':0,
             'is_full':false,
-            'is_my_illust':false
+            'is_my_illust':false,
+            'isfav':false,
         }
         this.handleScroll = this.handleScroll.bind(this);
         this.handleScroll_throttled = throttle(this.handleScroll, 500)
@@ -34,6 +35,7 @@ export default class WrapDetailPage extends React.Component {
         this.fetchCommentData = this.fetchCommentData.bind(this);
         
         this.CommentRefresh = this.CommentRefresh.bind(this);
+        this.clickHandle_favorite = this.clickHandle_favorite.bind(this);
         
         this.node = React.createRef();
         
@@ -55,6 +57,11 @@ export default class WrapDetailPage extends React.Component {
         Api_FetchComment_Detail(this.props.match.params.illust_id, this.state.loaded_count, this.setNewComments_BraekLoading)
     }
     
+    clickHandle_favorite(){
+        this.setState({isfav:!this.state.isfav});
+        Api_AddToFavorite(this.props.match.params.illust_id, this.props.user_data.id)
+    }
+    
     CommentRefresh(){
         this.setState({com_loading:true,
                        loaded_comments: [],
@@ -69,6 +76,7 @@ export default class WrapDetailPage extends React.Component {
         this.setState({illust_data: ill_data,
                        il_loading: false,
                        is_my_illust: ill_data.user_id == this.props.user_data.id,
+                       isfav: ill_data.isfav
         })
     }
     
@@ -122,7 +130,7 @@ export default class WrapDetailPage extends React.Component {
                                         <NavLink to={`/user/${this.state.illust_data.user_id}/detail`}>{this.state.illust_data.user[0].name}</NavLink>
                                     </div>
                                     <div className="flex justify-end content-center">
-                                        <button>Favorite</button>
+                                        {this.state.isfav? <button onClick={this.clickHandle_favorite} href="" className="block btn btn-primary h-8 w-20 bg-blue-100 z-50">Unfavorite</button>: <button onClick={this.clickHandle_favorite} href="" className="block btn btn-primary h-8 w-20 bg-red-200 z-50">Favorite</button>}
                                         <button>Download</button>
                                         {this.state.is_my_illust?<NavLink to={`/edit/${this.state.illust_data.user[0].name}/${this.props.match.params.illust_id}`}>編集する</NavLink>:<div className="hidden" />}
                                     </div>

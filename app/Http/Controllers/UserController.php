@@ -199,29 +199,53 @@ class UserController extends Controller
     
     
     public function fetch_userdetails(Request $request){
+        $token = Cookie::get('my_token');
+        $user = User::where('token', $token)->first();
+        
         $user_id = request()->id;
         $c_data = array();
-        $_comment = array();
+        $i_data = array();
+        $f_data = array();
+
         $count = 0;
         
         $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["favorites.id", "illust_id","path","title","illusts.user_id"])->limit(3)->get();
-        
-        $comments = User::find($user_id)->comments()->orderBy('created_at', 'desc')->select(["id", "illust_id", "comment", "user_id"])->limit(3)->get();
-        
-        if($comments->count()>0){
-                foreach ($comments as $comment){
-                    $_comment = array_merge($comment->toArray(), Illust::where('id', $comment->illust_id)->select(["path","title"])->first()->toArray());
-                    $c_data[$count] = $_comment;
-                    $count += 1;
-                }
+        if($favorites->count()>0){
+            foreach ($favorites as $favorite){
+                $_isfav["isfav"] = $user->favorited_illusts()->where('illust_id', $favorite->illust_id)->exists();
+                $_name["name"] = User::find($favorite->user_id)->name;
+                $_favorite = array_merge($favorite->toArray(), $_isfav);
+                $_favorite = array_merge($_favorite, $_name);
+                unset($_favorite["pivot"]);
+                $f_data[$count] = $_favorite;
+                $count += 1;
             }
-        
-        
+        }
+        $count = 0;
+        $comments = User::find($user_id)->comments()->orderBy('created_at', 'desc')->select(["id", "illust_id", "comment", "user_id"])->limit(3)->get();
+        if($comments->count()>0){
+            foreach ($comments as $comment){
+                $_comment = array_merge($comment->toArray(), Illust::where('id', $comment->illust_id)->select(["path", "title", "user_id"])->first()->toArray());
+                $_isfav["isfav"] = $user->favorited_illusts()->where('illust_id', $comment->id)->exists();
+                $_comment = array_merge($_comment, $_isfav);
+                $c_data[$count] = $_comment;
+                $count += 1;
+            }
+        }
+        $count = 0;
         $illusts = Illust::where('user_id', request()->id)->orderBy('created_at', 'desc')->select(["id","path","title"])->limit(3)->get();
+        if($illusts->count()>0){
+            foreach ($illusts as $illust){
+                $_isfav["isfav"] = $user->favorited_illusts()->where('illust_id', $illust->id)->exists();
+                $_illust = array_merge($illust->toArray(), $_isfav);
+                $i_data[$count] = $_illust;
+                $count += 1;
+            }
+        }
         
         return response([
-                        "ills" => $illusts,
-                        "favs" => $favorites,
+                        "ills" => $i_data,
+                        "favs" => $f_data,
                         "coms" => $c_data,
                         ]);
         
@@ -293,29 +317,37 @@ class UserController extends Controller
     public function fetch_userfavorites(Request $request){
         $isfull = false;
         $user_id = request()->id;
-        $user = $this->getTokenUser(Cookie::get('cookie_name'));
+        $user = $this->getTokenUser(Cookie::get('my_token'));
+        
+        $f_data = array();
+        $count = 0;
+        
+        $f_data = array();
         
         if(request()->count == 0){
-            
             $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["favorites.id","illust_id","path","title","illusts.user_id"])->limit(10)->get();
-
-            if($favorites->count() < 10){
-                $isfull = true;
-            }
-            
-            return response([
-                            "favorite_data" => $favorites,
-                            "isfull" => $isfull,
-                            ]);
+        }else{
+            $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["favorites.id","illust_id","path","title","illusts.user_id"])->offset(request()->count * 10)->limit(10)->get();
         }
-
-        $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["favorites.id","illust_id","path","title","illusts.user_id"])->offset(request()->count * 10)->limit(10)->get();
+        if($favorites->count()>0){
+            foreach ($favorites as $favorite){
+                $_isfav["isfav"] = $user->favorited_illusts()->where('illust_id', $favorite->illust_id)->exists();
+                $_name["name"] = User::find($favorite->user_id)->name;
+                $_favorite = array_merge($favorite->toArray(), $_isfav);
+                $_favorite = array_merge($_favorite, $_name);
+                unset($_favorite["pivot"]);
+                $f_data[$count] = $_favorite;
+                $count += 1;
+            }
+        }
+        
+        
         if($favorites->count() < 10){
             $isfull = true;
         }
         
         return response([
-                        "favorite_data" => $favorites,
+                        "favorite_data" => $f_data,
                         "isfull" => $isfull,
                         ]);
     }
@@ -341,6 +373,27 @@ class UserController extends Controller
         return response(['message'=>'user or token doesn`t exists']);
     }
     
+    public function is_favorited_illust(Request $request){
+        $user_id = request()->us_id;
+        $illust_id = request()->il_id;
+        $token = Cookie::get('my_token');
+        
+        
+        if($this->isUserExists($user_id) && $this->isTokenExists($token)){ //check a token, a user
+        
+            if($this->isTokenValid($token) && $this->isMe($token, $user_id)){ // check token valid?, user-token relation
+            
+                //============main function===========
+                $user = User::where('id', $user_id)->first();
+                
+                $is_favorited = $this->is_favorited($user, $illust_id);
+                return response(['is_favorited'=>$is_favorited]);
+            }
+            return response(['message'=>'token validation fail or ur token and id have no relation']);
+        }
+        return response(['message'=>'user or token doesn`t exists']);
+    }
+    
     //=============================================================================================================
     //privates
     
@@ -356,37 +409,23 @@ class UserController extends Controller
         $isfull = false;
         $user_id = request()->id;
         
+        $token = Cookie::get('my_token');
+        $user = User::where('token', $token)->first();
+        
         $c_data = array();
         $_comment = array();
         $count = 0;
         
         if(request()->count == 0){
-            
             $comments = User::find($user_id)->comments()->orderBy('created_at', 'desc')->select(["id","illust_id", "comment"])->limit(10)->get();
-
-            if($comments->count()>0){
-                foreach ($comments as $comment){
-                    $_comment = array_merge($comment->toArray(), Illust::where('id', $comment->illust_id)->select(["path", "title", "user_id"])->first()->toArray());
-                    $c_data[$count] = $_comment;
-                    $count += 1;
-                }
-            }
-            
-            if($comments->count() < 10){
-                $isfull = true;
-            }
-            
-            return response([
-                            "comment_data" => $c_data,
-                            "isfull" => $isfull,
-                            ]);
+        }else{
+            $comments = User::find($user_id)->comments()->orderBy('created_at', 'desc')->select(["id","illust_id", "comment"])->offset(request()->count * 10)->limit(10)->get();
         }
-        
-        $comments = User::find($user_id)->comments()->orderBy('created_at', 'desc')->select(["id","illust_id", "comment"])->offset(request()->count * 10)->limit(10)->get();
-        
         if($comments->count()>0){
             foreach ($comments as $comment){
                 $_comment = array_merge($comment->toArray(), Illust::where('id', $comment->illust_id)->select(["path", "title", "user_id"])->first()->toArray());
+                $_isfav["isfav"] = $user->favorited_illusts()->where('illust_id', $comment->illust_id)->exists();
+                $_comment = array_merge($_comment, $_isfav);
                 $c_data[$count] = $_comment;
                 $count += 1;
             }

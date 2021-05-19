@@ -80,6 +80,10 @@ export default class WrapDrawingPage extends React.Component {
         this.showPopup = this.showPopup.bind(this)
     }
     
+    loadIllust(){
+        
+    }
+    
     setDrawing(line){
     	const current_drawing = this.state.drawing;
     	this.setState((state)=>{drawing: current_drawing.push(line)});

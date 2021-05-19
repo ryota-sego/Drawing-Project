@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\IllustController;
 
-Route::get("/test", [UserController::class, 'test']);
+Route::post("/isfav", [UserController::class, 'is_favorited_illust']);
 
 Route::post("/addfavorite", [UserController::class, 'add_to_favorite']);
 Route::post("/addcomment", [UserController::class, 'add_comment']);

@@ -99,7 +99,6 @@ export const Api_EditIllust = () => {
                     console.log(res);
                 })
                 .catch(e => {
-                    console.log('nooo')
                     console.log(e.response)
                 });
 }
@@ -111,7 +110,6 @@ export const Api_LordIllust = () => {
                     console.log(res);
                 })
                 .catch(e => {
-                    console.log('nooo')
                     console.log(e.response)
                 });
 }
@@ -198,7 +196,6 @@ export const Api_FetchUserDetails = (id, setUserDetails) => {
                     const favs = res.data.favs
                     const coms = res.data.coms
                     const ills = res.data.ills
-                    console.log(coms);
                     setUserDetails(favs, coms, ills);
                     ongoing9 = false;
                 })
@@ -216,7 +213,6 @@ export const Api_FetchTimeLineData = (count, setTimelineData) => {
         ongoing10 = true;
         axios.post('/fetch_timeineillusts', {'count':count})
                 .then(res =>{
-                    console.log(res.data);
                     const data = res.data.post_data
                     const isfull = res.data.isfull
                     setTimelineData(data, isfull);
@@ -304,15 +300,8 @@ export const Api_AddComment = (illust_id, user_id, comment) => {
     }
 }
 
+// isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited 
 
-export const Api_Test = () => {
-    axios.get('/test')
-            .then(res =>{
-                console.log(res);
-                ongoing15 = false;
-            })
-            .catch(e=>{
-                console.log(e.response);
-                ongoing15 = false;
-            })
+export const Api_IsFavorited = (illust_id, user_id) => {
+        return axios.post('/isfav', {'il_id': illust_id, 'us_id':user_id});
 }
