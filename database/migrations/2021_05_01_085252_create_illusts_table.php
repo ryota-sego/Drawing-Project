@@ -17,9 +17,9 @@ class CreateIllustsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('title', 20);
-            $table->text('path');
+            $table->mediumtext('path');
             $table->text('description')->nullable();
-
+            $table->mediumtext('edit_history')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }

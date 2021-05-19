@@ -103,7 +103,7 @@ export default class WrapDrawingPage extends React.Component {
     illustStore_blob(title, description){//base64 dataurl
     	const urled_cnv = getBlobedCnv();
     	console.log(urled_cnv);
-    	Api_StoreIllust_url(title, description, urled_cnv);
+    	Api_StoreIllust_url(title, description, urled_cnv, this.state.drawing);
     }
     
     setColor(c){
@@ -135,11 +135,6 @@ export default class WrapDrawingPage extends React.Component {
     }
     
     render(){
-    	if(this.props.match.params.illust_id !== null && this.props.guest){
-    		return <Redirect to="/home" />
-    	}
-    	
-    	
     	
         return(
             <div id="drawing_page_wrap" className="wrap-page-share border-b-2 w-full h-full border-black">

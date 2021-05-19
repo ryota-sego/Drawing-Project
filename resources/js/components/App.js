@@ -12,6 +12,7 @@ import Header from './common/Header';
 import Footer from './common/Footer';
 
 import WrapDetailPage from './detail/WrapDetailPage';
+import WrapEditPage from './edit/WrapEditPage';
 import WrapDrawingPage from './drawing/WrapDrawingPage';
 import WrapTimelinePage from './timeline/WrapTimelinePage';
 import WrapUserPage from './user/WrapUserPage';
@@ -88,7 +89,7 @@ class App extends React.Component {
 {/*drawing page*/}
                         <Route exact path="/home" render={(routeProps)=> <WrapDrawingPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
 {/*edit page*/}
-                        <Route exact path="/edit/:userid/:illustid" render={(routeProps)=> <WrapDrawingPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
+                        <Route exact path="/edit/:userid/:illustid" render={(routeProps)=> <WrapEditPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
 {/*timeline page*/}
                         <Route path="/timeline" render={(routeProps)=> <WrapTimelinePage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
 {/*detail page*/}

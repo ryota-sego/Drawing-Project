@@ -22,8 +22,8 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
-            'comment' => $this->faker->realText($maxNbChars = 50, $indexSize = 1),
-            'illust_id' => $this->faker->numberBetween($min = 44, $max = 237),
+            'comment' => $this->faker->realText($maxNbChars = 150, $indexSize = 1),
+            'illust_id' => $this->faker->numberBetween($min = 1, $max = 200),
             'user_id' => $this->faker->numberBetween($min = 1, $max = 20),
         ];
     }

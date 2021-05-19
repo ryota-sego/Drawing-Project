@@ -24,8 +24,8 @@ class IllustFactory extends Factory
     {
         return [
             'title' => $this->faker->realText($maxNbChars = 15, $indexSize = 1),
-            'path' => $this->faker->unique()->realText($maxNbChars = 20, $indexSize = 1),
-            'description' => Str::random(50),
+            'path' => $this->faker->imageUrl($width = 500, $height = 500),
+            'description' => $this->faker->unique()->realText($maxNbChars = 150, $indexSize = 1),
             'user_id' => $this->faker->numberBetween($min = 1, $max = 20),
         ];
     }

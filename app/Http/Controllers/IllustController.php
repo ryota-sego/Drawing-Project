@@ -66,6 +66,7 @@ class IllustController extends Controller
                             'title' => request()->get("title"),
                             'description' => request()->get("description"),
                             'path' => request()->get('drawing'),
+                            'edit_history' => request()->get('edit_history')
                         ]);
                         
         return response(['answer' => $illust]);
@@ -117,9 +118,9 @@ class IllustController extends Controller
         $count = 0;
         
         if(request()->count == 0){
-            $illusts = Illust::orderBy('created_at', 'desc')->select(['id','path', 'title', 'user_id'])->limit(10)->get();
+            $illusts = Illust::orderBy('created_at', 'desc')->select(['id','path', 'title', 'user_id','created_at'])->limit(10)->get();
         }else{
-        $illusts = Illust::orderBy('created_at', 'desc')->select(['id','path', 'title', 'user_id'])->offset(request()->count * 10)->limit(10)->get();
+            $illusts = Illust::orderBy('created_at', 'desc')->select(['id','path', 'title', 'user_id','created_at'])->offset(request()->count * 10)->limit(10)->get();
         }
         
         if($illusts->count()>0){

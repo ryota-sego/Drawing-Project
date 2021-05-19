@@ -19,18 +19,26 @@ export default class WrapTimelinePage extends React.Component {
             loading:'',
             loaded_posts:[],
             isfull: false,
+            name:'hover any illust!',
+            title:'hover any illust!',
+            created_at:'hover any illust!'
         }
         this.setNewPosts_BraekLoading = this.setNewPosts_BraekLoading.bind(this);
         this.loadNewTimelinePosts = this.loadNewTimelinePosts.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
         this.handleScroll_throttled = throttle(this.handleScroll, 500);
+        this.setNameAndTitle = this.setNameAndTitle.bind(this);
+        
         this.node = React.createRef();
         
         
     }
     
-    setNameAndTitle(){
-        
+    setNameAndTitle(n, t, c){
+        this.setState({name:n,
+                       title: t,
+                       created_at:c
+                        })
     }
     
     componentDidMount(){
@@ -82,21 +90,21 @@ export default class WrapTimelinePage extends React.Component {
         <div id="timeline_wrap" className="wrap-page-share pt-0 w-full h-full">
             <div className="px-1 md:px-2 py-2 md:py-4 h-full w-full bg-blue-500">
 		    	<div className="timeline-info w-full mb-1 md:mb-3 border-4 border-black flex">
-		            <div className="w-3/4 h-full flex flex-row justify-around content-center bg-blue-200">
-		                <div className="w-40">
-		                    <p className="bg-red-200">illust title</p>
+		            <div className="w-full h-full flex flex-row justify-around content-center bg-blue-200">
+		                <div className="h-full w-64">
+		                    <span className="inline-block h-full w-64 text-center bg-red-200 align-middle">{this.state.title}</span>
 		                </div>
-		                <div className="w-40">
-		                    <p className="bg-red-200">created at</p>
+		                <div className="h-full w-64">
+		                    <span className="inline-block h-full w-64 text-center bg-red-200 align-middle">{this.state.name}</span>
 		                </div>
-		            </div>
-		            <div className="w-1/4 flex flex-row justify-around content-center bg-blue-400">
-		            	<button className="py-3 px-2 bg-red-500">保存する</button>
+		                <div className="h-full w-64">
+		                    <span className="inline-block h-full w-64 text-center bg-red-200 align-middle">{this.state.created_at}</span>
+		                </div>
 		            </div>
                 </div>
                 <div className="box-border timeline-main w-full flex flex-row justify-center md:justify-between content-center">
                     <div id="scrolll" className="h-full w-full py-2 sm:py-4 px-2 sm:px-4 flex flex-wrap justify-around content-start overflow-auto gap-1 sm:gap-2 md:gap-4 pd-2 bg-green-900" onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
-                        {this.state.loaded_posts.length? this.state.loaded_posts.map(n => <Post_Timeline key={n.id} data={n} user_id={this.props.user_data.id} login_user_id={this.props.user_data.id} />) : <Loading />}
+                        {this.state.loaded_posts.length? this.state.loaded_posts.map(n => <Post_Timeline key={n.id} data={n} user_id={this.props.user_data.id} login_user_id={this.props.user_data.id} setNameAndTitle={this.setNameAndTitle} />) : <Loading />}
                     </div>
                 </div>
             </div>

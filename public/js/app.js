@@ -2026,18 +2026,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! js-cookie */ "./node_modules/js-cookie/src/js.cookie.js");
 /* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(js_cookie__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _common_Header__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./common/Header */ "./resources/js/components/common/Header.js");
 /* harmony import */ var _common_Footer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./common/Footer */ "./resources/js/components/common/Footer.js");
 /* harmony import */ var _detail_WrapDetailPage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./detail/WrapDetailPage */ "./resources/js/components/detail/WrapDetailPage.js");
-/* harmony import */ var _drawing_WrapDrawingPage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./drawing/WrapDrawingPage */ "./resources/js/components/drawing/WrapDrawingPage.js");
-/* harmony import */ var _timeline_WrapTimelinePage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./timeline/WrapTimelinePage */ "./resources/js/components/timeline/WrapTimelinePage.js");
-/* harmony import */ var _user_WrapUserPage__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./user/WrapUserPage */ "./resources/js/components/user/WrapUserPage.js");
-/* harmony import */ var _auth_Login__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./auth/Login */ "./resources/js/components/auth/Login.js");
-/* harmony import */ var _auth_Signup__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./auth/Signup */ "./resources/js/components/auth/Signup.js");
-/* harmony import */ var _api_Api__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./api/Api */ "./resources/js/components/api/Api.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _edit_WrapEditPage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./edit/WrapEditPage */ "./resources/js/components/edit/WrapEditPage.js");
+/* harmony import */ var _drawing_WrapDrawingPage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./drawing/WrapDrawingPage */ "./resources/js/components/drawing/WrapDrawingPage.js");
+/* harmony import */ var _timeline_WrapTimelinePage__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./timeline/WrapTimelinePage */ "./resources/js/components/timeline/WrapTimelinePage.js");
+/* harmony import */ var _user_WrapUserPage__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./user/WrapUserPage */ "./resources/js/components/user/WrapUserPage.js");
+/* harmony import */ var _auth_Login__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./auth/Login */ "./resources/js/components/auth/Login.js");
+/* harmony import */ var _auth_Signup__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./auth/Signup */ "./resources/js/components/auth/Signup.js");
+/* harmony import */ var _api_Api__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./api/Api */ "./resources/js/components/api/Api.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
@@ -2065,6 +2066,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -2110,7 +2112,7 @@ var App = /*#__PURE__*/function (_React$Component) {
     _this.setUserData = _this.setUserData.bind(_assertThisInitialized(_this));
 
     if (js_cookie__WEBPACK_IMPORTED_MODULE_2___default().get('loggedin') != null) {
-      (0,_api_Api__WEBPACK_IMPORTED_MODULE_11__.Api_LoginWithToken)(_this.setIsGuest);
+      (0,_api_Api__WEBPACK_IMPORTED_MODULE_12__.Api_LoginWithToken)(_this.setIsGuest);
     } else {
       _this.setState({
         guest: true
@@ -2168,81 +2170,81 @@ var App = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.BrowserRouter, {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.BrowserRouter, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
           className: "h-full w-screen",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_common_Header__WEBPACK_IMPORTED_MODULE_3__.default, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_common_Header__WEBPACK_IMPORTED_MODULE_3__.default, {
             guest: this.state.guest,
             setIsGuest: this.setIsGuest,
             setGuest: this.setGuest,
             user_data: this.state.user_data
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Switch, {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Switch, {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
               exact: true,
               path: "/home",
               render: function render(routeProps) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_drawing_WrapDrawingPage__WEBPACK_IMPORTED_MODULE_6__.default, _objectSpread({
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_drawing_WrapDrawingPage__WEBPACK_IMPORTED_MODULE_7__.default, _objectSpread({
                   guest: _this3.state.guest,
                   user_data: _this3.state.user_data
                 }, routeProps));
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
               exact: true,
               path: "/edit/:userid/:illustid",
               render: function render(routeProps) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_drawing_WrapDrawingPage__WEBPACK_IMPORTED_MODULE_6__.default, _objectSpread({
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_edit_WrapEditPage__WEBPACK_IMPORTED_MODULE_6__.default, _objectSpread({
                   guest: _this3.state.guest,
                   user_data: _this3.state.user_data
                 }, routeProps));
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
               path: "/timeline",
               render: function render(routeProps) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_timeline_WrapTimelinePage__WEBPACK_IMPORTED_MODULE_7__.default, _objectSpread({
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_timeline_WrapTimelinePage__WEBPACK_IMPORTED_MODULE_8__.default, _objectSpread({
                   guest: _this3.state.guest,
                   user_data: _this3.state.user_data
                 }, routeProps));
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
               path: "/illust/:illust_id",
               render: function render(routeProps) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_detail_WrapDetailPage__WEBPACK_IMPORTED_MODULE_5__.default, _objectSpread({
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_detail_WrapDetailPage__WEBPACK_IMPORTED_MODULE_5__.default, _objectSpread({
                   guest: _this3.state.guest,
                   user_data: _this3.state.user_data
                 }, routeProps));
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
               path: "/user/:userid",
               render: function render(routeProps) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_user_WrapUserPage__WEBPACK_IMPORTED_MODULE_8__.default, _objectSpread({
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_user_WrapUserPage__WEBPACK_IMPORTED_MODULE_9__.default, _objectSpread({
                   guest: _this3.state.guest,
                   user_data: _this3.state.user_data
                 }, routeProps));
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
               exact: true,
               path: "/login",
               render: function render(routeProps) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_auth_Login__WEBPACK_IMPORTED_MODULE_9__.default, _objectSpread({
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_auth_Login__WEBPACK_IMPORTED_MODULE_10__.default, _objectSpread({
                   setIsGuest: _this3.setIsGuest,
                   guest: _this3.state.guest
                 }, routeProps));
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
               exact: true,
               path: "/signup",
               render: function render(routeProps) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_auth_Signup__WEBPACK_IMPORTED_MODULE_10__.default, _objectSpread({
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_auth_Signup__WEBPACK_IMPORTED_MODULE_11__.default, _objectSpread({
                   setIsGuest: _this3.setIsGuest,
                   guest: _this3.state.guest
                 }, routeProps));
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Redirect, {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Redirect, {
                 to: "/home"
               })
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_common_Footer__WEBPACK_IMPORTED_MODULE_4__.default, {})]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_common_Footer__WEBPACK_IMPORTED_MODULE_4__.default, {})]
         })
       });
     }
@@ -2252,7 +2254,7 @@ var App = /*#__PURE__*/function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
 if (document.getElementById('app')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(App, {}), document.getElementById('app'));
+  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(App, {}), document.getElementById('app'));
 }
 
 /***/ }),
@@ -2357,14 +2359,15 @@ function Api_Signup(email, name, password, setIsGuest) {
 } // illust     illust     illust     illust     illust     illust     illust     illust     illust     illust    
 
 var ongoing5 = false;
-function Api_StoreIllust_url(title, description, urled_cnv) {
+function Api_StoreIllust_url(title, description, urled_cnv, edit_history) {
   if (ongoing5 === false) {
-    ongoing5 = true; //const drawing_to_json = JSON.stringify(blobed_drawing);
-
+    ongoing5 = true;
+    var history_to_json = JSON.stringify(edit_history);
     axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/store_illust_blob', {
       'title': title,
       'description': description,
-      'drawing': urled_cnv
+      'drawing': urled_cnv,
+      'edit_history': history_to_json
     }).then(function (res) {
       console.log("successfully stored");
       console.log(res.data);
@@ -2385,14 +2388,10 @@ var Api_EditIllust = function Api_EditIllust() {
     console.log(e.response);
   });
 };
-var Api_LordIllust = function Api_LordIllust() {
-  axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/load_illust', {
-    'illust_id': 5
-  }).then(function (res) {
-    console.log('success');
-    console.log(res);
-  })["catch"](function (e) {
-    console.log(e.response);
+var Api_LordIllust = function Api_LordIllust(illust_id, user_id) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/load_illust', {
+    'illust_id': illust_id,
+    'user_id': user_id
   });
 }; // user  user  user  user  user  user  user  user  user  user  user  user  user  user  user  user  user  user  user 
 
@@ -3720,10 +3719,10 @@ var WrapDetailPage = /*#__PURE__*/function (_React$Component) {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
               className: "relative w-full h-full",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                className: "w-full h-64 bg-yellow-500 px-8 py-2",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                  className: "w-full h-full break-all truncate",
-                  children: this.state.illust_data.path
+                className: "w-full bg-yellow-500 px-8 py-2",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
+                  src: "".concat(this.state.illust_data.path),
+                  width: "450"
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
                 className: "absolute inset-x-0 bottom-0 px-8 py-2 bg-green-100",
@@ -3971,7 +3970,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_p5__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_p5__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var cross_blob__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cross-blob */ "./node_modules/cross-blob/browser.js");
 /* harmony import */ var cross_blob__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(cross_blob__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _common_SidePane__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/SidePane */ "./resources/js/components/common/SidePane.js");
 /* harmony import */ var _api_Api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../api/Api */ "./resources/js/components/api/Api.js");
 /* harmony import */ var _PopupBeforeSubmit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./PopupBeforeSubmit */ "./resources/js/components/drawing/PopupBeforeSubmit.js");
@@ -4112,7 +4110,7 @@ var WrapDrawingPage = /*#__PURE__*/function (_React$Component) {
       //base64 dataurl
       var urled_cnv = getBlobedCnv();
       console.log(urled_cnv);
-      (0,_api_Api__WEBPACK_IMPORTED_MODULE_4__.Api_StoreIllust_url)(title, description, urled_cnv);
+      (0,_api_Api__WEBPACK_IMPORTED_MODULE_4__.Api_StoreIllust_url)(title, description, urled_cnv, this.state.drawing);
     }
   }, {
     key: "setColor",
@@ -4164,12 +4162,6 @@ var WrapDrawingPage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      if (this.props.match.params.illust_id !== null && this.props.guest) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Redirect, {
-          to: "/home"
-        });
-      }
-
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
         id: "drawing_page_wrap",
         className: "wrap-page-share border-b-2 w-full h-full border-black",
@@ -4516,6 +4508,760 @@ var SketchP5 = function SketchP5(props) {
 
 /***/ }),
 
+/***/ "./resources/js/components/edit/PopupBeforeSubmit.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/edit/PopupBeforeSubmit.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ WrapDrawingPage)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+var WrapDrawingPage = /*#__PURE__*/function (_React$Component) {
+  _inherits(WrapDrawingPage, _React$Component);
+
+  var _super = _createSuper(WrapDrawingPage);
+
+  function WrapDrawingPage(props) {
+    var _this;
+
+    _classCallCheck(this, WrapDrawingPage);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      'title': '',
+      'description': ''
+    };
+    _this.handleClick_closePopup = _this.handleClick_closePopup.bind(_assertThisInitialized(_this));
+    _this.handleClick_submit = _this.handleClick_submit.bind(_assertThisInitialized(_this));
+    _this.node = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createRef();
+    _this.setTitle = _this.setTitle.bind(_assertThisInitialized(_this));
+    _this.setDescription = _this.setDescription.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(WrapDrawingPage, [{
+    key: "handleClick_closePopup",
+    value: function handleClick_closePopup(e) {
+      if (this.node == e.target) this.props.closePopup();
+    }
+  }, {
+    key: "handleClick_submit",
+    value: function handleClick_submit(e) {
+      if (this.state.title.length) {
+        this.props.submitIllust(this.state.title, this.state.description);
+        this.props.closePopup();
+      }
+    }
+  }, {
+    key: "setTitle",
+    value: function setTitle(e) {
+      if (this.state.title.length < 20) {
+        this.setState({
+          title: e.target.value
+        });
+      } else {
+        this.setState({
+          title: this.state.title.substr(0, 19)
+        });
+      }
+    }
+  }, {
+    key: "setDescription",
+    value: function setDescription(e) {
+      if (this.state.description.length < 1000) {
+        this.setState({
+          description: e.target.value
+        });
+      } else {
+        this.setState({
+          description: this.state.title.substr(0, 999)
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "absolute pt-16 inset-0 w-full h-full flex justify-center content-center",
+        onClick: this.handleClick_closePopup,
+        ref: function ref(node) {
+          _this2.node = node;
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          className: "w-1/2 h-1/2 bg-red-200 bg-opacity-70 flex flex-col justify-center content-center pt-12 px-4",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+            htmlFor: "title-form",
+            children: "Title"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+            type: "text",
+            id: "title-form",
+            className: "overflow-clip break-words appearance-none rounded-none relative block w-full h-12 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm textarea",
+            placeholder: "\u30BF\u30A4\u30C8\u30EB\u3092\u5165\u529B\u3059\u308B\u3002",
+            onChange: this.setTitle,
+            value: this.state.title
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+            htmlFor: "description-form",
+            children: "\u8AAC\u660E\u6587"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("textarea", {
+            id: "description-form",
+            className: "overflow-clip break-words appearance-none rounded-none relative block w-full h-32 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm textarea",
+            placeholder: "\u8AAC\u660E\u3092\u8FFD\u52A0\u3059\u308B",
+            onChange: this.setDescription,
+            value: this.state.description
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+            onClick: this.handleClick_submit,
+            children: "\u6295\u7A3F&\u4FDD\u5B58\u3059\u308B"
+          })]
+        })
+      });
+    }
+  }]);
+
+  return WrapDrawingPage;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/edit/WrapEditPage.js":
+/*!******************************************************!*\
+  !*** ./resources/js/components/edit/WrapEditPage.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ WrapEditPage)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_p5__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-p5 */ "./node_modules/react-p5/build/index.js");
+/* harmony import */ var react_p5__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_p5__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var cross_blob__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! cross-blob */ "./node_modules/cross-blob/browser.js");
+/* harmony import */ var cross_blob__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(cross_blob__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var _common_SidePane__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/SidePane */ "./resources/js/components/common/SidePane.js");
+/* harmony import */ var _common_Loading__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../common/Loading */ "./resources/js/components/common/Loading.js");
+/* harmony import */ var _api_Api__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../api/Api */ "./resources/js/components/api/Api.js");
+/* harmony import */ var _PopupBeforeSubmit__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./PopupBeforeSubmit */ "./resources/js/components/edit/PopupBeforeSubmit.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+
+ //システムTier1（ピクセル単位でのカラーリングではなく、色と位置に応じたカラーリング(消しゴム不可)）
+
+
+
+var GB_COLOR = 'BLACK';
+var GB_TOOL = 'PEN';
+var SAVECANVAS = false;
+var GB_SIZE = 4;
+var INITIAL_ILLUST = null;
+var COLORCODE = {
+  RED: 'rgba(255,0,0,1)',
+  BLUE: 'rgba(0,0,255,1)',
+  WHITE: 'rgba(255,255,255,1)',
+  BLACK: 'rgba(0,0,0,1)',
+  PURPLE: 'rgba(128,0,128,1)',
+  ORANGE: 'rgba(255,165,0,1)',
+  TURQUOISE: 'rgba(64,224,208,1)',
+  YELLOW: 'rgba(255,255,0,1)'
+}; // @ const TOOL =[PEN, LINE CIRCLE]
+// p5.color(COLOR)
+
+var getBlobedCnv = function getBlobedCnv() {
+  var cnv = document.getElementsByClassName('p5Canvas');
+  var dataurl = cnv[0].toDataURL('image/png');
+  return dataurl;
+};
+
+var WrapEditPage = /*#__PURE__*/function (_React$Component) {
+  _inherits(WrapEditPage, _React$Component);
+
+  var _super = _createSuper(WrapEditPage);
+
+  function WrapEditPage(props) {
+    var _this;
+
+    _classCallCheck(this, WrapEditPage);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      'pen': '',
+      'color': 'BLACK',
+      'tool': '',
+      'illust_title': '',
+      'illust_created': '',
+      'drawing': [],
+      'drawing_blob': null,
+      'canvas': null,
+      'before_submit': false,
+      'size': 4,
+      'loading': true
+    };
+    _this.illustStore_blob = _this.illustStore_blob.bind(_assertThisInitialized(_this));
+    _this.setDrawing = _this.setDrawing.bind(_assertThisInitialized(_this));
+    _this.setColor = _this.setColor.bind(_assertThisInitialized(_this));
+    _this.setTool = _this.setTool.bind(_assertThisInitialized(_this));
+    _this.saveCanvas = _this.saveCanvas.bind(_assertThisInitialized(_this));
+    _this.sizeDown = _this.sizeDown.bind(_assertThisInitialized(_this));
+    _this.sizeUp = _this.sizeUp.bind(_assertThisInitialized(_this));
+    _this.reDo = _this.reDo.bind(_assertThisInitialized(_this));
+    _this.closePopup = _this.closePopup.bind(_assertThisInitialized(_this));
+    _this.showPopup = _this.showPopup.bind(_assertThisInitialized(_this));
+    _this.loadIllust = _this.loadIllust.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(WrapEditPage, [{
+    key: "loadIllust",
+    value: function () {
+      var _loadIllust = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return (0,_api_Api__WEBPACK_IMPORTED_MODULE_6__.Api_LordIllust)(this.props.match.params.illustid, this.props.match.params.userid);
+
+              case 3:
+                res = _context.sent;
+                this.setState({
+                  illust_title: res.data.title,
+                  illust_created: res.data.created_at,
+                  loading: false,
+                  drawing: res.data.path_editable
+                });
+                _context.next = 9;
+                break;
+
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](0);
+
+              case 9:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[0, 7]]);
+      }));
+
+      function loadIllust() {
+        return _loadIllust.apply(this, arguments);
+      }
+
+      return loadIllust;
+    }()
+  }, {
+    key: "setDrawing",
+    value: function setDrawing(line) {
+      var current_drawing = this.state.drawing;
+      this.setState(function (state) {
+        drawing: current_drawing.push(line);
+      }); //this.setState((s)=>{return {drawing: s.drawing.push(line)};});
+
+      console.log(this.state.drawing.length);
+    }
+  }, {
+    key: "showPopup",
+    value: function showPopup() {
+      this.setState({
+        before_submit: true
+      });
+    }
+  }, {
+    key: "closePopup",
+    value: function closePopup() {
+      this.setState({
+        before_submit: false
+      });
+    }
+  }, {
+    key: "saveCanvas",
+    value: function saveCanvas() {
+      SAVECANVAS = true;
+    }
+  }, {
+    key: "illustStore_blob",
+    value: function illustStore_blob(title, description) {
+      //base64 dataurl
+      var urled_cnv = getBlobedCnv();
+      console.log(urled_cnv);
+      (0,_api_Api__WEBPACK_IMPORTED_MODULE_6__.Api_StoreIllust_url)(title, description, urled_cnv);
+    }
+  }, {
+    key: "setColor",
+    value: function setColor(c) {
+      this.setState(function (state) {
+        return {
+          color: c
+        };
+      });
+      GB_COLOR = c;
+    }
+  }, {
+    key: "setTool",
+    value: function setTool(t) {
+      this.setState(function (state) {
+        tool: t;
+      });
+      GB_TOOL = t;
+    }
+  }, {
+    key: "sizeUp",
+    value: function sizeUp() {
+      this.setState({
+        size: this.state.size + 1
+      });
+      GB_SIZE = GB_SIZE + 1;
+    }
+  }, {
+    key: "sizeDown",
+    value: function sizeDown() {
+      this.setState({
+        size: this.state.size - 1
+      });
+      GB_SIZE = GB_SIZE - 1;
+    }
+  }, {
+    key: "reDo",
+    value: function reDo() {
+      var current_drawing = this.state.drawing;
+
+      if (current_drawing.length) {
+        current_drawing.pop();
+      }
+
+      this.setState(function (state) {
+        drawing: current_drawing;
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      if (this.props.guest) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Redirect, {
+          to: "/home"
+        });
+      }
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+        id: "drawing_page_wrap",
+        className: "wrap-page-share border-b-2 w-full h-full border-black",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+          className: "relative px-2 py-4 h-full w-full bg-blue-500",
+          children: [this.state.before_submit ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_PopupBeforeSubmit__WEBPACK_IMPORTED_MODULE_7__.default, {
+            user_id: this.props.user_data.id,
+            closePopup: this.closePopup,
+            submitIllust: this.illustStore_blob
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+            className: "hidden"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+            className: "mb-3 border-4 border-black flex",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+              className: "w-3/4 flex flex-row justify-around content-center bg-blue-200",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+                className: "w-40",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
+                  className: "px-2 py-3 bg-red-200",
+                  children: "illust title"
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+                className: "w-40",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
+                  className: "px-2 py-3 bg-red-200",
+                  children: "created at"
+                })
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+              className: "w-1/4 flex flex-row justify-around content-center bg-blue-400",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+                className: "py-3 px-2 bg-red-500",
+                onClick: this.showPopup,
+                children: "\u4FDD\u5B58\u3078\u9032\u3080"
+              })
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+            className: "flex flex-row justify-center md:justify-between content-center border-2 border-red min-width-550",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+              className: "border-white border-3",
+              children: this.state.loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_common_Loading__WEBPACK_IMPORTED_MODULE_5__.default, {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(Sketch_Memo, {
+                setDrawing: this.setDrawing,
+                drawing: this.state.drawing
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+              className: "hidden md:block",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_common_SidePane__WEBPACK_IMPORTED_MODULE_4__.default, {
+                side_pane_type: 'drawing',
+                is_guest: this.props.guest,
+                user_data: this.props.user_data
+              })
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+            className: "",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+              children: "Drawing Toolbar"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(Toolbar, {
+              setColor: this.setColor,
+              size: this.state.size,
+              sizeDown: this.sizeDown,
+              sizeUp: this.sizeUp,
+              reDo: this.reDo,
+              setTool: this.setTool,
+              color: this.state.color,
+              saveCanvas: this.saveCanvas,
+              illustStore: this.illustStore
+            })]
+          })]
+        })
+      });
+    }
+  }]);
+
+  return WrapEditPage;
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component); //=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+= Toolbar Component +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+
+
+
+var Toolbar = function Toolbar(props) {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+    className: "flex flex-wrap w-full flex-row justify-around bg-red-200",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+      className: "flex flex-row gap-4",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+        className: "",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
+          children: "Colors"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("ul", {
+          className: "flex justify-center items-center border-4 border-geay-400 gap-1",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+              id: "RED",
+              className: "w-4 h-4",
+              onClick: function onClick() {
+                return props.setColor("RED");
+              }
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+              id: "BLUE",
+              className: "w-4 h-4",
+              onClick: function onClick() {
+                return props.setColor("BLUE");
+              }
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+              id: "WHITE",
+              className: "w-4 h-4",
+              onClick: function onClick() {
+                return props.setColor("WHITE");
+              }
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+              id: "BLACK",
+              className: "w-4 h-4",
+              onClick: function onClick() {
+                return props.setColor("BLACK");
+              }
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+              id: "PURPLE",
+              className: "w-4 h-4",
+              onClick: function onClick() {
+                return props.setColor("PURPLE");
+              }
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+              id: "ORANGE",
+              className: "w-4 h-4",
+              onClick: function onClick() {
+                return props.setColor("ORANGE");
+              }
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+              id: "TURQUOISE",
+              className: "w-4 h-4",
+              onClick: function onClick() {
+                return props.setColor("TURQUOISE");
+              }
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+              id: "YELLOW",
+              className: "w-4 h-4",
+              onClick: function onClick() {
+                return props.setColor("YELLOW");
+              }
+            })
+          })]
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+        className: "",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
+          children: "Tools"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("ul", {
+          className: "flex justify-center items-center border-4 border-geay-400 gap-1",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+              id: "PEN",
+              className: "py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+              onClick: function onClick() {
+                return props.setTool("PEN");
+              },
+              children: "PEN"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+              id: "LINE",
+              className: "py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+              onClick: function onClick() {
+                return props.setTool("LINE");
+              },
+              children: "LINE"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+              id: "CIRCLE",
+              className: "py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+              onClick: function onClick() {
+                return props.setTool("CIRCLE");
+              },
+              children: "CIRCLE"
+            })
+          })]
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+        className: "",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+          className: "flex gap-4",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
+            children: "Functions"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
+            children: props.size
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("ul", {
+          className: "flex justify-center items-center border-4 border-geay-400 gap-1",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+              id: "REDO",
+              className: "py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+              onClick: props.reDo,
+              children: "Redo"
+            })
+          })
+        })]
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+      className: "flex-none",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
+        children: "Controlls"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("ul", {
+        className: "flex justify-center items-center border-4 border-geay-400 gap-1",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+          className: "flex-none",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+            id: "PEN",
+            className: "px-4 py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+            onClick: props.saveCanvas,
+            children: "Download to ur local"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+          className: "flex-none",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+            id: "LINE",
+            className: "px-4 py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+            onClick: props.illustStore,
+            children: "Upload to our cloud"
+          })
+        })]
+      })]
+    })]
+  });
+}; // =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+= Sketch Component +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+
+
+var Sketch_Memo = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.memo(function (props) {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(SketchP5, {
+    setDrawing: props.setDrawing,
+    drawing: props.drawing
+  });
+}, function (prevProps, nextProps) {
+  return true;
+});
+
+var SketchP5 = function SketchP5(props) {
+  console.log("render Skt");
+  var current_line = [];
+  var started = false;
+  var init = true;
+
+  var setup = function setup(p5, canvasParentRef) {
+    // use parent to render the canvas in this ref
+    // (without that p5 will render the canvas outside of your component)
+    var canvas = p5.createCanvas(500, 500).parent(canvasParentRef);
+    canvas.style('height', '500px');
+    canvas.style('width', '500px');
+    canvas.mousePressed(startPath);
+    canvas.mouseReleased(endPath);
+    started = false;
+  };
+
+  function startPath() {
+    init = true;
+    started = true;
+    current_line = [];
+  }
+
+  function endPath() {
+    props.setDrawing(current_line);
+    started = false;
+  }
+
+  var draw = function draw(p5) {
+    p5.background(p5.color(COLORCODE["WHITE"]));
+    p5.strokeWeight(4);
+    p5.noFill();
+
+    for (var i = 0; i < props.drawing.length; i++) {
+      var current_output = props.drawing[i];
+      p5.beginShape();
+      current_output.forEach(function (p) {
+        p5.stroke(p.c);
+        p5.vertex(p.x, p.y);
+      });
+      p5.endShape();
+    }
+
+    p5.stroke(p5.color(COLORCODE[GB_COLOR]));
+    p5.strokeWeight(4);
+    p5.noFill();
+
+    if (started) {
+      if (GB_TOOL === 'PEN') {
+        var point = {
+          'x': p5.mouseX,
+          'y': p5.mouseY,
+          'c': p5.color(p5.color(COLORCODE[GB_COLOR]))
+        };
+        current_line.push(point);
+        p5.beginShape();
+        current_line.forEach(function (p) {
+          return p5.vertex(p.x, p.y);
+        });
+        p5.endShape();
+      } else if (GB_TOOL === 'LINE') {
+        if (init === true) {
+          var _point = {
+            'x': p5.mouseX,
+            'y': p5.mouseY,
+            'c': p5.color(p5.color(COLORCODE[GB_COLOR]))
+          };
+          current_line.push(_point);
+          current_line.push(Object.assign({}, _point));
+          init = false;
+        }
+
+        current_line[1].x = p5.mouseX;
+        current_line[1].y = p5.mouseY;
+        p5.beginShape();
+        p5.vertex(current_line[0].x, current_line[0].y);
+        p5.vertex(current_line[1].x, current_line[1].y);
+        p5.endShape();
+      }
+    }
+
+    if (SAVECANVAS) {
+      p5.saveCanvas();
+      SAVECANVAS = false;
+    }
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)((react_p5__WEBPACK_IMPORTED_MODULE_2___default()), {
+    id: "canvascanvas",
+    setup: setup,
+    draw: draw
+  });
+};
+
+/***/ }),
+
 /***/ "./resources/js/components/post_parts/Comment.js":
 /*!*******************************************************!*\
   !*** ./resources/js/components/post_parts/Comment.js ***!
@@ -4604,20 +5350,26 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
- //React.memo(
+ //
 
 
 
-var Post_Timeline = function Post_Timeline(props) {
-  var mounted = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(false);
+var Post_Timeline = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.memo(function (props) {
+  var mounted1 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(false);
+  var mounted2 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(false);
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(props.data.isfav),
       _useState2 = _slicedToArray(_useState, 2),
       isfav = _useState2[0],
       setIsfav = _useState2[1];
 
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("false"),
+      _useState4 = _slicedToArray(_useState3, 2),
+      ishover = _useState4[0],
+      setIshover = _useState4[1];
+
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
-    if (mounted.current) {
+    if (mounted1.current) {
       var add_fav = /*#__PURE__*/function () {
         var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
           return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
@@ -4645,18 +5397,38 @@ var Post_Timeline = function Post_Timeline(props) {
 
       add_fav();
     } else {
-      mounted.current = true;
+      mounted1.current = true;
     }
   }, [isfav]);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+    if (mounted2.current) {
+      if (ishover) {
+        props.setNameAndTitle(props.data.name, props.data.title, props.data.created_at.replace(/\..*$/, '').replace(/[T]/, ' '));
+      } else {
+        props.setNameAndTitle("NAMEHERE!", "TITLEHERE!", "TIMEHERE!!");
+      }
+    } else {
+      mounted2.current = true;
+    }
+  }, [ishover]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     className: "relative w-72 h-96",
+    onMouseOver: function onMouseOver() {
+      return setIshover(true);
+    },
+    onMouseOut: function onMouseOut() {
+      return setIshover(false);
+    },
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
       className: "absolute inset-0 post-timeline overflow-hidden w-72 h-96 bg-red-100 box-border border-2 border-black",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         className: "h-64 w-64 mx-auto my-2 bg-green-100",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
           to: "/illust/".concat(props.data.id),
-          children: props.data.path
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
+            src: "".concat(props.data.path),
+            width: "300"
+          })
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: "box-border border-4 border-red-500 card-body",
@@ -4697,15 +5469,16 @@ var Post_Timeline = function Post_Timeline(props) {
       })
     })]
   });
-}; //,(prev, next)=>{return true})
-
+}, function (prev, next) {
+  return true;
+});
 var Post_usercommentpane = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.memo(function (props) {
   var mounted = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(false);
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(props.data.isfav),
-      _useState4 = _slicedToArray(_useState3, 2),
-      isfav = _useState4[0],
-      setIsfav = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(props.data.isfav),
+      _useState6 = _slicedToArray(_useState5, 2),
+      isfav = _useState6[0],
+      setIsfav = _useState6[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
     if (mounted.current) {
@@ -4747,7 +5520,10 @@ var Post_usercommentpane = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.memo(
         className: "h-36 w-36 mx-auto my-1 bg-green-100 text-lg break-words",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
           to: "/illust/".concat(props.data.illust_id),
-          children: props.data.path
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
+            src: "".concat(props.data.path),
+            width: "300"
+          })
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: "flex justify-between content-center",
@@ -4786,10 +5562,10 @@ var Post_usercommentpane = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.memo(
 var Post_userfavoritepane = function Post_userfavoritepane(props) {
   var mounted = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(false);
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(props.data.isfav),
-      _useState6 = _slicedToArray(_useState5, 2),
-      isfav = _useState6[0],
-      setIsfav = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(props.data.isfav),
+      _useState8 = _slicedToArray(_useState7, 2),
+      isfav = _useState8[0],
+      setIsfav = _useState8[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
     if (mounted.current) {
@@ -4830,7 +5606,10 @@ var Post_userfavoritepane = function Post_userfavoritepane(props) {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
         to: "/illust/".concat(props.data.illust_id),
         className: "truncate break-all",
-        children: props.data.path
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
+          src: "".concat(props.data.path),
+          width: "300"
+        })
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
       className: "h-auto w-full box-border border-4 border-red-500",
@@ -4869,10 +5648,10 @@ var Post_userfavoritepane = function Post_userfavoritepane(props) {
 var Post_userdrawingpane = function Post_userdrawingpane(props) {
   var mounted = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(false);
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(props.data.isfav),
-      _useState8 = _slicedToArray(_useState7, 2),
-      isfav = _useState8[0],
-      setIsfav = _useState8[1];
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(props.data.isfav),
+      _useState10 = _slicedToArray(_useState9, 2),
+      isfav = _useState10[0],
+      setIsfav = _useState10[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
     if (mounted.current) {
@@ -4913,7 +5692,10 @@ var Post_userdrawingpane = function Post_userdrawingpane(props) {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
         to: "/illust/".concat(props.data.id),
         className: "truncate break-all",
-        children: props.data.path
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
+          src: "".concat(props.data.path),
+          width: "300"
+        })
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
       className: "box-border border-4 border-red-500 card-body",
@@ -5079,19 +5861,29 @@ var WrapTimelinePage = /*#__PURE__*/function (_React$Component) {
       loaded_count: 0,
       loading: '',
       loaded_posts: [],
-      isfull: false
+      isfull: false,
+      name: 'hover any illust!',
+      title: 'hover any illust!',
+      created_at: 'hover any illust!'
     };
     _this.setNewPosts_BraekLoading = _this.setNewPosts_BraekLoading.bind(_assertThisInitialized(_this));
     _this.loadNewTimelinePosts = _this.loadNewTimelinePosts.bind(_assertThisInitialized(_this));
     _this.handleScroll = _this.handleScroll.bind(_assertThisInitialized(_this));
     _this.handleScroll_throttled = lodash_throttle__WEBPACK_IMPORTED_MODULE_1___default()(_this.handleScroll, 500);
+    _this.setNameAndTitle = _this.setNameAndTitle.bind(_assertThisInitialized(_this));
     _this.node = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createRef();
     return _this;
   }
 
   _createClass(WrapTimelinePage, [{
     key: "setNameAndTitle",
-    value: function setNameAndTitle() {}
+    value: function setNameAndTitle(n, t, c) {
+      this.setState({
+        name: n,
+        title: t,
+        created_at: c
+      });
+    }
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
@@ -5141,30 +5933,30 @@ var WrapTimelinePage = /*#__PURE__*/function (_React$Component) {
         className: "wrap-page-share pt-0 w-full h-full",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "px-1 md:px-2 py-2 md:py-4 h-full w-full bg-blue-500",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
             className: "timeline-info w-full mb-1 md:mb-3 border-4 border-black flex",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-              className: "w-3/4 h-full flex flex-row justify-around content-center bg-blue-200",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+              className: "w-full h-full flex flex-row justify-around content-center bg-blue-200",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                className: "w-40",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
-                  className: "bg-red-200",
-                  children: "illust title"
+                className: "h-full w-64",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                  className: "inline-block h-full w-64 text-center bg-red-200 align-middle",
+                  children: this.state.title
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                className: "w-40",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
-                  className: "bg-red-200",
-                  children: "created at"
+                className: "h-full w-64",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                  className: "inline-block h-full w-64 text-center bg-red-200 align-middle",
+                  children: this.state.name
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                className: "h-full w-64",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                  className: "inline-block h-full w-64 text-center bg-red-200 align-middle",
+                  children: this.state.created_at
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-              className: "w-1/4 flex flex-row justify-around content-center bg-blue-400",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
-                className: "py-3 px-2 bg-red-500",
-                children: "\u4FDD\u5B58\u3059\u308B"
-              })
-            })]
+            })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
             className: "box-border timeline-main w-full flex flex-row justify-center md:justify-between content-center",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
@@ -5178,7 +5970,8 @@ var WrapTimelinePage = /*#__PURE__*/function (_React$Component) {
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_post_parts_Post__WEBPACK_IMPORTED_MODULE_5__.Post_Timeline, {
                   data: n,
                   user_id: _this2.props.user_data.id,
-                  login_user_id: _this2.props.user_data.id
+                  login_user_id: _this2.props.user_data.id,
+                  setNameAndTitle: _this2.setNameAndTitle
                 }, n.id);
               }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_common_Loading__WEBPACK_IMPORTED_MODULE_3__.default, {})
             })

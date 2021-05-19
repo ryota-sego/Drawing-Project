@@ -6,7 +6,8 @@ import { Redirect } from "react-router-dom";
 
 import SidePane from '../common/SidePane';
 
-import { Api_StoreIllust_url } from '../api/Api'
+import Loading from "../common/Loading"
+import { Api_StoreIllust_url, Api_LordIllust } from '../api/Api'
 import PopupBeforeSubmit from './PopupBeforeSubmit'
 
 
@@ -17,6 +18,8 @@ let GB_COLOR = 'BLACK';
 let GB_TOOL = 'PEN';
 let SAVECANVAS = false;
 let GB_SIZE = 4;
+
+let INITIAL_ILLUST = null;
 
 const COLORCODE = {
  RED : 'rgba(255,0,0,1)',
@@ -34,22 +37,12 @@ const COLORCODE = {
 const getBlobedCnv = () => {
 	const cnv = document.getElementsByClassName('p5Canvas');
 	const dataurl = cnv[0].toDataURL('image/png');
-	
-	const bin = window.atob(dataurl.replace(/^.*,/, ''));
-	let buffer = new Uint8Array(bin.length);
-	for (let i = 0; i < bin.length; i++) {
-		buffer[i] = bin.charCodeAt(i);
-	}
 
-	const blob = new Blob([buffer.buffer], {
-        type: 'image/png'
-    });
-    	console.log(blob);
 	return dataurl;
 };
 
 
-export default class WrapDrawingPage extends React.Component {
+export default class WrapEditPage extends React.Component {
     
     constructor(props){
         super(props);
@@ -63,7 +56,8 @@ export default class WrapDrawingPage extends React.Component {
             'drawing_blob':null,
             'canvas': null,
             'before_submit':false,
-            'size':4
+            'size':4,
+            'loading':true
         }
         
         this.illustStore_blob = this.illustStore_blob.bind(this)
@@ -78,10 +72,22 @@ export default class WrapDrawingPage extends React.Component {
         
         this.closePopup = this.closePopup.bind(this);
         this.showPopup = this.showPopup.bind(this)
+        
+        this.loadIllust = this.loadIllust.bind(this);
     }
     
-    loadIllust(){
-        
+    async loadIllust(){
+        try{
+        	const res = await Api_LordIllust(this.props.match.params.illustid, this.props.match.params.userid);
+        	this.setState({illust_title:res.data.title,
+        				   illust_created:res.data.created_at,
+        				   loading:false,
+        				   drawing:res.data.path_editable,
+        				   
+        	})
+        }catch (e){
+        	
+        }
     }
     
     setDrawing(line){
@@ -139,7 +145,7 @@ export default class WrapDrawingPage extends React.Component {
     }
     
     render(){
-    	if(this.props.match.params.illust_id !== null && this.props.guest){
+    	if(this.props.guest){
     		return <Redirect to="/home" />
     	}
     	
@@ -166,8 +172,7 @@ export default class WrapDrawingPage extends React.Component {
 	                <div className="flex flex-row justify-center md:justify-between content-center border-2 border-red min-width-550">
 	                    <div className="border-white border-3">
 	                        {/*DrawingArea*/}
-	                        {/*<SketchP5 setDrawing={this.setDrawing} drawing={this.state.drawing} color={this.state.color}/>*/}
-	                    	<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing}/>
+	                    	{this.state.loading?<Loading />:<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing}/>}
 	                    </div>
 	                    <div className="hidden md:block">
 	                        {/*SidePaneArea*/}

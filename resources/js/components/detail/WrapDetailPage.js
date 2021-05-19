@@ -117,8 +117,8 @@ export default class WrapDetailPage extends React.Component {
                     <div className="w-2/3 h-full bg-blue-500">
                         {/*content*/}
                         <div className="relative w-full h-full">
-                            <div className="w-full h-64 bg-yellow-500 px-8 py-2">{/*IllustArea*/}
-                                <span className="w-full h-full break-all truncate">{this.state.illust_data.path}</span>
+                            <div className="w-full bg-yellow-500 px-8 py-2">{/*IllustArea*/}
+                                <img src={`${this.state.illust_data.path}`} width="450"/>
                             </div>
                             <div className="absolute inset-x-0 bottom-0 px-8 py-2 bg-green-100">{/*InfoArea*/}
                                 <p>{this.state.illust_data.title}</p>

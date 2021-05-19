@@ -10,30 +10,44 @@ import { Comment_Timeline } from './Comment';
 import { Api_AddToFavorite } from '../api/Api';
 
 
-//React.memo(
-export const Post_Timeline = props => {
-    const mounted = useRef(false);
+//
+export const Post_Timeline = React.memo( props => {
+    const mounted1 = useRef(false);
+    const mounted2 = useRef(false);
     const [isfav, setIsfav] = useState(props.data.isfav);
+    const [ishover, setIshover] = useState("false")
 
     useEffect(() => {
-      if(mounted.current) {
-        const add_fav = async () => {
-                                try{
-                                    Api_AddToFavorite(props.data.id, props.login_user_id)
-                                }catch (e){
-                                    console.log(e);
-                                }};
-        add_fav()
-      } else {
-        mounted.current = true
-      }
-      
+        if(mounted1.current) {
+            const add_fav = async () => {
+                                    try{
+                                        Api_AddToFavorite(props.data.id, props.login_user_id)
+                                    }catch (e){
+                                        console.log(e);
+                                    }};
+            add_fav()
+        } else {
+            mounted1.current = true
+        }
     }, [isfav])
     
+    useEffect(() => {
+        if(mounted2.current) {
+            if(ishover){
+                props.setNameAndTitle(props.data.name, props.data.title,props.data.created_at.replace(/\..*$/, '').replace(/[T]/, ' '));
+            }else{
+                props.setNameAndTitle("NAMEHERE!", "TITLEHERE!","TIMEHERE!!");
+            }
+        } else {
+            mounted2.current = true
+        }
+      
+    }, [ishover])
+    
     return (
-        <div className="relative w-72 h-96">
+        <div className="relative w-72 h-96" onMouseOver={()=>setIshover(true)} onMouseOut={()=>setIshover(false)}>
             <div className="absolute inset-0 post-timeline overflow-hidden w-72 h-96 bg-red-100 box-border border-2 border-black">
-                <div className="h-64 w-64 mx-auto my-2 bg-green-100"><NavLink to={`/illust/${props.data.id}`}>{props.data.path}</NavLink></div>
+                <div className="h-64 w-64 mx-auto my-2 bg-green-100"><NavLink to={`/illust/${props.data.id}`}><img src={`${props.data.path}`} width="300"/></NavLink></div>
                 <div className="box-border border-4 border-red-500 card-body">
                     <h5 className="text-lg">{props.data.title}</h5>
                     <p>User: {props.data.name}</p>
@@ -47,7 +61,7 @@ export const Post_Timeline = props => {
             </NavLink>
         </div>
     );
-}//,(prev, next)=>{return true})
+},(prev, next)=>{return true})
 
 
 
@@ -73,7 +87,7 @@ export const Post_usercommentpane = React.memo(props => {
         <div className="w-80 h-48 bg-red-100 box-border border-2 border-black flex flex-row">
             <div className="w-36 h-auto">
                 <div className="h-36 w-36 mx-auto my-1 bg-green-100 text-lg break-words">
-                    <NavLink to={`/illust/${props.data.illust_id}`}>{props.data.path}</NavLink>
+                    <NavLink to={`/illust/${props.data.illust_id}`}><img src={`${props.data.path}`} width="300"/></NavLink>
                 </div>
                 <div className="flex justify-between content-center">
                     {isfav? <button onClick={()=> setIsfav(!isfav)} href="" className="block btn btn-primary h-8 w-20 bg-blue-100 z-50">Unfavorite</button>: <button onClick={()=> setIsfav(!isfav)} href="" className="block btn btn-primary h-8 w-20 bg-red-200 z-50">Favorite</button>}
@@ -109,7 +123,7 @@ export const Post_userfavoritepane = props => {
     return (
         <div className="w-72 h-88 bg-red-100 box-border border-2 border-black">
             <div className="h-64 w-64 mx-auto my-2 bg-green-100">
-                <NavLink to={`/illust/${props.data.illust_id}`} className="truncate break-all">{props.data.path}</NavLink>
+                <NavLink to={`/illust/${props.data.illust_id}`} className="truncate break-all"><img src={`${props.data.path}`} width="300"/></NavLink>
             </div>
             <div className="h-auto w-full box-border border-4 border-red-500">
                 <div className="w-full text-xs box-border border-4 border-yellow-400">
@@ -146,10 +160,11 @@ export const Post_userdrawingpane = props => {
     }, [isfav])
     
     
+    
     return (
         <div className="w-72 h-96 bg-red-100 box-border border-2 border-black">
             <div className="h-64 w-64 mx-auto my-2 bg-green-100">
-                <NavLink to={`/illust/${props.data.id}`} className="truncate break-all">{props.data.path}</NavLink>
+                <NavLink to={`/illust/${props.data.id}`} className="truncate break-all"><img src={`${props.data.path}`} width="300"/></NavLink>
             </div>
             <div className="box-border border-4 border-red-500 card-body">
                 <h5 className="text-lg">{props.data.title}</h5>
