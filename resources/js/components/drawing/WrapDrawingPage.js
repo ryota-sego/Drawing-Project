@@ -83,9 +83,7 @@ export default class WrapDrawingPage extends React.Component {
     setDrawing(line){
     	const current_drawing = this.state.drawing;
     	this.setState((state)=>{drawing: current_drawing.push(line)});
-    	
-    	//this.setState((s)=>{return {drawing: s.drawing.push(line)};});
-    	console.log(this.state.drawing.length);
+
     }
     
     showPopup(){
@@ -102,7 +100,6 @@ export default class WrapDrawingPage extends React.Component {
     
     illustStore_blob(title, description){//base64 dataurl
     	const urled_cnv = getBlobedCnv();
-    	console.log(urled_cnv);
     	Api_StoreIllust_url(title, description, urled_cnv, this.state.drawing);
     }
     

@@ -4081,9 +4081,7 @@ var WrapDrawingPage = /*#__PURE__*/function (_React$Component) {
       var current_drawing = this.state.drawing;
       this.setState(function (state) {
         drawing: current_drawing.push(line);
-      }); //this.setState((s)=>{return {drawing: s.drawing.push(line)};});
-
-      console.log(this.state.drawing.length);
+      });
     }
   }, {
     key: "showPopup",
@@ -4109,7 +4107,6 @@ var WrapDrawingPage = /*#__PURE__*/function (_React$Component) {
     value: function illustStore_blob(title, description) {
       //base64 dataurl
       var urled_cnv = getBlobedCnv();
-      console.log(urled_cnv);
       (0,_api_Api__WEBPACK_IMPORTED_MODULE_4__.Api_StoreIllust_url)(title, description, urled_cnv, this.state.drawing);
     }
   }, {
@@ -4800,7 +4797,7 @@ var WrapEditPage = /*#__PURE__*/function (_React$Component) {
                   illust_title: res.data.title,
                   illust_created: res.data.created_at,
                   loading: false,
-                  drawing: res.data.path_editable
+                  drawing: res.data.edit_history
                 });
                 _context.next = 9;
                 break;
@@ -4829,9 +4826,7 @@ var WrapEditPage = /*#__PURE__*/function (_React$Component) {
       var current_drawing = this.state.drawing;
       this.setState(function (state) {
         drawing: current_drawing.push(line);
-      }); //this.setState((s)=>{return {drawing: s.drawing.push(line)};});
-
-      console.log(this.state.drawing.length);
+      });
     }
   }, {
     key: "showPopup",
@@ -4857,7 +4852,6 @@ var WrapEditPage = /*#__PURE__*/function (_React$Component) {
     value: function illustStore_blob(title, description) {
       //base64 dataurl
       var urled_cnv = getBlobedCnv();
-      console.log(urled_cnv);
       (0,_api_Api__WEBPACK_IMPORTED_MODULE_6__.Api_StoreIllust_url)(title, description, urled_cnv);
     }
   }, {
