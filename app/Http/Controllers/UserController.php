@@ -53,8 +53,12 @@ class UserController extends Controller
         //
         // //when user or token doesn't exists
         //return response(['message'=>'user or token doesn`t exists']);
+    private function errResponse(){
+        return response(['user_data' => -1])->withoutCookie('my_token')->withoutCookie('loggedin');
+    }
     
-    public function signup(Request $request){
+    
+    public function signup(Request $request){//ok
 
         $request->validate([
             'name' => 'max:20|required',
@@ -65,21 +69,14 @@ class UserController extends Controller
         $user = new User; //new User
         
         if ($user) { //ユーザが存在すか確認
-            $user->email = request()->get("email"); //各データを登録
-            $user->password = Hash::make(request()->get("password")); //password をhash化
-            $user->name = request()->get("name"); //
-            $user->description = "初めまして！よろしくお願いします！";
+            $email = request()->get("email"); //各データを登録
+            $password = Hash::make(request()->get("password")); //password をhash化
+            $name = request()->get("name"); //
+            $description = "初めまして！よろしくお願いします！";
             
-            $token = Str::random(255); //今回のセッション用のトークンを発行
-            $user->token = $token; //ユーザのトークンに登録
+            $user->createUser($email,$password,$name,$description);
             
-            $carbon = Carbon::now('Asia/Tokyo');
-            $carbon->addDays(3);
-            $user->token_created_at = $carbon;
-            
-            $user->save(); //ユーザのデータを上書き保存
-            
-            $cookie = Cookie::make('my_token', $token, 4320);//cookieを作成
+            $cookie = Cookie::make('my_token', $user->token, 4320);//cookieを作成
             $cookie_2 = Cookie::make('loggedin', true, 4320,null,null,null,false);
             
             return response([ //ユーザ情報を返す
@@ -92,33 +89,21 @@ class UserController extends Controller
         }
     }
     
-    public function login(Request $request){
+    public function login(Request $request){//ok
         $email = request()->get('email');
         
-        if(!$this->isMailExists($email)){
+        if(!User::isMailExists($email)){
             return response([
                 'user_data' => -1,
                 ]);
         }
-
-        $user = User::where('email', $email)->first();
-        
-                
         $pass = request()->get('password');
+        $user = User::getUserByMail($email);
         $hashed_pass = $user->password;
         if (Hash::check($pass, $hashed_pass)){
+            $user->generateToken();
             
-            $token = Str::random(255);
-            $user->token = $token;
-            
-            $carbon = Carbon::now('Asia/Tokyo');
-            $carbon->addDays(3);
-            $user->token_created_at = $carbon;
-            
-            
-            $user->save();
-            
-            $cookie = Cookie::make('my_token', $token, 4320);//cookieを作成
+            $cookie = Cookie::make('my_token', $user->token, 4320);//cookieを作成
             $cookie_2 = Cookie::make('loggedin', true, 4320,null,null,null,false);
             
             return response([
@@ -128,33 +113,20 @@ class UserController extends Controller
         
         return response(['user_data' => -1,
         ]);
-        
     }
     
-    public function login_init(Request $request){
+    public function login_init(Request $request){//ok
         
         $token = Cookie::get('my_token'); //Token check
         
-        if(!$this->isTokenExists($token) || $token == null){
-            return response(['user_data' => -1])->withoutCookie('my_token')->withoutCookie('loggedin');
+        if(!User::isTokenValid_full($token)){
+            return $this->errResponse();
         }
         
-        if(!$this->isTokenValid($token)){
-            return response(['user_data' => -1])->withoutCookie('my_token')->withoutCookie('loggedin');
-        }
+        $user = User::getUserByToken($token); //get user
+        $user->generateToken();
         
-        $user = $this->getTokenUser($token); //get user
-        
-        $token = Str::random(255); //reflesh token
-        $user->token = $token;
-        
-        $carbon = Carbon::now('Asia/Tokyo');
-        $carbon->addDays(3);
-        $user->token_created_at = $carbon;
-            
-        $user->save();
-        
-        $cookie = Cookie::make('my_token', $token, 4320);//cookieを作成
+        $cookie = Cookie::make('my_token', $user->token, 4320);//cookieを作成
         $cookie_2 = Cookie::make('loggedin', true, 4320,null,null,null,false);
         
         return response([
@@ -162,28 +134,18 @@ class UserController extends Controller
             ])->cookie($cookie)->cookie($cookie_2);
     }
     
-    public function logout(Request $request){
-        $user = User::where('token', $request->cookie('my_token'))->first();
-        if ($user){
-            $user->token = null;
-            $user->token_created_at = null;
-            $user->save();
-            return response(['status' => $user->token])->withoutCookie('my_token')->withoutCookie('loggedin');
-        }else{
-            return response(['message' => 'ohhhhhhhhhhhh']);
-        }
-    }
     
-    public function is_me(Request $request){
+    public function logout(Request $request){//ok
         $token = Cookie::get('my_token');
-        $user = User::where("token",$token)->first();
-        if ($token && $user) {
-            return [
-            "user" => $user
-            ];
-        }else{
-            abort(401);
+        
+        if(!User::isTokenValid_full($token)){
+            return $this->errResponse();
         }
+        $user = User::getUserByToken($token);
+        $user->deleteToken();
+        $user->save();
+        
+        return response(['status' => $user])->withoutCookie('my_token')->withoutCookie('loggedin');
     }
     
     public function fetch_userdata(Request $request){

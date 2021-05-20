@@ -1,13 +1,12 @@
 import React from 'react';
 import Sketch from "react-p5";
-import Blob from "cross-blob";
 import { Redirect } from "react-router-dom";
 
 
 import SidePane from '../common/SidePane';
 
 import Loading from "../common/Loading"
-import { Api_StoreIllust_url, Api_LordIllust } from '../api/Api'
+import { Api_EditIllust_url, Api_LordIllust } from '../api/Api'
 import PopupBeforeSubmit from './PopupBeforeSubmit'
 
 
@@ -51,13 +50,15 @@ export default class WrapEditPage extends React.Component {
             'color':'BLACK',
             'tool':'',
             'illust_title':'',
-            'illust_created':'',
+            'illust_updated':'',
+            'illust_description':'',
             'drawing':[],
             'drawing_blob':null,
             'canvas': null,
             'before_submit':false,
             'size':4,
-            'loading':true
+            'loading':true,
+            'saving':false
         }
         
         this.illustStore_blob = this.illustStore_blob.bind(this)
@@ -74,19 +75,30 @@ export default class WrapEditPage extends React.Component {
         this.showPopup = this.showPopup.bind(this)
         
         this.loadIllust = this.loadIllust.bind(this);
+        
+        if(this.props.user_data.id !== 'guest'|| !this.props.guest || this.props.match.params.userid === this.props.user_data.id){
+        	this.loadIllust();
+        }
+    }
+    
+    componentWillUnmount() {
+        this.setState = (state,callback)=>{
+        return;
+        };
     }
     
     async loadIllust(){
         try{
-        	const res = await Api_LordIllust(this.props.match.params.illustid, this.props.match.params.userid);
+        	const res = await Api_LordIllust(this.props.match.params.illustid, this.props.user_data.userid);
+        	
         	this.setState({illust_title:res.data.title,
-        				   illust_created:res.data.created_at,
+        				   description:res.data.description,
+        				   illust_updated:res.data.updated_at,
         				   loading:false,
-        				   drawing:res.data.edit_history,
-        				   
+        				   drawing:JSON.parse(res.data.drawing)
         	})
         }catch (e){
-        	
+        	console.log(e)
         }
     }
     
@@ -107,9 +119,15 @@ export default class WrapEditPage extends React.Component {
     	SAVECANVAS = true;
     }
     
-    illustStore_blob(title, description){//base64 dataurl
+    async illustStore_blob(title, description){//base64 dataurl
     	const urled_cnv = getBlobedCnv();
-    	Api_StoreIllust_url(title, description, urled_cnv);
+    	const history_to_json = JSON.stringify(this.state.drawing);
+    	try{
+    		const res = await Api_EditIllust_url(this.props.match.params.illustid, title, description, urled_cnv, history_to_json);
+    		this.setState({saved:true})
+    	}catch(e){
+    		
+    	}
     }
     
     setColor(c){
@@ -141,34 +159,38 @@ export default class WrapEditPage extends React.Component {
     }
     
     render(){
-    	if(this.props.guest){
-    		return <Redirect to="/home" />
+    	if(this.props.user_data.id === 'guest' || this.props.guest || this.props.match.params.userid != this.props.user_data.id){
+            return <Redirect to="/home" />;
+        }
+        
+        if(!this.props.guest && this.state.saved){
+    		return <Redirect to={`/edit/${this.props.user_data.id}/${this.state.illust_id}`} />;
     	}
+        
+        
     	
-    	
-    	
-        return(
+        return this.state.loading ? <Loading /> : (
             <div id="drawing_page_wrap" className="wrap-page-share border-b-2 w-full h-full border-black">
             	
             	<div className="relative px-2 py-4 h-full w-full bg-blue-500">
-            		{this.state.before_submit?<PopupBeforeSubmit user_id={this.props.user_data.id} closePopup={this.closePopup} submitIllust={this.illustStore_blob} />: <div className="hidden"></div>}
+            		{this.state.before_submit?<PopupBeforeSubmit user_id={this.props.user_data.id} closePopup={this.closePopup} submitIllust={this.illustStore_blob} description={this.state.description} title={this.state.illust_title}/>: <div className="hidden"></div>}
 			    	<div className="mb-3 border-4 border-black flex">
 			            <div className="w-3/4 flex flex-row justify-around content-center bg-blue-200">
-			                <div className="w-40">
-			                    <p className="px-2 py-3 bg-red-200">illust title</p>
+			                <div className="w-60">
+			                    <p className="px-2 py-3 bg-red-200">{this.state.illust_title}</p>
 			                </div>
-			                <div className="w-40">
-			                    <p className="px-2 py-3 bg-red-200">created at</p>
+			                <div className="w-60">
+			                    <p className="px-2 py-3 bg-red-200">{this.state.illust_updated.replace(/\..*$/, '').replace(/[T]/, ' ')}</p>
 			                </div>
 			            </div>
 			            <div className="w-1/4 flex flex-row justify-around content-center bg-blue-400">
-			            	<button className="py-3 px-2 bg-red-500" onClick={this.showPopup}>保存へ進む</button>
+			            	<button className="py-3 px-2 bg-red-500" onClick={this.showPopup}>更新へ進む</button>
 			            </div>
 	                </div>
 	                <div className="flex flex-row justify-center md:justify-between content-center border-2 border-red min-width-550">
 	                    <div className="border-white border-3">
 	                        {/*DrawingArea*/}
-	                    	{this.state.loading?<Loading />:<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing}/>}
+	                    	<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing} />
 	                    </div>
 	                    <div className="hidden md:block">
 	                        {/*SidePaneArea*/}
@@ -177,7 +199,7 @@ export default class WrapEditPage extends React.Component {
 	                </div>
 	                <div className="">
 	                	<span>Drawing Toolbar</span>
-	                	<Toolbar setColor={this.setColor} size={this.state.size} sizeDown={this.sizeDown} sizeUp={this.sizeUp} reDo={this.reDo} setTool={this.setTool} color={this.state.color} saveCanvas={this.saveCanvas} illustStore={this.illustStore}/>
+	                	<Toolbar setColor={this.setColor} size={this.state.size} sizeDown={this.sizeDown} sizeUp={this.sizeUp} reDo={this.reDo} setTool={this.setTool} color={this.state.color} saveCanvas={this.saveCanvas} illustStore={this.illustStore_blob}/>
 	                </div>
                 </div>
             </div>
@@ -218,8 +240,8 @@ const Toolbar = (props) => {
 						<p>{props.size}</p>
 					</div>
 					<ul className="flex justify-center items-center border-4 border-geay-400 gap-1">
-						{/*<li><button id="SIZE" className="py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={props.sizeUp}>SizeUp</button></li>*/}
-						{/*<li><button id="SIZE" className="py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={props.sizeDown}>SizeDown</button></li>*/}
+						<li><button id="SIZEUP" className="py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={props.sizeUp}>SizeUp</button></li>
+						<li><button id="SIZEDOWN" className="py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={props.sizeDown}>SizeDown</button></li>
 						<li><button id="REDO" className="py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={props.reDo}>Redo</button></li>
 
 					</ul>
@@ -262,6 +284,10 @@ const SketchP5 = (props) => {
 		started = false;
 	};
 	
+	const preload = () =>{
+		
+	}
+	
 	function startPath(){
 		init = true
 		started = true;
@@ -276,38 +302,49 @@ const SketchP5 = (props) => {
 	const draw = (p5) => {
 		
 	    p5.background(p5.color(COLORCODE["WHITE"]));
-	    
-	    p5.strokeWeight(4);
+
 		p5.noFill();
 		for (let i=0; i<props.drawing.length; i++){
 		    let current_output = props.drawing[i]
+		    p5.strokeWeight(current_output[0].s);
+		    p5.stroke(p5.color(current_output[0].c));
 		    p5.beginShape();
-    		current_output.forEach(p=> {p5.stroke(p.c); p5.vertex(p.x, p.y)});
+    		current_output.forEach(p=> {p5.vertex(p.x, p.y)});
     		p5.endShape();
 		}
 		
 		
 		p5.stroke(p5.color(COLORCODE[GB_COLOR]));
-		p5.strokeWeight(4);
+		p5.strokeWeight(GB_SIZE);
 		p5.noFill();
 		if(started){
-			
+			let point = {};
 			if(GB_TOOL === 'PEN'){
-			    let point = {
-			        'x': p5.mouseX,
-			        'y': p5.mouseY,
-			        'c': p5.color(p5.color(COLORCODE[GB_COLOR])),
-			    }
+				if(init === true){
+				    point = {
+				        'x': p5.mouseX,
+				        'y': p5.mouseY,
+				        'c': COLORCODE[GB_COLOR],
+				        's': GB_SIZE
+				    };
+				    init = false;
+				}else{
+					point = {
+				        'x': p5.mouseX,
+				        'y': p5.mouseY,
+					};
+				}
 			    current_line.push(point)
 			    p5.beginShape();
 				current_line.forEach(p=>p5.vertex(p.x, p.y))
 				p5.endShape();
 			}else if(GB_TOOL === 'LINE'){
 				if(init === true){
-					let point = {
+					point = {
 			        'x': p5.mouseX,
 			        'y': p5.mouseY,
-			        'c': p5.color(p5.color(COLORCODE[GB_COLOR])),
+			        'c': COLORCODE[GB_COLOR],
+			        's': GB_SIZE
 			    	}
 			    	current_line.push(point)
 			    	current_line.push(Object.assign({}, point))

@@ -74,37 +74,17 @@ export function Api_Signup(email, name, password, setIsGuest){
 }
 // illust     illust     illust     illust     illust     illust     illust     illust     illust     illust    
 
-let ongoing5 = false
+
 export function Api_StoreIllust_url(title, description, urled_cnv, edit_history){
-     if(ongoing5 === false){
-        ongoing5 = true    
-        const history_to_json = JSON.stringify(edit_history);
-        axios.post('api/store_illust_blob', {'title':title,'description': description, 'drawing': urled_cnv, 'edit_history': history_to_json})
-                    .then(res => {
-                        console.log("successfully stored")
-                        console.log(res.data);
-                        ongoing5 = false
-                    })
-                    .catch(e => {
-                        console.log(e.response)
-                         ongoing5 = false
-                    });
-     }
+        return axios.post('api/store_illust_blob', {'title':title,'description': description, 'drawing': urled_cnv, 'edit_history': edit_history})
 }
 
-export const Api_EditIllust = () => {
-    axios.post('api/edit_illust', {'illust_id': 5})
-                .then(res => {
-                    console.log('success');
-                    console.log(res);
-                })
-                .catch(e => {
-                    console.log(e.response)
-                });
+export const Api_EditIllust_url = (illust_id, title, description, urled_cnv, edit_history) => {
+    return axios.post('/edit_illust', {'illust_id':illust_id,'title':title,'description': description, 'drawing': urled_cnv, 'edit_history': edit_history})
 }
 
 export const Api_LordIllust = (illust_id, user_id) => {
-    return axios.post('api/load_illust', {'illust_id': illust_id, 'user_id':user_id})
+    return axios.post('/load_illust', {'illust_id': illust_id, 'user_id':user_id})
 }
 
 

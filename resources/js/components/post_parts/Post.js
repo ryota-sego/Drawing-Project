@@ -43,9 +43,9 @@ export const Post_Timeline = React.memo( props => {
         }
       
     }, [ishover])
-    
+    // onMouseOut={()=>setIshover(false)}
     return (
-        <div className="relative w-72 h-96" onMouseOver={()=>setIshover(true)} onMouseOut={()=>setIshover(false)}>
+        <div className="relative w-72 h-96" onMouseOver={()=>setIshover(true)}>
             <div className="absolute inset-0 post-timeline overflow-hidden w-72 h-96 bg-red-100 box-border border-2 border-black">
                 <div className="h-64 w-64 mx-auto my-2 bg-green-100"><NavLink to={`/illust/${props.data.id}`}><img src={`${props.data.path}`} width="300"/></NavLink></div>
                 <div className="box-border border-4 border-red-500 card-body">

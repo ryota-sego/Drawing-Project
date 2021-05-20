@@ -1,6 +1,5 @@
 import React from 'react';
 import Sketch from "react-p5";
-import Blob from "cross-blob";
 import { Redirect } from "react-router-dom";
 
 
@@ -11,7 +10,7 @@ import PopupBeforeSubmit from './PopupBeforeSubmit'
 
 
 //システムTier1（ピクセル単位でのカラーリングではなく、色と位置に応じたカラーリング(消しゴム不可)）
-
+//カラーコードを保存する方式へ変更する。
 
 let GB_COLOR = 'BLACK';
 let GB_TOOL = 'PEN';
@@ -35,16 +34,15 @@ const getBlobedCnv = () => {
 	const cnv = document.getElementsByClassName('p5Canvas');
 	const dataurl = cnv[0].toDataURL('image/png');
 	
-	const bin = window.atob(dataurl.replace(/^.*,/, ''));
-	let buffer = new Uint8Array(bin.length);
-	for (let i = 0; i < bin.length; i++) {
-		buffer[i] = bin.charCodeAt(i);
-	}
-
-	const blob = new Blob([buffer.buffer], {
-        type: 'image/png'
-    });
-    	console.log(blob);
+	//const bin = window.atob(dataurl.replace(/^.*,/, ''));
+	//let buffer = new Uint8Array(bin.length);
+	//for (let i = 0; i < bin.length; i++) {
+	//	buffer[i] = bin.charCodeAt(i);
+	//}
+	//
+	//const blob = new Blob([buffer.buffer], {
+    //    type: 'image/png'
+    //});
 	return dataurl;
 };
 
@@ -63,7 +61,9 @@ export default class WrapDrawingPage extends React.Component {
             'drawing_blob':null,
             'canvas': null,
             'before_submit':false,
-            'size':4
+            'size':4,
+            'saved':false,
+            'illust_id':-1,
         }
         
         this.illustStore_blob = this.illustStore_blob.bind(this)
@@ -77,7 +77,13 @@ export default class WrapDrawingPage extends React.Component {
         this.reDo = this.reDo.bind(this);
         
         this.closePopup = this.closePopup.bind(this);
-        this.showPopup = this.showPopup.bind(this)
+        this.showPopup = this.showPopup.bind(this);
+    }
+    
+    componentWillUnmount() {
+        this.setState = (state,callback)=>{
+        return;
+        };
     }
     
     setDrawing(line){
@@ -98,9 +104,18 @@ export default class WrapDrawingPage extends React.Component {
     	SAVECANVAS = true;
     }
     
-    illustStore_blob(title, description){//base64 dataurl
+    async illustStore_blob(title, description){//base64 dataurl
     	const urled_cnv = getBlobedCnv();
-    	Api_StoreIllust_url(title, description, urled_cnv, this.state.drawing);
+    	const history_to_json = JSON.stringify(this.state.drawing);
+    	try{
+    		const res = await Api_StoreIllust_url(title, description, urled_cnv, history_to_json);
+    		this.setState({saved:true,
+    					   illust_id:res.data.illust_id
+    					 })
+    		console.log(res.data)
+    	}catch (e){
+    		console.log(e);
+    	}
     }
     
     setColor(c){
@@ -114,13 +129,17 @@ export default class WrapDrawingPage extends React.Component {
     }
     
     sizeUp(){
-    	this.setState({size: this.state.size + 1});
-    	GB_SIZE = GB_SIZE+1;
+    	if(this.state.size<15){
+	    	this.setState({size: this.state.size + 1});
+	    	GB_SIZE = GB_SIZE+1;
+    	}
     }
     
     sizeDown(){
+    	if(this.state.size>1){
     	this.setState({size: this.state.size - 1});
     	GB_SIZE = GB_SIZE-1;
+    	}
     }
     
     reDo(){
@@ -132,6 +151,9 @@ export default class WrapDrawingPage extends React.Component {
     }
     
     render(){
+    	if(!this.props.guest && this.state.saved){
+    		return <Redirect to={`/edit/${this.props.user_data.id}/${this.state.illust_id}`} />
+    	}
     	
         return(
             <div id="drawing_page_wrap" className="wrap-page-share border-b-2 w-full h-full border-black">
@@ -148,7 +170,7 @@ export default class WrapDrawingPage extends React.Component {
 			                </div>
 			            </div>
 			            <div className="w-1/4 flex flex-row justify-around content-center bg-blue-400">
-			            	<button className="py-3 px-2 bg-red-500" onClick={this.showPopup}>保存へ進む</button>
+			            	{this.props.guest?<span className="py-3 px-2 bg-red-500">登録すると投稿と保存ができます。</span>: <button className="py-3 px-2 bg-red-500" onClick={this.showPopup}>保存へ進む</button>}
 			            </div>
 	                </div>
 	                <div className="flex flex-row justify-center md:justify-between content-center border-2 border-red min-width-550">
@@ -164,13 +186,12 @@ export default class WrapDrawingPage extends React.Component {
 	                </div>
 	                <div className="">
 	                	<span>Drawing Toolbar</span>
-	                	<Toolbar setColor={this.setColor} size={this.state.size} sizeDown={this.sizeDown} sizeUp={this.sizeUp} reDo={this.reDo} setTool={this.setTool} color={this.state.color} saveCanvas={this.saveCanvas} illustStore={this.illustStore}/>
+	                	<Toolbar setColor={this.setColor} size={this.state.size} sizeDown={this.sizeDown} sizeUp={this.sizeUp} reDo={this.reDo} setTool={this.setTool} color={this.state.color} saveCanvas={this.saveCanvas} illustStore={this.illustStore_blob}/>
 	                </div>
                 </div>
             </div>
 		);
     }
-    
 }
 //=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+= Toolbar Component +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 const Toolbar = (props) => {
@@ -205,8 +226,8 @@ const Toolbar = (props) => {
 						<p>{props.size}</p>
 					</div>
 					<ul className="flex justify-center items-center border-4 border-geay-400 gap-1">
-						{/*<li><button id="SIZE" className="py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={props.sizeUp}>SizeUp</button></li>*/}
-						{/*<li><button id="SIZE" className="py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={props.sizeDown}>SizeDown</button></li>*/}
+						<li><button id="SIZE" className="py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={props.sizeUp}>SizeUp</button></li>
+						<li><button id="SIZE" className="py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={props.sizeDown}>SizeDown</button></li>
 						<li><button id="REDO" className="py-2 text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={props.reDo}>Redo</button></li>
 
 					</ul>
@@ -263,38 +284,49 @@ const SketchP5 = (props) => {
 	const draw = (p5) => {
 		
 	    p5.background(p5.color(COLORCODE["WHITE"]));
-	    
-	    p5.strokeWeight(4);
+
 		p5.noFill();
 		for (let i=0; i<props.drawing.length; i++){
 		    let current_output = props.drawing[i]
+		    p5.strokeWeight(current_output[0].s);
+		    p5.stroke(p5.color(current_output[0].c));
 		    p5.beginShape();
-    		current_output.forEach(p=> {p5.stroke(p.c); p5.vertex(p.x, p.y)});
+    		current_output.forEach(p=> {p5.vertex(p.x, p.y)});
     		p5.endShape();
 		}
 		
 		
 		p5.stroke(p5.color(COLORCODE[GB_COLOR]));
-		p5.strokeWeight(4);
+		p5.strokeWeight(GB_SIZE);
 		p5.noFill();
 		if(started){
-			
+			let point = {};
 			if(GB_TOOL === 'PEN'){
-			    let point = {
-			        'x': p5.mouseX,
-			        'y': p5.mouseY,
-			        'c': p5.color(p5.color(COLORCODE[GB_COLOR])),
-			    }
+				if(init === true){
+				    point = {
+				        'x': p5.mouseX,
+				        'y': p5.mouseY,
+				        'c': COLORCODE[GB_COLOR],
+				        's': GB_SIZE
+				    };
+				    init = false;
+				}else{
+					point = {
+				        'x': p5.mouseX,
+				        'y': p5.mouseY,
+					};
+				}
 			    current_line.push(point)
 			    p5.beginShape();
 				current_line.forEach(p=>p5.vertex(p.x, p.y))
 				p5.endShape();
 			}else if(GB_TOOL === 'LINE'){
 				if(init === true){
-					let point = {
+					point = {
 			        'x': p5.mouseX,
 			        'y': p5.mouseY,
-			        'c': p5.color(p5.color(COLORCODE[GB_COLOR])),
+			        'c': COLORCODE[GB_COLOR],
+			        's': GB_SIZE
 			    	}
 			    	current_line.push(point)
 			    	current_line.push(Object.assign({}, point))

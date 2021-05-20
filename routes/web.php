@@ -21,6 +21,8 @@ Route::post("/fetch_userdetails", [UserController::class, 'fetch_userdetails']);
 Route::post("/fetch_detailillust", [IllustController::class, 'fetch_detailillust']);
 Route::post("/fetch_detailcomments", [IllustController::class, 'fetch_detailcomments']);
 
+Route::post("/load_illust", [IllustController::class, 'load_illust']);
+Route::post("/edit_illust", [IllustController::class, 'edit_illust']);
 
 Route::get('/{any}', function () {
     return view('connector');

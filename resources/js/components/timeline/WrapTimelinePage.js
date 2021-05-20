@@ -81,7 +81,6 @@ export default class WrapTimelinePage extends React.Component {
     };
     
     render(){
-        console.log("rerender_timeline")
         if(this.props.user_data.id === 'guest' || this.props.guest){
             <Redirect to="/home" />
         }

@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
+
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable
@@ -62,16 +67,87 @@ class User extends Authenticatable
         return User::where('id', $id)->first();
     }
     
+    
     static function is_exists(string $token){
         return User::where('token', $token)->first() !== null;
     }
     
-    static function generate_token($user){
+    //=====
+    
+    public function createUser($email, $password, $name, $description){ ///ooo
+        $this->email = request()->get("email"); //各データを登録
+        $this->password = Hash::make(request()->get("password")); //password をhash化
+        $this->name = request()->get("name"); //
+        $this->description = $description;
         
+        $this->generateToken();
+        
+        $this->save();
     }
     
-    static function check_token_update($user){
+    public function generateToken(){ ///ooo
+        $this->token = Str::random(255);
+        $this->token_created_at = $this->generateTokenExpiredDate();
         
+        $this->save();
+    }
+    
+    private static function generateTokenExpiredDate(){ ///ooo
+        $carbon = Carbon::now('Asia/Tokyo');
+        $carbon->addDays(3);
+        
+        return $carbon;
+    }
+    
+    public function deleteToken(){
+        $this->token = null;
+        $this->token_created_at = null;
+        
+        $this->save();
+    }
+    
+    static function isTokenValid_full($token){
+        if($token == null) return false;
+        if(!User::isTokenExists($token)) return false;
+        if(!User::isTokenValid($token)) return false;
+        
+        return true;
+    }
+    
+    static function isMailExists($email){ //bool ///ooo
+        return User::where('email', $email)->exists();
+    }
+    
+    static function isTokenExists($token){ //bool //ooo
+        return DB::table('users')->where('token', $token)->exists();
+    }
+    
+    static function isTokenValid($token){ //bool //ooo
+        $user = User::where('token', $token)->first();
+        $carbon_expire = $user->token_created_at;
+        $carbon_now = Carbon::now('Asia/Tokyo');
+        return  $carbon_expire->gt($carbon_now);
+    }
+    
+    static function isUserExists($id){ //bool
+        return DB::table('users')->where('id', $id)->exists();
+    }
+    
+    static function getUserByToken($token){ //user //ooo
+        return User::where('token', $token)->first();
+    }
+    
+    static function getUserById($id){ //user
+        return User::find($id);
+    }
+    
+    static function getUserByMail($email){ //user ///ooo
+        return User::where('email', $email)->first();
+    }
+    
+    static function isMe($token, $id){
+        $db_token = User::where('id', $id)->first()->token;
+        return $token == $db_token;
     }
     
     
@@ -111,4 +187,7 @@ class User extends Authenticatable
     //=============================================================================================================
     //privates
 
+
+
+    
 }

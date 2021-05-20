@@ -13,63 +13,60 @@ use App\Models\Comment;
 
 class IllustController extends Controller
 {
-    public function store_illust(Request $request){
-        $token = Cookie::get('my_token');
-        $user = User::get_me($token);
-        $illust = $user->illusts()
-                        ->create([
-                            'title' => "test",
-                            'path' => request()->get('drawing'),
-                        ]);
-                        
-        return response(['user' => $user]);
-    }
     
     public function load_illust(Request $request){
-        $token = Cookie::get('my_token');
-        if(User::is_exists($token)){
-            $illust_id = request()->get('illust_id');
-            $illust = Illust::get_illust($illust_id);
-            
-            return response([
-                    'drawing' => $illust,
-                ]);
-        }
+
+
+        $illust_id = request()->get('illust_id');
+        $illust = Illust::where('id', $illust_id)->select(['edit_history', 'title', 'updated_at', "description"])->first();
         
         return response([
-                'drawing' => "",
+                'title' => $illust->title,
+                'description' => $illust->description,
+                'updated_at' => $illust->updated_at,
+                'drawing' => json_decode($illust->edit_history)
             ]);
+        
+
     }
+    
+    
     
     public function edit_illust(Request $request){
         $token = Cookie::get('my_token');
-        if(User::is_exists($token)){
-            $illust_id = request()->get('illust_id');
-            $illust = Illust::get_illust($illust_id);
-            
-            return response([
-                    'drawing' => $illust,
-                ]);
-        }
+        $user = User::get_me($token);
         
-        return response([
-                'drawing' => "",
-            ]);
+        $edit_history = json_encode(request()->get('edit_history'));
+        
+        $illust = Illust::find(request()->get("illust_id"));
+        
+        $illust->title = request()->get("title");
+        $illust->description = request()->get("description");
+        $illust->path = request()->get('drawing');
+        $illust->edit_history = $edit_history;
+        $illust->user_id = $user->id;
+        
+        $illust->save();
+                        
+        return response(['illust_id' => $illust->id]);
     }
     
     public function store_illust_blob(Request $request){
         $token = Cookie::get('my_token');
         $user = User::get_me($token);
         
-        $illust = $user->illusts()
-                        ->create([
-                            'title' => request()->get("title"),
-                            'description' => request()->get("description"),
-                            'path' => request()->get('drawing'),
-                            'edit_history' => request()->get('edit_history')
-                        ]);
+        $edit_history = json_encode(request()->get('edit_history'));
+        
+        $illust = new Illust;
+        $illust->title = request()->get("title");
+        $illust->description = request()->get("description");
+        $illust->path = request()->get('drawing');
+        $illust->edit_history = $edit_history;
+        $illust->user_id = $user->id;
+        
+        $illust->save();
                         
-        return response(['answer' => $illust]);
+        return response(['illust_id' => $illust->id]);
     }
     
     
@@ -152,15 +149,16 @@ class IllustController extends Controller
     public function fetch_detailillust(){
         $token = Cookie::get('my_token');
         $lg_user = User::where('token', $token)->first();
-        
+        $i_data = array();
+        $user= array();
         
         $illust = Illust::where('id', request()->id)->orderBy('created_at', 'desc')->select(['id','path', 'title', 'description', 'user_id'])->first();
-        $user['user'] = $illust->user()->select(['id', 'name', 'icon'])->get();
+        $user = $illust->user()->select(['id', 'name', 'icon'])->get()->toArray();
         $_isfav["isfav"] = $lg_user->favorited_illusts()->where('illust_id', $illust->id)->exists();
-        $illust = array_merge($illust->toArray(), $user);
-        $illust = array_merge($illust, $_isfav);
+        $i_data = array_merge($illust->toArray(), $user);
+        $i_data = array_merge($i_data, $_isfav);
         return response([
-                        "illust_data" => $illust,
+                        "illust_data" => $i_data,
                         ]);
     }
     

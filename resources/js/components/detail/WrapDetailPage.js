@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavLink} from "react-router-dom";
+import {NavLink, Redirect } from "react-router-dom";
 import throttle from 'lodash.throttle';
 
 import { Comment_illustDetail } from '../post_parts/Comment'
@@ -110,6 +110,11 @@ export default class WrapDetailPage extends React.Component {
     }
     
     render(){
+        if(this.props.user_data.id === 'guest' || this.props.guest){
+            <Redirect to="/home" />
+        }
+        
+        
         return !this.state.il_loading?(
             <div id="user_page_wrap" className="wrap-page-share pt-0 w-full h-full">
                 <div className="flex flex-row w-full bg-blue-300 h-full box-border px-5 py-3">
@@ -124,15 +129,15 @@ export default class WrapDetailPage extends React.Component {
                                 <p>{this.state.illust_data.title}</p>
                                 <div className="w-full flex content-center justify-between gap-8 bg-green-400">{/*UserInfo*/}
                                     <div className=" bg-green-800 h-12 w-12">
-                                        <NavLink to={`/user/${this.state.illust_data.user_id}/detail`}>{this.state.illust_data.user[0].icon}</NavLink>
+                                        <NavLink to={`/user/${this.state.illust_data.user_id}/detail`}>{this.state.illust_data[0].icon}</NavLink>
                                     </div>
                                     <div className="h-12 w-36 flex content-center justify-center">
-                                        <NavLink to={`/user/${this.state.illust_data.user_id}/detail`}>{this.state.illust_data.user[0].name}</NavLink>
+                                        <NavLink to={`/user/${this.state.illust_data.user_id}/detail`}>{this.state.illust_data[0].name}</NavLink>
                                     </div>
                                     <div className="flex justify-end content-center">
                                         {this.state.isfav? <button onClick={this.clickHandle_favorite} href="" className="block btn btn-primary h-8 w-20 bg-blue-100 z-50">Unfavorite</button>: <button onClick={this.clickHandle_favorite} href="" className="block btn btn-primary h-8 w-20 bg-red-200 z-50">Favorite</button>}
                                         <button>Download</button>
-                                        {this.state.is_my_illust?<NavLink to={`/edit/${this.state.illust_data.user[0].name}/${this.props.match.params.illust_id}`}>編集する</NavLink>:<div className="hidden" />}
+                                        {this.state.is_my_illust?<NavLink to={`/edit/${this.state.illust_data.user_id}/${this.props.match.params.illust_id}`}>編集する</NavLink>:<div className="hidden" />}
                                     </div>
                                 </div>
                                 <div className="bg-purple-200 w-100 h-32 overflow-auto">{/*IllustDetail*/}
