@@ -58,7 +58,7 @@ export default class WrapEditPage extends React.Component {
             'before_submit':false,
             'size':4,
             'loading':true,
-            'saving':false
+            'saved':false
         }
         
         this.illustStore_blob = this.illustStore_blob.bind(this)
@@ -123,8 +123,12 @@ export default class WrapEditPage extends React.Component {
     	const urled_cnv = getBlobedCnv();
     	const history_to_json = JSON.stringify(this.state.drawing);
     	try{
+    		
     		const res = await Api_EditIllust_url(this.props.match.params.illustid, title, description, urled_cnv, history_to_json);
-    		this.setState({saved:true})
+    		this.setState({illust_title:res.data.title,
+        				   description:res.data.description,
+        				   illust_updated:res.data.updated_at
+    		})
     	}catch(e){
     		
     	}
@@ -162,12 +166,6 @@ export default class WrapEditPage extends React.Component {
     	if(this.props.user_data.id === 'guest' || this.props.guest || this.props.match.params.userid != this.props.user_data.id){
             return <Redirect to="/home" />;
         }
-        
-        if(!this.props.guest && this.state.saved){
-    		return <Redirect to={`/edit/${this.props.user_data.id}/${this.state.illust_id}`} />;
-    	}
-        
-        
     	
         return this.state.loading ? <Loading /> : (
             <div id="drawing_page_wrap" className="wrap-page-share border-b-2 w-full h-full border-black">

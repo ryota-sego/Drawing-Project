@@ -4864,7 +4864,7 @@ var WrapEditPage = /*#__PURE__*/function (_React$Component) {
       'before_submit': false,
       'size': 4,
       'loading': true,
-      'saving': false
+      'saved': false
     };
     _this.illustStore_blob = _this.illustStore_blob.bind(_assertThisInitialized(_this));
     _this.setDrawing = _this.setDrawing.bind(_assertThisInitialized(_this));
@@ -4982,7 +4982,9 @@ var WrapEditPage = /*#__PURE__*/function (_React$Component) {
               case 5:
                 res = _context2.sent;
                 this.setState({
-                  saved: true
+                  illust_title: res.data.title,
+                  description: res.data.description,
+                  illust_updated: res.data.updated_at
                 });
                 _context2.next = 11;
                 break;
@@ -5058,12 +5060,6 @@ var WrapEditPage = /*#__PURE__*/function (_React$Component) {
       if (this.props.user_data.id === 'guest' || this.props.guest || this.props.match.params.userid != this.props.user_data.id) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Redirect, {
           to: "/home"
-        });
-      }
-
-      if (!this.props.guest && this.state.saved) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Redirect, {
-          to: "/edit/".concat(this.props.user_data.id, "/").concat(this.state.illust_id)
         });
       }
 

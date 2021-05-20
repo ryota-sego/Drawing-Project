@@ -99,7 +99,7 @@ class User extends Authenticatable
         return $carbon;
     }
     
-    public function deleteToken(){
+    public function deleteToken(){ // oooo
         $this->token = null;
         $this->token_created_at = null;
         
@@ -129,7 +129,7 @@ class User extends Authenticatable
         return  $carbon_expire->gt($carbon_now);
     }
     
-    static function isUserExists($id){ //bool
+    static function isUserExists($id){ //bool // oooo
         return DB::table('users')->where('id', $id)->exists();
     }
     
@@ -137,7 +137,7 @@ class User extends Authenticatable
         return User::where('token', $token)->first();
     }
     
-    static function getUserById($id){ //user
+    static function getUserById($id){ //user // oooo
         return User::find($id);
     }
     
@@ -145,7 +145,7 @@ class User extends Authenticatable
         return User::where('email', $email)->first();
     }
     
-    static function isMe($token, $id){
+    static function isMe($token, $id){ //oooo
         $db_token = User::where('id', $id)->first()->token;
         return $token == $db_token;
     }

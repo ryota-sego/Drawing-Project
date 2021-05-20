@@ -48,7 +48,9 @@ class IllustController extends Controller
         
         $illust->save();
                         
-        return response(['illust_id' => $illust->id]);
+        return response(['title' => $illust->title,
+                         'description' => $illust->description,
+                         'updated_at' => $illust->updated_at,]);
     }
     
     public function store_illust_blob(Request $request){

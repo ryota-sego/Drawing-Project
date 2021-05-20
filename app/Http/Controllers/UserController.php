@@ -53,6 +53,7 @@ class UserController extends Controller
         //
         // //when user or token doesn't exists
         //return response(['message'=>'user or token doesn`t exists']);
+        
     private function errResponse(){
         return response(['user_data' => -1])->withoutCookie('my_token')->withoutCookie('loggedin');
     }
@@ -148,18 +149,14 @@ class UserController extends Controller
         return response(['status' => $user])->withoutCookie('my_token')->withoutCookie('loggedin');
     }
     
-    public function fetch_userdata(Request $request){
+    public function fetch_userdata(Request $request){// ok
+        $user = User::getUserById(request()->id);
         
-        $user = User::where('id', request()->id)->first();
-        if($user){
-            return response(['user_data'=>$user]);
-        }
-        return response(['user' => $user,
-                         'id' => request()->id]);
+        return response(['user_data'=>$user]);
     }
     
     
-    public function fetch_userdetails(Request $request){
+    public function fetch_userdetails(Request $request){ //ok
         $token = Cookie::get('my_token');
         $user = User::where('token', $token)->first();
         
@@ -210,16 +207,6 @@ class UserController extends Controller
                         "coms" => $c_data,
                         ]);
         
-    }
-    
-    //forOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUseforOnlyDebugUse
-    
-    public function isLoggedIn(Request $request){
-        $token = Cookie::get('my_token');
-        if($token == null){
-            return ['isLoggedIn' => false];
-        }
-        return ['isloggedin' => $this->isTokenExists($token)];
     }
 
 //=============================================================================================================
