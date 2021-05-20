@@ -90,14 +90,14 @@ export default class WrapTimelinePage extends React.Component {
             <div className="px-1 md:px-2 py-2 md:py-4 h-full w-full bg-blue-500">
 		    	<div className="timeline-info w-full mb-1 md:mb-3 border-4 border-black flex">
 		            <div className="w-full h-full flex flex-row justify-around content-center bg-blue-200">
-		                <div className="h-full w-64">
-		                    <span className="inline-block h-full w-64 text-center bg-red-200 align-middle">{this.state.title}</span>
+		                <div className="h-full w-1/3 sm:w-64">
+		                    <span className="inline-block h-full w-full text-center bg-red-200 align-middle">{this.state.title}</span>
 		                </div>
-		                <div className="h-full w-64">
-		                    <span className="inline-block h-full w-64 text-center bg-red-200 align-middle">{this.state.name}</span>
+		                <div className="h-full w-1/3 sm:w-64">
+		                    <span className="inline-block h-full w-full text-center bg-red-200 align-middle">{this.state.name}</span>
 		                </div>
-		                <div className="h-full w-64">
-		                    <span className="inline-block h-full w-64 text-center bg-red-200 align-middle">{this.state.created_at}</span>
+		                <div className="h-full w-1/3 sm:w-64">
+		                    <span className="inline-block h-full w-full text-center bg-red-200 align-middle">{this.state.created_at}</span>
 		                </div>
 		            </div>
                 </div>

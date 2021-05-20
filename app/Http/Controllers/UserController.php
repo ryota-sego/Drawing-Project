@@ -67,21 +67,21 @@ class UserController extends Controller
             'password' => 'required|max:255|min:5',
             ]);
         
-        $user = new User; //new User
+        $lguser = new User; //new User
         
-        if ($user) { //ユーザが存在すか確認
+        if ($lguser) { //ユーザが存在すか確認
             $email = request()->get("email"); //各データを登録
             $password = Hash::make(request()->get("password")); //password をhash化
             $name = request()->get("name"); //
             $description = "初めまして！よろしくお願いします！";
             
-            $user->createUser($email,$password,$name,$description);
+            $lguser->createUser($email,$password,$name,$description);
             
-            $cookie = Cookie::make('my_token', $user->token, 4320);//cookieを作成
+            $cookie = Cookie::make('my_token', $lguser->token, 4320);//cookieを作成
             $cookie_2 = Cookie::make('loggedin', true, 4320,null,null,null,false);
             
             return response([ //ユーザ情報を返す
-                'user_data' => $user,
+                'user_data' => $lguser,
                 ])->cookie($cookie)->cookie($cookie_2);
         }else{ //ifではじかれると、nullを返す。
             return response([
@@ -99,16 +99,16 @@ class UserController extends Controller
                 ]);
         }
         $pass = request()->get('password');
-        $user = User::getUserByMail($email);
-        $hashed_pass = $user->password;
+        $lguser = User::getUserByMail($email);
+        $hashed_pass = $lguser->password;
         if (Hash::check($pass, $hashed_pass)){
-            $user->generateToken();
+            $lguser->generateToken();
             
-            $cookie = Cookie::make('my_token', $user->token, 4320);//cookieを作成
+            $cookie = Cookie::make('my_token', $lguser->token, 4320);//cookieを作成
             $cookie_2 = Cookie::make('loggedin', true, 4320,null,null,null,false);
             
             return response([
-                'user_data' => $user,
+                'user_data' => $lguser,
                 ])->cookie($cookie)->cookie($cookie_2);
         }
         
@@ -124,14 +124,14 @@ class UserController extends Controller
             return $this->errResponse();
         }
         
-        $user = User::getUserByToken($token); //get user
-        $user->generateToken();
+        $lguser = User::getUserByToken($token); //get user
+        $lguser->generateToken();
         
-        $cookie = Cookie::make('my_token', $user->token, 4320);//cookieを作成
+        $cookie = Cookie::make('my_token', $lguser->token, 4320);//cookieを作成
         $cookie_2 = Cookie::make('loggedin', true, 4320,null,null,null,false);
         
         return response([
-            'user_data' => $user,
+            'user_data' => $lguser,
             ])->cookie($cookie)->cookie($cookie_2);
     }
     
@@ -142,11 +142,11 @@ class UserController extends Controller
         if(!User::isTokenValid_full($token)){
             return $this->errResponse();
         }
-        $user = User::getUserByToken($token);
-        $user->deleteToken();
-        $user->save();
+        $lguser = User::getUserByToken($token);
+        $lguser->deleteToken();
+        $lguser->save();
         
-        return response(['status' => $user])->withoutCookie('my_token')->withoutCookie('loggedin');
+        return response(['status' => $lguser])->withoutCookie('my_token')->withoutCookie('loggedin');
     }
     
     public function fetch_userdata(Request $request){// ok
@@ -158,9 +158,10 @@ class UserController extends Controller
     
     public function fetch_userdetails(Request $request){ //ok
         $token = Cookie::get('my_token');
-        $user = User::where('token', $token)->first();
+        $lguser = User::where('token', $token)->first();
         
         $user_id = request()->id;
+        $user = User::getUserById($user_id);
         $c_data = array();
         $i_data = array();
         $f_data = array();
@@ -170,7 +171,7 @@ class UserController extends Controller
         $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["favorites.id", "illust_id","path","title","illusts.user_id"])->limit(3)->get();
         if($favorites->count()>0){
             foreach ($favorites as $favorite){
-                $_isfav["isfav"] = $user->favorited_illusts()->where('illust_id', $favorite->illust_id)->exists();
+                $_isfav["isfav"] = $lguser->favorited_illusts()->where('illust_id', $favorite->illust_id)->exists();
                 $_name["name"] = User::find($favorite->user_id)->name;
                 $_favorite = array_merge($favorite->toArray(), $_isfav);
                 $_favorite = array_merge($_favorite, $_name);
@@ -184,7 +185,7 @@ class UserController extends Controller
         if($comments->count()>0){
             foreach ($comments as $comment){
                 $_comment = array_merge($comment->toArray(), Illust::where('id', $comment->illust_id)->select(["path", "title", "user_id"])->first()->toArray());
-                $_isfav["isfav"] = $user->favorited_illusts()->where('illust_id', $comment->id)->exists();
+                $_isfav["isfav"] = $lguser->favorited_illusts()->where('illust_id', $comment->id)->exists();
                 $_comment = array_merge($_comment, $_isfav);
                 $c_data[$count] = $_comment;
                 $count += 1;
@@ -194,7 +195,7 @@ class UserController extends Controller
         $illusts = Illust::where('user_id', request()->id)->orderBy('created_at', 'desc')->select(["id","path","title"])->limit(3)->get();
         if($illusts->count()>0){
             foreach ($illusts as $illust){
-                $_isfav["isfav"] = $user->favorited_illusts()->where('illust_id', $illust->id)->exists();
+                $_isfav["isfav"] = $lguser->favorited_illusts()->where('illust_id', $illust->id)->exists();
                 $_illust = array_merge($illust->toArray(), $_isfav);
                 $i_data[$count] = $_illust;
                 $count += 1;

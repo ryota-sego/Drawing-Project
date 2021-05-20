@@ -2080,6 +2080,28 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+ //window.addEventListener('resize', function (e) {
+//        const width = window.innerWidth;
+//        const marginLeft = window.innerWidth - width;
+///        const height = window.innerHeight;
+//        const marginTop = window.innerHeight - height;
+//        if(width < 740){
+//            document.getElementsByClassName('antialiased')[0].style.transform = 'scale(' + width / 740 + ')';
+//            document.getElementsByClassName('antialiased')[0].style.marginLeft = marginLeft / 2 + 'px';
+//            document.getElementsByClassName('antialiased')[0].style.marginTop = marginTop / 2 + 'px';
+//            console.log('yeah, yeah')
+//        }else{
+//            document.getElementsByClassName('antialiased')[0].style.transform = 'scale(' + 1 + ')';
+//        }
+//        console.log("height")
+//        console.log(height)
+///        console.log("width")
+//        console.log(width)
+//        if(height < 800){
+//            window.resizeTo(width, 800)
+//            console.log('oh, nooo')
+//        }
+//});
 
 
 
@@ -3715,13 +3737,14 @@ var WrapDetailPage = /*#__PURE__*/function (_React$Component) {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
               className: "relative w-full h-full",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                className: "w-full bg-yellow-500 px-8 py-2",
+                className: "h-2/3 w-full bg-yellow-500 px-8 py-2",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
+                  className: "max-w-full max-h-full",
                   src: "".concat(this.state.illust_data.path),
-                  width: "450"
+                  alt: "detail_illust"
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-                className: "absolute inset-x-0 bottom-0 px-8 py-2 bg-green-100",
+                className: "absolute h-1/3 inset-x-0 bottom-0 px-8 py-2 bg-green-100",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
                   children: this.state.illust_data.title
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
@@ -6112,21 +6135,21 @@ var WrapTimelinePage = /*#__PURE__*/function (_React$Component) {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
               className: "w-full h-full flex flex-row justify-around content-center bg-blue-200",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                className: "h-full w-64",
+                className: "h-full w-1/3 sm:w-64",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                  className: "inline-block h-full w-64 text-center bg-red-200 align-middle",
+                  className: "inline-block h-full w-full text-center bg-red-200 align-middle",
                   children: this.state.title
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                className: "h-full w-64",
+                className: "h-full w-1/3 sm:w-64",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                  className: "inline-block h-full w-64 text-center bg-red-200 align-middle",
+                  className: "inline-block h-full w-full text-center bg-red-200 align-middle",
                   children: this.state.name
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                className: "h-full w-64",
+                className: "h-full w-1/3 sm:w-64",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                  className: "inline-block h-full w-64 text-center bg-red-200 align-middle",
+                  className: "inline-block h-full w-full text-center bg-red-200 align-middle",
                   children: this.state.created_at
                 })
               })]

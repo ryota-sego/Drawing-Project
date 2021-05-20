@@ -19,7 +19,10 @@
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>
+    
     <body class="antialiased h-screen w-full">
-        <div id="app" class="h-full w-full">z
+        <div id="app" class="h-full w-full">
     </body>
+    
+    
 </html>

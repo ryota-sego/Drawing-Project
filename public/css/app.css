@@ -32038,7 +32038,7 @@ video {
 
 html {
   overflow-x: hidden;
-  min-width: 520px;
+  font-size: 16px
 }
 
 #user_side_pane {
