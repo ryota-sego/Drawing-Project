@@ -146,7 +146,9 @@ class UserController extends Controller
         $lguser->deleteToken();
         $lguser->save();
         
-        return response(['status' => $lguser])->withoutCookie('my_token')->withoutCookie('loggedin');
+        return response([
+                'status' => $lguser
+                ])->withoutCookie('my_token')->withoutCookie('loggedin');
     }
     
     public function fetch_userdata(Request $request){// ok
@@ -158,20 +160,23 @@ class UserController extends Controller
     
     public function fetch_userdetails(Request $request){ //ok
         $token = Cookie::get('my_token');
-        $lguser = User::where('token', $token)->first();
+        if(!User::isTokenValid_full($token)){
+            return $this->errResponse();
+        }
         
-        $user_id = request()->id;
-        $user = User::getUserById($user_id);
+        $lguser = User::getUserByToken($token);
+        
+        $user = User::getUserById(request()->id);
+        
         $c_data = array();
         $i_data = array();
         $f_data = array();
 
         $count = 0;
-        
-        $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["favorites.id", "illust_id","path","title","illusts.user_id"])->limit(3)->get();
+        $favorites = $user->get_favorites(3);
         if($favorites->count()>0){
             foreach ($favorites as $favorite){
-                $_isfav["isfav"] = $lguser->favorited_illusts()->where('illust_id', $favorite->illust_id)->exists();
+                $_isfav["isfav"] = $lguser->is_favorited($favorite->illust_id);
                 $_name["name"] = User::find($favorite->user_id)->name;
                 $_favorite = array_merge($favorite->toArray(), $_isfav);
                 $_favorite = array_merge($_favorite, $_name);
@@ -181,21 +186,21 @@ class UserController extends Controller
             }
         }
         $count = 0;
-        $comments = User::find($user_id)->comments()->orderBy('created_at', 'desc')->select(["id", "illust_id", "comment", "user_id"])->limit(3)->get();
+        $comments = $user->get_comments(3);
         if($comments->count()>0){
             foreach ($comments as $comment){
                 $_comment = array_merge($comment->toArray(), Illust::where('id', $comment->illust_id)->select(["path", "title", "user_id"])->first()->toArray());
-                $_isfav["isfav"] = $lguser->favorited_illusts()->where('illust_id', $comment->id)->exists();
+                $_isfav["isfav"] = $lguser->is_favorited($comment->illust_id);
                 $_comment = array_merge($_comment, $_isfav);
                 $c_data[$count] = $_comment;
                 $count += 1;
             }
         }
         $count = 0;
-        $illusts = Illust::where('user_id', request()->id)->orderBy('created_at', 'desc')->select(["id","path","title"])->limit(3)->get();
+        $illusts = $user->getIllusts_detail(3);
         if($illusts->count()>0){
             foreach ($illusts as $illust){
-                $_isfav["isfav"] = $lguser->favorited_illusts()->where('illust_id', $illust->id)->exists();
+                $_isfav["isfav"] = $lguser->is_favorited($illust->id);
                 $_illust = array_merge($illust->toArray(), $_isfav);
                 $i_data[$count] = $_illust;
                 $count += 1;
@@ -210,46 +215,7 @@ class UserController extends Controller
         
     }
 
-//=============================================================================================================
-    //privates
-    
-    private function isMailExists($email){ //bool
-        return DB::table('users')->where('email', $email)->exists();
-    }
-    
-    private function isTokenExists($token){ //bool
-        return DB::table('users')->where('token', $token)->exists();
-    }
-    
-    private function isTokenValid($token){ //bool
-        $user = User::where('token', $token)->first();
-        $carbon_expire = $user->token_created_at;
-        $carbon_now = Carbon::now('Asia/Tokyo');
-        return  $carbon_expire->gt($carbon_now);
-    }
-    
-    private function isUserExists($id){ //bool
-        return DB::table('users')->where('id', $id)->exists();
-    }
-    
-    private function getTokenUser($token){ //user
-        return User::where('token', $token)->first();
-    }
-    
-    private function getUser($id){ //user
-        return User::where('id', $id)->first();
-    }
-    
-    private function isMe($token, $id){
-        $db_token = User::where('id', $id)->first()->token;
-        return $token == $db_token;
-    }
-    
-    //private function refreshToken($id){
-    //    $user = User::where('id', $id)->first();
-    //    $user->token =
-    //}
-    
+
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
     //illust 関係
     
@@ -263,10 +229,14 @@ class UserController extends Controller
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
     //favorite 関係
     
-    public function fetch_userfavorites(Request $request){
-        $isfull = false;
-        $user_id = request()->id;
-        $user = $this->getTokenUser(Cookie::get('my_token'));
+    public function fetch_userfavorites(Request $request){//ok
+        $token = Cookie::get('my_token');
+        if(!User::isTokenValid_full($token)){
+            return $this->errResponse();
+        }
+        $lguser = User::getUserByToken($token);
+        
+        $user = User::getUserById(request()->id);
         
         $f_data = array();
         $count = 0;
@@ -274,13 +244,13 @@ class UserController extends Controller
         $f_data = array();
         
         if(request()->count == 0){
-            $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["favorites.id","illust_id","path","title","illusts.user_id"])->limit(10)->get();
+            $favorites = $user->get_favorites(10);
         }else{
-            $favorites = User::find($user_id)->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["favorites.id","illust_id","path","title","illusts.user_id"])->offset(request()->count * 10)->limit(10)->get();
+            $favorites = $user->get_favorites_with_offset(10, request()->count);
         }
         if($favorites->count()>0){
             foreach ($favorites as $favorite){
-                $_isfav["isfav"] = $user->favorited_illusts()->where('illust_id', $favorite->illust_id)->exists();
+                $_isfav["isfav"] = $lguser->is_favorited($favorite->illust_id);
                 $_name["name"] = User::find($favorite->user_id)->name;
                 $_favorite = array_merge($favorite->toArray(), $_isfav);
                 $_favorite = array_merge($_favorite, $_name);
@@ -289,12 +259,9 @@ class UserController extends Controller
                 $count += 1;
             }
         }
-        
-        
         if($favorites->count() < 10){
             $isfull = true;
         }
-        
         return response([
                         "favorite_data" => $f_data,
                         "isfull" => $isfull,
@@ -302,18 +269,18 @@ class UserController extends Controller
     }
     
     
-    public function add_to_favorite(Request $request){
+    public function add_to_favorite(Request $request){//ok
         $user_id = request()->us_id;
         $illust_id = request()->il_id;
         $token = Cookie::get('my_token');
         
-        if($this->isUserExists($user_id) && $this->isTokenExists($token)){ //check a token, a user
+        if(User::isUserExists($user_id) && User::isTokenExists($token)){ //check a token, a user
         
-            if($this->isTokenValid($token) && $this->isMe($token, $user_id)){ // check token valid?, user-token relation
+            if(User::isTokenValid($token) && User::isMe($token, $user_id)){ // check token valid?, user-token relation
             
                 //============main function===========
-                $user = User::where('id', $user_id)->first();
-                $user->favorited_illusts()->toggle([$illust_id]);
+                $user = User::getUserById($user_id);
+                $user->toggle_favorite($illust_id);
                 
                 return response(['message'=>'success']);
             }
@@ -322,59 +289,35 @@ class UserController extends Controller
         return response(['message'=>'user or token doesn`t exists']);
     }
     
-    public function is_favorited_illust(Request $request){
-        $user_id = request()->us_id;
-        $illust_id = request()->il_id;
-        $token = Cookie::get('my_token');
-        
-        
-        if($this->isUserExists($user_id) && $this->isTokenExists($token)){ //check a token, a user
-        
-            if($this->isTokenValid($token) && $this->isMe($token, $user_id)){ // check token valid?, user-token relation
-            
-                //============main function===========
-                $user = User::where('id', $user_id)->first();
-                
-                $is_favorited = $this->is_favorited($user, $illust_id);
-                return response(['is_favorited'=>$is_favorited]);
-            }
-            return response(['message'=>'token validation fail or ur token and id have no relation']);
-        }
-        return response(['message'=>'user or token doesn`t exists']);
-    }
-    
-    //=============================================================================================================
-    //privates
-    
-    private function is_favorited($user, $illust_id){
-        return $user->favorited_illusts()->where('illust_id', $illust_id)->exists();
-    }
-    
     
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
     //comment 関係
     
     public function fetch_usercomments(Request $request){
-        $isfull = false;
-        $user_id = request()->id;
-        
         $token = Cookie::get('my_token');
-        $user = User::where('token', $token)->first();
+        if(!User::isTokenValid_full($token)){
+            return $this->errResponse();
+        }
+        $lguser = User::getUserByToken($token);
         
+        $user = User::getUserById(request()->id);
+        
+        $isfull = false;
         $c_data = array();
         $_comment = array();
         $count = 0;
         
         if(request()->count == 0){
-            $comments = User::find($user_id)->comments()->orderBy('created_at', 'desc')->select(["id","illust_id", "comment"])->limit(10)->get();
+            $comments = $user->get_comments(10);
         }else{
-            $comments = User::find($user_id)->comments()->orderBy('created_at', 'desc')->select(["id","illust_id", "comment"])->offset(request()->count * 10)->limit(10)->get();
+            $comments = $user->get_comments_offset(10, request()->count);
         }
         if($comments->count()>0){
             foreach ($comments as $comment){
                 $_comment = array_merge($comment->toArray(), Illust::where('id', $comment->illust_id)->select(["path", "title", "user_id"])->first()->toArray());
-                $_isfav["isfav"] = $user->favorited_illusts()->where('illust_id', $comment->illust_id)->exists();
+                $_isfav["isfav"] = $lguser->is_favorited($comment->illust_id);
                 $_comment = array_merge($_comment, $_isfav);
+                unset($_comment["user_id"]);
                 $c_data[$count] = $_comment;
                 $count += 1;
             }
@@ -396,9 +339,9 @@ class UserController extends Controller
         $illust_id = request()->il_id;
         $token = Cookie::get('my_token');
         
-        if($this->isUserExists($user_id) && $this->isTokenExists($token)){ //check a token, a user
+        if(User::isUserExists($user_id) && User::isTokenExists($token)){ //check a token, a user
         
-            if($this->isTokenValid($token) && $this->isMe($token, $user_id)){ // check token valid?, user-token relation
+            if(User::isTokenValid($token) && User::isMe($token, $user_id)){ // check token valid?, user-token relation
             
                 //============main function===========
                 $comment = new Comment;
@@ -416,8 +359,4 @@ class UserController extends Controller
         }
         return response(['message'=>'user or token doesn`t exists']);
     }
-    
-    //=============================================================================================================
-    //privates
-
 }

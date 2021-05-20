@@ -154,7 +154,12 @@ class User extends Authenticatable
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
     //illust 関係
     
-    public function illusts()
+    public function getIllusts_detail($amount){//oooo
+        return $this->illusts()->orderBy('created_at', 'desc')->select(["id","path","title"])->limit($amount)->get();
+    }
+    
+    
+    public function illusts()//oooo
     {
         return $this->hasMany(Illust::class);
     }
@@ -165,16 +170,23 @@ class User extends Authenticatable
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
     //favorite 関係
     
-    public function getFavorites_detail(){
-        return $this->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["favorites.id", "illust_id","path","title","illusts.user_id"])->limit(3)->get();
+    public function get_favorites($amount){//oooo
+        return $this->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["favorites.id", "illust_id","path","title","illusts.user_id"])->limit($amount)->get();
     }
     
+    public function get_favorites_with_offset($amount, $offset){//oooo
+        return $this->favorited_illusts()->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["favorites.id","illust_id","path","title","illusts.user_id"])->offset($offset * 10)->limit($amount)->get();
+    }
     
-    public function favorited_illusts(){
+    public function toggle_favorite($illust_id){//ooooo
+        $this->favorited_illusts()->toggle([$illust_id]);
+    }
+    
+    public function favorited_illusts(){//oooo
         return $this->belongsToMany(Illust::class, 'favorites', 'user_id', 'illust_id')->withTimestamps();
     }
     
-    public function is_favorited($illust_id){
+    public function is_favorited($illust_id){//oooo
         return $this->belongsToMany(Illust::class, 'favorites', 'user_id', 'illust_id')->where('illust_id', $illust_id)->exists();
     }
     
@@ -184,7 +196,16 @@ class User extends Authenticatable
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
     //comment 関係
     
-    public function comments()
+    public function get_comments($amount){//ooo
+        return $this->comments()->orderBy('created_at', 'desc')->select(["id", "illust_id", "comment", "user_id"])->limit($amount)->get();
+    }
+    
+    public function get_comments_offset($amount, $offset){//ooo
+        return $this->comments()->orderBy('created_at', 'desc')->select(["id", "illust_id", "comment", "user_id"])->offset($offset * 10)->limit($amount)->get();
+    }
+    
+    
+    public function comments()//oooo
     {
         return $this->hasMany(Comment::class);
     }

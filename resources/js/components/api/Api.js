@@ -272,9 +272,3 @@ export const Api_AddComment = (illust_id, user_id, comment) => {
                 })
     }
 }
-
-// isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited 
-
-export const Api_IsFavorited = (illust_id, user_id) => {
-        return axios.post('/isfav', {'il_id': illust_id, 'us_id':user_id});
-}

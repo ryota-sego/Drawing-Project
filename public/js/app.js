@@ -2306,8 +2306,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Api_FetchIllust_Detail": () => (/* binding */ Api_FetchIllust_Detail),
 /* harmony export */   "Api_FetchComment_Detail": () => (/* binding */ Api_FetchComment_Detail),
 /* harmony export */   "Api_AddToFavorite": () => (/* binding */ Api_AddToFavorite),
-/* harmony export */   "Api_AddComment": () => (/* binding */ Api_AddComment),
-/* harmony export */   "Api_IsFavorited": () => (/* binding */ Api_IsFavorited)
+/* harmony export */   "Api_AddComment": () => (/* binding */ Api_AddComment)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
@@ -2579,13 +2578,6 @@ var Api_AddComment = function Api_AddComment(illust_id, user_id, comment) {
       ongoing15 = false;
     });
   }
-}; // isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited  isfavorited 
-
-var Api_IsFavorited = function Api_IsFavorited(illust_id, user_id) {
-  return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/isfav', {
-    'il_id': illust_id,
-    'us_id': user_id
-  });
 };
 
 /***/ }),
@@ -5522,13 +5514,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_p5__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-p5 */ "./node_modules/react-p5/build/index.js");
-/* harmony import */ var react_p5__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_p5__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _Comment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Comment */ "./resources/js/components/post_parts/Comment.js");
-/* harmony import */ var _api_Api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../api/Api */ "./resources/js/components/api/Api.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _Comment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Comment */ "./resources/js/components/post_parts/Comment.js");
+/* harmony import */ var _api_Api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../api/Api */ "./resources/js/components/api/Api.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -5550,26 +5540,25 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
  //
 
 
 
-var Post_Timeline = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.memo(function (props) {
-  var mounted1 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(false);
-  var mounted2 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(false);
+var Post_Timeline = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.memo(function (props) {
+  var mounted1 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(false);
+  var mounted2 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(false);
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(props.data.isfav),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(props.data.isfav),
       _useState2 = _slicedToArray(_useState, 2),
       isfav = _useState2[0],
       setIsfav = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("false"),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)("false"),
       _useState4 = _slicedToArray(_useState3, 2),
       ishover = _useState4[0],
       setIshover = _useState4[1];
 
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     if (mounted1.current) {
       var add_fav = /*#__PURE__*/function () {
         var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -5578,7 +5567,7 @@ var Post_Timeline = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.memo(functio
               switch (_context.prev = _context.next) {
                 case 0:
                   try {
-                    (0,_api_Api__WEBPACK_IMPORTED_MODULE_4__.Api_AddToFavorite)(props.data.id, props.login_user_id);
+                    (0,_api_Api__WEBPACK_IMPORTED_MODULE_3__.Api_AddToFavorite)(props.data.id, props.login_user_id);
                   } catch (e) {
                     console.log(e);
                   }
@@ -5601,7 +5590,7 @@ var Post_Timeline = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.memo(functio
       mounted1.current = true;
     }
   }, [isfav]);
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     if (mounted2.current) {
       if (ishover) {
         props.setNameAndTitle(props.data.name, props.data.title, props.data.created_at.replace(/\..*$/, '').replace(/[T]/, ' '));
@@ -5613,37 +5602,37 @@ var Post_Timeline = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.memo(functio
     }
   }, [ishover]); // onMouseOut={()=>setIshover(false)}
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     className: "relative w-72 h-96",
     onMouseOver: function onMouseOver() {
       return setIshover(true);
     },
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
       className: "absolute inset-0 post-timeline overflow-hidden w-72 h-96 bg-red-100 box-border border-2 border-black",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "h-64 w-64 mx-auto my-2 bg-green-100",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.NavLink, {
           to: "/illust/".concat(props.data.id),
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
             src: "".concat(props.data.path),
             width: "300"
           })
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "box-border border-4 border-red-500 card-body",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h5", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
           className: "text-lg",
           children: props.data.title
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("p", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
           children: ["User: ", props.data.name]
-        }), isfav ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+        }), isfav ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
           onClick: function onClick() {
             return setIsfav(!isfav);
           },
           href: "",
           className: "block btn btn-primary h-8 w-20 bg-blue-100 z-50",
           children: "Unfavorite"
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
           onClick: function onClick() {
             return setIsfav(!isfav);
           },
@@ -5652,16 +5641,16 @@ var Post_Timeline = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.memo(functio
           children: "Favorite"
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.NavLink, {
       to: "/illust/".concat(props.data.id),
       className: "block absolute inset-x-0 top-0 bg-opacity-70 hidden comment-timeline w-72 h-76 bg-red-100 box-border",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "overflow-auto h-full w-full",
         children: props.data.comment.length ? props.data.comment.map(function (n) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Comment__WEBPACK_IMPORTED_MODULE_3__.Comment_Timeline, {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Comment__WEBPACK_IMPORTED_MODULE_2__.Comment_Timeline, {
             comment: n.comment
           }, n.id);
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
           className: "py-1 px-2 break-words bg-white box-border border-2 border-green-500",
           children: "No Comments"
         })
@@ -5671,15 +5660,15 @@ var Post_Timeline = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.memo(functio
 }, function (prev, next) {
   return true;
 });
-var Post_usercommentpane = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.memo(function (props) {
-  var mounted = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(false);
+var Post_usercommentpane = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.memo(function (props) {
+  var mounted = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(false);
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(props.data.isfav),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(props.data.isfav),
       _useState6 = _slicedToArray(_useState5, 2),
       isfav = _useState6[0],
       setIsfav = _useState6[1];
 
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     if (mounted.current) {
       var add_fav = /*#__PURE__*/function () {
         var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
@@ -5688,7 +5677,7 @@ var Post_usercommentpane = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.memo(
               switch (_context2.prev = _context2.next) {
                 case 0:
                   try {
-                    (0,_api_Api__WEBPACK_IMPORTED_MODULE_4__.Api_AddToFavorite)(props.data.illust_id, props.login_user_id);
+                    (0,_api_Api__WEBPACK_IMPORTED_MODULE_3__.Api_AddToFavorite)(props.data.illust_id, props.login_user_id);
                   } catch (e) {
                     console.log(e);
                   }
@@ -5711,45 +5700,45 @@ var Post_usercommentpane = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.memo(
       mounted.current = true;
     }
   }, [isfav]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     className: "w-80 h-48 bg-red-100 box-border border-2 border-black flex flex-row",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
       className: "w-36 h-auto",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "h-36 w-36 mx-auto my-1 bg-green-100 text-lg break-words",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.NavLink, {
           to: "/illust/".concat(props.data.illust_id),
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
             src: "".concat(props.data.path),
             width: "300"
           })
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "flex justify-between content-center",
-        children: [isfav ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+        children: [isfav ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
           onClick: function onClick() {
             return setIsfav(!isfav);
           },
           href: "",
           className: "block btn btn-primary h-8 w-20 bg-blue-100 z-50",
           children: "Unfavorite"
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
           onClick: function onClick() {
             return setIsfav(!isfav);
           },
           href: "",
           className: "block btn btn-primary h-8 w-20 bg-red-200 z-50",
           children: "Favorite"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.NavLink, {
           to: "/user/".concat(props.data.user_id, "/detail"),
           className: "inline-block w-full h-8 mx-1 my-1 bg-yellow-100",
           onClick: props.userUnMount,
           children: "UserPage"
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "h-auto px-1 py-1 usercomment box-border border-4 border-red-500",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
         className: "w-full break-words text-sm",
         children: props.data.comment
       })
@@ -5759,14 +5748,14 @@ var Post_usercommentpane = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.memo(
   return true;
 });
 var Post_userfavoritepane = function Post_userfavoritepane(props) {
-  var mounted = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(false);
+  var mounted = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(false);
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(props.data.isfav),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(props.data.isfav),
       _useState8 = _slicedToArray(_useState7, 2),
       isfav = _useState8[0],
       setIsfav = _useState8[1];
 
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     if (mounted.current) {
       var add_fav = /*#__PURE__*/function () {
         var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
@@ -5775,7 +5764,7 @@ var Post_userfavoritepane = function Post_userfavoritepane(props) {
               switch (_context3.prev = _context3.next) {
                 case 0:
                   try {
-                    (0,_api_Api__WEBPACK_IMPORTED_MODULE_4__.Api_AddToFavorite)(props.data.illust_id, props.login_user_id);
+                    (0,_api_Api__WEBPACK_IMPORTED_MODULE_3__.Api_AddToFavorite)(props.data.illust_id, props.login_user_id);
                   } catch (e) {
                     console.log(e);
                   }
@@ -5798,43 +5787,43 @@ var Post_userfavoritepane = function Post_userfavoritepane(props) {
       mounted.current = true;
     }
   }, [isfav]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     className: "w-72 h-88 bg-red-100 box-border border-2 border-black",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "h-64 w-64 mx-auto my-2 bg-green-100",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.NavLink, {
         to: "/illust/".concat(props.data.illust_id),
         className: "truncate break-all",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
           src: "".concat(props.data.path),
           width: "300"
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
       className: "h-auto w-full box-border border-4 border-red-500",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "w-full text-xs box-border border-4 border-yellow-400",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h5", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
           className: "text-lg",
           children: props.data.title
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "flex flex-between justify-center content-center",
-        children: [isfav ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+        children: [isfav ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
           onClick: function onClick() {
             return setIsfav(!isfav);
           },
           href: "",
           className: "block btn btn-primary h-8 w-20 bg-blue-100 z-50",
           children: "Unfavorite"
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
           onClick: function onClick() {
             return setIsfav(!isfav);
           },
           href: "",
           className: "block btn btn-primary h-8 w-20 bg-red-200 z-50",
           children: "Favorite"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.NavLink, {
           to: "/user/".concat(props.data.user_id, "/detail"),
           className: "inline-block w-full mx-1 my-1",
           onClick: props.userUnMount,
@@ -5845,14 +5834,14 @@ var Post_userfavoritepane = function Post_userfavoritepane(props) {
   });
 };
 var Post_userdrawingpane = function Post_userdrawingpane(props) {
-  var mounted = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(false);
+  var mounted = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(false);
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(props.data.isfav),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(props.data.isfav),
       _useState10 = _slicedToArray(_useState9, 2),
       isfav = _useState10[0],
       setIsfav = _useState10[1];
 
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     if (mounted.current) {
       var add_fav = /*#__PURE__*/function () {
         var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
@@ -5861,7 +5850,7 @@ var Post_userdrawingpane = function Post_userdrawingpane(props) {
               switch (_context4.prev = _context4.next) {
                 case 0:
                   try {
-                    (0,_api_Api__WEBPACK_IMPORTED_MODULE_4__.Api_AddToFavorite)(props.data.id, props.login_user_id);
+                    (0,_api_Api__WEBPACK_IMPORTED_MODULE_3__.Api_AddToFavorite)(props.data.id, props.login_user_id);
                   } catch (e) {
                     console.log(e);
                   }
@@ -5884,37 +5873,37 @@ var Post_userdrawingpane = function Post_userdrawingpane(props) {
       mounted.current = true;
     }
   }, [isfav]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     className: "w-72 h-96 bg-red-100 box-border border-2 border-black",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "h-64 w-64 mx-auto my-2 bg-green-100",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.NavLink, {
         to: "/illust/".concat(props.data.id),
         className: "truncate break-all",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
           src: "".concat(props.data.path),
           width: "300"
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
       className: "box-border border-4 border-red-500 card-body",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h5", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
         className: "text-lg",
         children: props.data.title
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "w-full text-xs box-border border-4 border-yellow-400",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
           className: "w-full break-words xs",
           children: props.data.description
         })
-      }), isfav ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+      }), isfav ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
         onClick: function onClick() {
           return setIsfav(!isfav);
         },
         href: "",
         className: "block btn btn-primary h-8 w-20 bg-blue-100 z-50",
         children: "Unfavorite"
-      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
         onClick: function onClick() {
           return setIsfav(!isfav);
         },
@@ -5924,42 +5913,7 @@ var Post_userdrawingpane = function Post_userdrawingpane(props) {
       })]
     })]
   });
-}; // =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+= Sketch Component +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-//const Sketch_Memo = React.memo(
-//	props => {
-//		return <SketchP5 setDrawing={props.illust_data.data}/>
-//	},(prevProps, nextProps)=>{
-//		return true;
-//	})
-//const SketchP5 = (props) => {
-//	console.log("render Skt");
-//    let current_line = [];
-//    let started = false;
-//   let init = true;
-//
-//	const setup = (p5, canvasParentRef) => {
-//		// use parent to render the canvas in this ref
-//		// (without that p5 will render the canvas outside of your component)
-//		const canvas = p5.createCanvas(500, 500).parent(canvasParentRef);
-//	};
-//
-//	const draw = (p5) => {
-//	    p5.background(p5.color(COLORCODE["WHITE"]));
-//	    
-//	    p5.strokeWeight(4);
-//		p5.noFill();
-//		for (let i=0; i<props.drawing.length; i++){
-//		    let current_output = props.drawing[i];
-//		    p5.beginShape();
-//          current_output.forEach(p=> {p5.stroke(p.c); p5.vertex(p.x, p.y)});
-//     		p5.endShape();
-//		}
-//		p5.noloop();
-//	};
-//	
-//
-//	return <Sketch setup={setup} draw={draw} />;
-//};
+};
 
 /***/ }),
 
