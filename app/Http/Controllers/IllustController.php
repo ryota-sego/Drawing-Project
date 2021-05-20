@@ -11,83 +11,128 @@ use App\Models\User;
 use App\Models\Illust;
 use App\Models\Comment;
 
+use App\Http\Controllers\ErrorResponse;
+
 class IllustController extends Controller
 {
+    private $errorResponse;
     
-    public function load_illust(Request $request){
-
-
-        $illust_id = request()->get('illust_id');
-        $illust = Illust::where('id', $illust_id)->select(['edit_history', 'title', 'updated_at', "description"])->first();
+     public function __construct(ErrorResponse $errorResponse)
+     {
+         $this->errorResponse = $errorResponse;
+     }
+     
+    public function load_illust(Request $request){//ok
+        $user_id = request()->user_id;
+        $illust_id = request()->illust_id;
+        $token = Cookie::get('my_token');
         
-        return response([
-                'title' => $illust->title,
-                'description' => $illust->description,
-                'updated_at' => $illust->updated_at,
-                'drawing' => json_decode($illust->edit_history)
-            ]);
+        if(User::isUserExists($user_id) && User::isTokenExists($token)){ //check a token, a user
+        
+            if(User::isTokenValid($token) && User::isMe($token, $user_id)){ // check token valid?, user-token relation
+            
+                //============main function===========
+                $illust = Illust::where('id', $illust_id)->select(['edit_history', 'title', 'updated_at', "description"])->first();
+                
+                return response([
+                        'title' => $illust->title,
+                        'description' => $illust->description,
+                        'updated_at' => $illust->updated_at,
+                        'drawing' => json_decode($illust->edit_history)
+                    ]);
+            }
+            return response(['message'=>'token validation fail or ur token and id have no relation']);
+        }
+        return response(['message'=>'user or token doesn`t exists']);
+        
+        
         
 
     }
     
-    
-    
-    public function edit_illust(Request $request){
+    public function edit_illust(Request $request){//ok
+        $user_id = request()->user_id;
+        $illust_id = request()->illust_id;
         $token = Cookie::get('my_token');
-        $user = User::get_me($token);
         
-        $edit_history = json_encode(request()->get('edit_history'));
+        if(User::isUserExists($user_id) && User::isTokenExists($token)){ //check a token, a user
         
-        $illust = Illust::find(request()->get("illust_id"));
+            if(User::isTokenValid($token) && User::isMe($token, $user_id)){ // check token valid?, user-token relation
+            
+                //============main function===========
+                $edit_history = json_encode(request()->get('edit_history'));
         
-        $illust->title = request()->get("title");
-        $illust->description = request()->get("description");
-        $illust->path = request()->get('drawing');
-        $illust->edit_history = $edit_history;
-        $illust->user_id = $user->id;
+                $illust = Illust::find($illust_id);
+                
+                $illust->title = request()->get("title");
+                $illust->description = request()->get("description");
+                $illust->path = request()->get('drawing');
+                $illust->edit_history = $edit_history;
+                $illust->user_id = $user_id;
+                
+                $illust->save();
+                                
+                return response([
+                             'title' => $illust->title,
+                             'description' => $illust->description,
+                             'updated_at' => $illust->updated_at
+                                ]);
+            }
+            return response(['message'=>'token validation fail or ur token and id have no relation']);
+        }
+        return response(['message'=>'user or token doesn`t exists']);
         
-        $illust->save();
-                        
-        return response(['title' => $illust->title,
-                         'description' => $illust->description,
-                         'updated_at' => $illust->updated_at,]);
+        
     }
     
-    public function store_illust_blob(Request $request){
+    public function store_illust_blob(Request $request){//ok
+        $user_id = request()->user_id;
+        $illust_id = request()->illust_id;
         $token = Cookie::get('my_token');
-        $user = User::get_me($token);
         
-        $edit_history = json_encode(request()->get('edit_history'));
+        if(User::isUserExists($user_id) && User::isTokenExists($token)){ //check a token, a user
         
-        $illust = new Illust;
-        $illust->title = request()->get("title");
-        $illust->description = request()->get("description");
-        $illust->path = request()->get('drawing');
-        $illust->edit_history = $edit_history;
-        $illust->user_id = $user->id;
-        
-        $illust->save();
-                        
-        return response(['illust_id' => $illust->id]);
+            if(User::isTokenValid($token) && User::isMe($token, $user_id)){ // check token valid?, user-token relation
+            
+                //============main function===========
+                $edit_history = json_encode(request()->get('edit_history'));
+                
+                $illust = new Illust;
+                $illust->title = request()->get("title");
+                $illust->description = request()->get("description");
+                $illust->path = request()->get('drawing');
+                $illust->edit_history = $edit_history;
+                $illust->user_id = $user_id;
+                
+                $illust->save();
+                                
+                return response(['illust_id' => $illust->id]);
+            }
+            return response(['message'=>'token validation fail or ur token and id have no relation']);
+        }
+        return response(['message'=>'user or token doesn`t exists']);
     }
     
     
-    public function fetch_userillusts(Request $request){
+    public function fetch_userillusts(Request $request){//ok
         $token = Cookie::get('my_token');
-        $user = User::where('token', $token)->first();
+        if(!User::isTokenValid_full($token)){
+            return $this->errorResponse->errorResponse();
+        }
+        $lguser = User::getUserByToken($token);
+        
         $isfull = false;
-        
         $i_data = array();
         $count = 0;
         
         if(request()->count == 0){
             $illusts = Illust::where('user_id', request()->id)->orderBy('created_at', 'desc')->select(['id', 'title', 'path', 'description','user_id'])->limit(10)->get();
         }else{
-        $illusts = Illust::where('user_id', request()->id)->orderBy('created_at', 'desc')->select(['id', 'title', 'path', 'description','user_id'])->offset(request()->count * 10)->limit(10)->get();
+            $illusts = Illust::where('user_id', request()->id)->orderBy('created_at', 'desc')->select(['id', 'title', 'path', 'description','user_id'])->offset(request()->count * 10)->limit(10)->get();
         }
         if($illusts->count()>0){
             foreach ($illusts as $illust){
-                $_isfav["isfav"] = $user->favorited_illusts()->where('illust_id', $illust->id)->exists();
+                $_isfav["isfav"] = $lguser->is_favorited($illust->id);
                 $_illust = array_merge($illust->toArray(), $_isfav);
                 $i_data[$count] = $_illust;
                 $count += 1;
@@ -103,15 +148,16 @@ class IllustController extends Controller
                         ]);
     }
     
-    
-    
-    
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     
     public function fetch_timelineillusts(Request $request){
         $isfull = false;
+        
         $token = Cookie::get('my_token');
-        $user = User::where('token', $token)->first();
+        if(!User::isTokenValid_full($token)){
+            return $this->errorResponse->errorResponse();
+        }
+        $lguser = User::getUserByToken($token);
         
         $p_data = array();
         $count = 0;
@@ -127,8 +173,7 @@ class IllustController extends Controller
                 $user_name['name'] = $illust->user()->select(['name'])->first()->name;
                 $_comments = $illust->comments()->orderBy('created_at', "desc")->limit(5)->select(['id','comment', 'user_id'])->get();
                 $_comment_with_key["comment"] = $_comments->toArray();
-                $_isfav["isfav"] = $user->favorited_illusts()->where('illust_id', $illust->id)->exists();
-                
+                $_isfav["isfav"] = $lguser->is_favorited($illust->id);
                 $_illust = $illust->toArray();
                 $_illust = array_merge($_illust, $user_name);
                 $_illust = array_merge($_illust,$_isfav);
@@ -150,13 +195,17 @@ class IllustController extends Controller
     
     public function fetch_detailillust(){
         $token = Cookie::get('my_token');
-        $lg_user = User::where('token', $token)->first();
+        if(!User::isTokenValid_full($token)){
+            return $this->errorResponse->errorResponse();
+        }
+        $lguser = User::getUserByToken($token);
+        
         $i_data = array();
         $user= array();
         
         $illust = Illust::where('id', request()->id)->orderBy('created_at', 'desc')->select(['id','path', 'title', 'description', 'user_id'])->first();
         $user = $illust->user()->select(['id', 'name', 'icon'])->get()->toArray();
-        $_isfav["isfav"] = $lg_user->favorited_illusts()->where('illust_id', $illust->id)->exists();
+        $_isfav["isfav"] = $lguser->is_favorited($illust->id);
         $i_data = array_merge($illust->toArray(), $user);
         $i_data = array_merge($i_data, $_isfav);
         return response([
@@ -177,27 +226,10 @@ class IllustController extends Controller
         
         if(request()->count == 0){
             $comments = $illust->comments()->orderBy('created_at','desc')->select(['id','comment', 'user_id'])->limit(10)->get();
-            
-            if($comments->count()>0){
-                foreach ($comments as $comment){
-                    $_comment = $comment->toArray();
-                    array_push($_comment, $comment->user()->select(['id', 'name', 'icon'])->first()->toArray());
-                    $c_data[$count] = $_comment;
-                    $count += 1;
-                }
-            }
-            
-            if($comments->count() < 10){
-                $isfull = true;
-            }
-            
-            return response(["comment_data" => $c_data,
-                                 "isfull" => $isfull]);
+        }else{
+        $comments = $illust->comments()->orderBy('created_at','desc')->select(['id','comment', 'user_id'])->offset(request()->count * 10)->limit(10)->get();
         }
         
-        $comments = $illust->comments()->orderBy('created_at','desc')->select(['id','comment', 'user_id'])->offset(request()->count * 10)->limit(10)->get();
-            
-            
         if($comments->count()>0){
             foreach ($comments as $comment){
                 $_comment = $comment->toArray();

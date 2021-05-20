@@ -106,7 +106,7 @@ class User extends Authenticatable
         $this->save();
     }
     
-    static function isTokenValid_full($token){
+    static function isTokenValid_full($token){//ooo
         if($token == null) return false;
         if(!User::isTokenExists($token)) return false;
         if(!User::isTokenValid($token)) return false;

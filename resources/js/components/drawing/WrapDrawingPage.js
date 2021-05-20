@@ -108,7 +108,7 @@ export default class WrapDrawingPage extends React.Component {
     	const urled_cnv = getBlobedCnv();
     	const history_to_json = JSON.stringify(this.state.drawing);
     	try{
-    		const res = await Api_StoreIllust_url(title, description, urled_cnv, history_to_json);
+    		const res = await Api_StoreIllust_url(this.props.user_data.id, title, description, urled_cnv, history_to_json);
     		this.setState({saved:true,
     					   illust_id:res.data.illust_id
     					 })

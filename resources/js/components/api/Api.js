@@ -75,12 +75,13 @@ export function Api_Signup(email, name, password, setIsGuest){
 // illust     illust     illust     illust     illust     illust     illust     illust     illust     illust    
 
 
-export function Api_StoreIllust_url(title, description, urled_cnv, edit_history){
-        return axios.post('api/store_illust_blob', {'title':title,'description': description, 'drawing': urled_cnv, 'edit_history': edit_history})
+export function Api_StoreIllust_url(user_id, title, description, urled_cnv, edit_history){
+        return axios.post('api/store_illust_blob', {'user_id':user_id,'title':title,'description': description, 'drawing': urled_cnv, 'edit_history': edit_history})
 }
 
-export const Api_EditIllust_url = (illust_id, title, description, urled_cnv, edit_history) => {
-    return axios.post('/edit_illust', {'illust_id':illust_id,'title':title,'description': description, 'drawing': urled_cnv, 'edit_history': edit_history})
+export const Api_EditIllust_url = (user_id, illust_id, title, description, urled_cnv, edit_history) => {
+    console.log(user_id);
+    return axios.post('/edit_illust', {'user_id':user_id, 'illust_id':illust_id,'title':title,'description': description, 'drawing': urled_cnv, 'edit_history': edit_history})
 }
 
 export const Api_LordIllust = (illust_id, user_id) => {

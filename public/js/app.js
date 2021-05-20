@@ -2379,16 +2379,19 @@ function Api_Signup(email, name, password, setIsGuest) {
   }
 } // illust     illust     illust     illust     illust     illust     illust     illust     illust     illust    
 
-function Api_StoreIllust_url(title, description, urled_cnv, edit_history) {
+function Api_StoreIllust_url(user_id, title, description, urled_cnv, edit_history) {
   return axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/store_illust_blob', {
+    'user_id': user_id,
     'title': title,
     'description': description,
     'drawing': urled_cnv,
     'edit_history': edit_history
   });
 }
-var Api_EditIllust_url = function Api_EditIllust_url(illust_id, title, description, urled_cnv, edit_history) {
+var Api_EditIllust_url = function Api_EditIllust_url(user_id, illust_id, title, description, urled_cnv, edit_history) {
+  console.log(user_id);
   return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/edit_illust', {
+    'user_id': user_id,
     'illust_id': illust_id,
     'title': title,
     'description': description,
@@ -4141,7 +4144,7 @@ var WrapDrawingPage = /*#__PURE__*/function (_React$Component) {
                 history_to_json = JSON.stringify(this.state.drawing);
                 _context.prev = 2;
                 _context.next = 5;
-                return (0,_api_Api__WEBPACK_IMPORTED_MODULE_4__.Api_StoreIllust_url)(title, description, urled_cnv, history_to_json);
+                return (0,_api_Api__WEBPACK_IMPORTED_MODULE_4__.Api_StoreIllust_url)(this.props.user_data.id, title, description, urled_cnv, history_to_json);
 
               case 5:
                 res = _context.sent;
@@ -4918,7 +4921,7 @@ var WrapEditPage = /*#__PURE__*/function (_React$Component) {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return (0,_api_Api__WEBPACK_IMPORTED_MODULE_5__.Api_LordIllust)(this.props.match.params.illustid, this.props.user_data.userid);
+                return (0,_api_Api__WEBPACK_IMPORTED_MODULE_5__.Api_LordIllust)(this.props.match.params.illustid, this.props.user_data.id);
 
               case 3:
                 res = _context.sent;
@@ -4992,7 +4995,7 @@ var WrapEditPage = /*#__PURE__*/function (_React$Component) {
                 history_to_json = JSON.stringify(this.state.drawing);
                 _context2.prev = 2;
                 _context2.next = 5;
-                return (0,_api_Api__WEBPACK_IMPORTED_MODULE_5__.Api_EditIllust_url)(this.props.match.params.illustid, title, description, urled_cnv, history_to_json);
+                return (0,_api_Api__WEBPACK_IMPORTED_MODULE_5__.Api_EditIllust_url)(this.props.user_data.id, this.props.match.params.illustid, title, description, urled_cnv, history_to_json);
 
               case 5:
                 res = _context2.sent;
@@ -5001,14 +5004,16 @@ var WrapEditPage = /*#__PURE__*/function (_React$Component) {
                   description: res.data.description,
                   illust_updated: res.data.updated_at
                 });
-                _context2.next = 11;
+                _context2.next = 13;
                 break;
 
               case 9:
                 _context2.prev = 9;
                 _context2.t0 = _context2["catch"](2);
+                console.log(_context2.t0.response);
+                console.log(_context2.t0);
 
-              case 11:
+              case 13:
               case "end":
                 return _context2.stop();
             }

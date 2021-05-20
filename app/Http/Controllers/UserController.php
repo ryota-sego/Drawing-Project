@@ -12,18 +12,17 @@ use App\Models\User;
 use App\Models\Comment;
 use App\Models\Favorite;
 use App\Models\Illust;
-use App\Http\Controllers\Component;
+use App\Http\Controllers\ErrorResponse;
 use Carbon\Carbon;
 
 class UserController extends Controller
 {
-    private $_userComponent;
+    private $errorResponse;
     
-    // public function __construct(UserComponent $userComponent)
-    // {
-    //     $this->_userComponent = $userComponent;
-    //     echo $this->_userComponent->foo();
-    // }
+     public function __construct(ErrorResponse $errorResponse)
+     {
+         $this->errorResponse = $errorResponse;
+     }
     
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     // Auth/User 関係
@@ -33,30 +32,6 @@ class UserController extends Controller
     // $request->cookie('cookie_name') == Cookie::get('cookie_name')
         
         //テンプレ
-        
-        //$user_id = request()->user_id;
-        //$token = Cookie::get('my_token');
-        //
-        //if($this->isUserExists($user_id) && $this->isTokenExists($token)){ //check a token, a user
-        //
-        //    if($this->isTokenValid($token) && $this->isMe($token, $user_id)){ // check token valid?, user-token's relation
-        //    
-        //        //============main function===========
-        //        
-        //        return response(['message'=>'success',
-        //                        ]);
-        //    }
-        // 
-        //    //===========when token invalid or token is not related to requested user================
-        //    return response(['message'=>'token validation fail or ur token and id have no relation']);
-        //}
-        //
-        // //when user or token doesn't exists
-        //return response(['message'=>'user or token doesn`t exists']);
-        
-    private function errResponse(){
-        return response(['user_data' => -1])->withoutCookie('my_token')->withoutCookie('loggedin');
-    }
     
     
     public function signup(Request $request){//ok
@@ -121,7 +96,7 @@ class UserController extends Controller
         $token = Cookie::get('my_token'); //Token check
         
         if(!User::isTokenValid_full($token)){
-            return $this->errResponse();
+            return $this->errorResponse->errorResponse();
         }
         
         $lguser = User::getUserByToken($token); //get user
@@ -140,7 +115,7 @@ class UserController extends Controller
         $token = Cookie::get('my_token');
         
         if(!User::isTokenValid_full($token)){
-            return $this->errResponse();
+            return $this->errorResponse->errorResponse();
         }
         $lguser = User::getUserByToken($token);
         $lguser->deleteToken();
@@ -150,6 +125,10 @@ class UserController extends Controller
                 'status' => $lguser
                 ])->withoutCookie('my_token')->withoutCookie('loggedin');
     }
+    
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
+    //detail 関係
+ 
     
     public function fetch_userdata(Request $request){// ok
         $user = User::getUserById(request()->id);
@@ -161,7 +140,7 @@ class UserController extends Controller
     public function fetch_userdetails(Request $request){ //ok
         $token = Cookie::get('my_token');
         if(!User::isTokenValid_full($token)){
-            return $this->errResponse();
+            return $this->errorResponse->errorResponse();
         }
         
         $lguser = User::getUserByToken($token);
@@ -232,7 +211,7 @@ class UserController extends Controller
     public function fetch_userfavorites(Request $request){//ok
         $token = Cookie::get('my_token');
         if(!User::isTokenValid_full($token)){
-            return $this->errResponse();
+            return $this->errorResponse->errorResponse();
         }
         $lguser = User::getUserByToken($token);
         
@@ -293,10 +272,10 @@ class UserController extends Controller
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
     //comment 関係
     
-    public function fetch_usercomments(Request $request){
+    public function fetch_usercomments(Request $request){//ok
         $token = Cookie::get('my_token');
         if(!User::isTokenValid_full($token)){
-            return $this->errResponse();
+            return $this->errorResponse->errorResponse();
         }
         $lguser = User::getUserByToken($token);
         
@@ -334,7 +313,7 @@ class UserController extends Controller
     }
     
     
-    public function add_comment(Request $request){
+    public function add_comment(Request $request){//ok
         $user_id = request()->us_id;
         $illust_id = request()->il_id;
         $token = Cookie::get('my_token');

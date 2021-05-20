@@ -89,7 +89,7 @@ export default class WrapEditPage extends React.Component {
     
     async loadIllust(){
         try{
-        	const res = await Api_LordIllust(this.props.match.params.illustid, this.props.user_data.userid);
+        	const res = await Api_LordIllust(this.props.match.params.illustid, this.props.user_data.id);
         	
         	this.setState({illust_title:res.data.title,
         				   description:res.data.description,
@@ -124,13 +124,14 @@ export default class WrapEditPage extends React.Component {
     	const history_to_json = JSON.stringify(this.state.drawing);
     	try{
     		
-    		const res = await Api_EditIllust_url(this.props.match.params.illustid, title, description, urled_cnv, history_to_json);
+    		const res = await Api_EditIllust_url(this.props.user_data.id, this.props.match.params.illustid, title, description, urled_cnv, history_to_json);
     		this.setState({illust_title:res.data.title,
         				   description:res.data.description,
         				   illust_updated:res.data.updated_at
     		})
     	}catch(e){
-    		
+    		console.log(e.response)
+    		console.log(e)
     	}
     }
     
