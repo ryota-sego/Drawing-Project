@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Component;
+namespace App\Http\Controllers\ErrorResponse;
 
 class ErrorResponse {
 

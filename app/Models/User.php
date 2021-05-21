@@ -59,51 +59,8 @@ class User extends Authenticatable
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     // Auth 関係
     
-    static function get_me(string $token){
-        return User::where('token', $token)->first();
-    }
-    
-    static function get_me_id($id){
-        return User::where('id', $id)->first();
-    }
-    
-    
     static function is_exists(string $token){
         return User::where('token', $token)->first() !== null;
-    }
-    
-    //=====
-    
-    public function createUser($email, $password, $name, $description){ ///ooo
-        $this->email = request()->get("email"); //各データを登録
-        $this->password = Hash::make(request()->get("password")); //password をhash化
-        $this->name = request()->get("name"); //
-        $this->description = $description;
-        
-        $this->generateToken();
-        
-        $this->save();
-    }
-    
-    public function generateToken(){ ///ooo
-        $this->token = Str::random(255);
-        $this->token_created_at = $this->generateTokenExpiredDate();
-        
-        $this->save();
-    }
-    
-    private static function generateTokenExpiredDate(){ ///ooo
-        $carbon = Carbon::now('Asia/Tokyo');
-        $carbon->addDays(3);
-        
-        return $carbon;
-    }
-    
-    public function deleteToken(){ // oooo
-        $this->token = null;
-        $this->token_created_at = null;
-        
-        $this->save();
     }
     
     static function isTokenValid_full($token){//ooo
@@ -150,6 +107,37 @@ class User extends Authenticatable
         return $token == $db_token;
     }
     
+    public function createUser($email, $password, $name, $description){ ///ooo
+        $this->email = request()->get("email"); //各データを登録
+        $this->password = Hash::make(request()->get("password")); //password をhash化
+        $this->name = request()->get("name"); //
+        $this->description = $description;
+        
+        $this->generateToken();
+        
+        $this->save();
+    }
+    
+    public function generateToken(){ ///ooo
+        $this->token = Str::random(255);
+        $this->token_created_at = $this->generateTokenExpiredDate();
+        
+        $this->save();
+    }
+    
+    private static function generateTokenExpiredDate(){ ///ooo
+        $carbon = Carbon::now('Asia/Tokyo');
+        $carbon->addDays(3);
+        
+        return $carbon;
+    }
+    
+    public function deleteToken(){ // oooo
+        $this->token = null;
+        $this->token_created_at = null;
+        
+        $this->save();
+    }
     
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
     //illust 関係
@@ -175,7 +163,7 @@ class User extends Authenticatable
     }
     
     public function get_favorites_with_offset($amount, $offset){//oooo
-        return $this->favorited_illusts()->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["favorites.id","illust_id","path","title","illusts.user_id"])->offset($offset * 10)->limit($amount)->get();
+        return $this->favorited_illusts()->orderBy('favorites.created_at', 'desc')->select(["favorites.id","illust_id","path","title","illusts.user_id"])->offset($offset * 10)->limit($amount)->get();
     }
     
     public function toggle_favorite($illust_id){//ooooo
@@ -212,8 +200,4 @@ class User extends Authenticatable
     
     //=============================================================================================================
     //privates
-
-
-
-    
 }

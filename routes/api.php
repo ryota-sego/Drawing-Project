@@ -15,29 +15,11 @@ use App\Http\Controllers\IllustController;
 |
 */
 
-Route::get("/test", [UserController::class, 'test']);
-
 //登録、ログイン、ログアウト
-Route::post("/signup", [UserController::class, 'signup']);
-Route::get("/login_init",[UserController::class, 'login_init']);
-Route::post("/login", [UserController::class, 'login']);
-Route::get("/logout", [UserController::class, 'logout']);
+Route::post("/signup", [UserController::class, 'signup']);//ooo
+Route::get("/login_init",[UserController::class, 'login_init']);//ooo
+Route::post("/login", [UserController::class, 'login']);//oooo
+Route::get("/logout", [UserController::class, 'logout']);//ooo
 
-Route::post("/fetch_timeineillusts", [IllustController::class, 'fetch_timelineillusts']);
-
-Route::post("/fetch_userdata", [UserController::class, 'fetch_userdata']);
-Route::post("/fetch_userfavorites", [UserController::class, 'fetch_userfavorites']);
-Route::post("/fetch_usercomments", [UserController::class, 'fetch_usercomments']);
-
-
-
-Route::get("/isLoggedIn", [UserController::class, 'isLoggedIn']);
-
-Route::get("/is_me", [UserController::class, 'is_me']);
-
-Route::post("/store_illust", [IllustController::class, 'store_illust']);
-Route::post("/store_illust_blob", [IllustController::class, 'store_illust_blob']);
-Route::post("/load_illust", [IllustController::class, 'load_illust']);
-Route::get("/edit_illust", [IllustController::class, 'edit_illust']);
-Route::post("/fetch_userillusts", [IllustController::class, 'fetch_userillusts']);
+Route::post("/store_illust_blob", [IllustController::class, 'store_illust_blob']);//ooo
 

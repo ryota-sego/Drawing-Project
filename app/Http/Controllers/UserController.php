@@ -2,27 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Comment;
-use App\Models\Favorite;
-use App\Models\Illust;
-use App\Http\Controllers\ErrorResponse;
-use Carbon\Carbon;
+use App\Http\Controllers\ErrorResponse\ErrorResponse;
 
 class UserController extends Controller
 {
     private $errorResponse;
     
-     public function __construct(ErrorResponse $errorResponse)
-     {
-         $this->errorResponse = $errorResponse;
-     }
+    public function __construct(ErrorResponse $errorResponse)
+    {
+        $this->errorResponse = $errorResponse;
+    }
     
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     // Auth/User 関係
@@ -30,9 +25,7 @@ class UserController extends Controller
     //signin/login状態の管理には、token(cookie)、id(user)を利用する。
     // dbtableを編集した後は、必ずsave()!!
     // $request->cookie('cookie_name') == Cookie::get('cookie_name')
-        
-        //テンプレ
-    
+
     
     public function signup(Request $request){//ok
 
@@ -65,6 +58,7 @@ class UserController extends Controller
         }
     }
     
+    
     public function login(Request $request){//ok
         $email = request()->get('email');
         
@@ -90,6 +84,7 @@ class UserController extends Controller
         return response(['user_data' => -1,
         ]);
     }
+    
     
     public function login_init(Request $request){//ok
         
@@ -125,128 +120,9 @@ class UserController extends Controller
                 'status' => $lguser
                 ])->withoutCookie('my_token')->withoutCookie('loggedin');
     }
-    
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
-    //detail 関係
- 
-    
-    public function fetch_userdata(Request $request){// ok
-        $user = User::getUserById(request()->id);
-        
-        return response(['user_data'=>$user]);
-    }
-    
-    
-    public function fetch_userdetails(Request $request){ //ok
-        $token = Cookie::get('my_token');
-        if(!User::isTokenValid_full($token)){
-            return $this->errorResponse->errorResponse();
-        }
-        
-        $lguser = User::getUserByToken($token);
-        
-        $user = User::getUserById(request()->id);
-        
-        $c_data = array();
-        $i_data = array();
-        $f_data = array();
 
-        $count = 0;
-        $favorites = $user->get_favorites(3);
-        if($favorites->count()>0){
-            foreach ($favorites as $favorite){
-                $_isfav["isfav"] = $lguser->is_favorited($favorite->illust_id);
-                $_name["name"] = User::find($favorite->user_id)->name;
-                $_favorite = array_merge($favorite->toArray(), $_isfav);
-                $_favorite = array_merge($_favorite, $_name);
-                unset($_favorite["pivot"]);
-                $f_data[$count] = $_favorite;
-                $count += 1;
-            }
-        }
-        $count = 0;
-        $comments = $user->get_comments(3);
-        if($comments->count()>0){
-            foreach ($comments as $comment){
-                $_comment = array_merge($comment->toArray(), Illust::where('id', $comment->illust_id)->select(["path", "title", "user_id"])->first()->toArray());
-                $_isfav["isfav"] = $lguser->is_favorited($comment->illust_id);
-                $_comment = array_merge($_comment, $_isfav);
-                $c_data[$count] = $_comment;
-                $count += 1;
-            }
-        }
-        $count = 0;
-        $illusts = $user->getIllusts_detail(3);
-        if($illusts->count()>0){
-            foreach ($illusts as $illust){
-                $_isfav["isfav"] = $lguser->is_favorited($illust->id);
-                $_illust = array_merge($illust->toArray(), $_isfav);
-                $i_data[$count] = $_illust;
-                $count += 1;
-            }
-        }
-        
-        return response([
-                        "ills" => $i_data,
-                        "favs" => $f_data,
-                        "coms" => $c_data,
-                        ]);
-        
-    }
-
-
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
-    //illust 関係
-    
-    
-    
-    
-    
-    //=============================================================================================================
-    //privates
-    
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
-    //favorite 関係
-    
-    public function fetch_userfavorites(Request $request){//ok
-        $token = Cookie::get('my_token');
-        if(!User::isTokenValid_full($token)){
-            return $this->errorResponse->errorResponse();
-        }
-        $lguser = User::getUserByToken($token);
-        
-        $user = User::getUserById(request()->id);
-        
-        $f_data = array();
-        $count = 0;
-        
-        $f_data = array();
-        
-        if(request()->count == 0){
-            $favorites = $user->get_favorites(10);
-        }else{
-            $favorites = $user->get_favorites_with_offset(10, request()->count);
-        }
-        if($favorites->count()>0){
-            foreach ($favorites as $favorite){
-                $_isfav["isfav"] = $lguser->is_favorited($favorite->illust_id);
-                $_name["name"] = User::find($favorite->user_id)->name;
-                $_favorite = array_merge($favorite->toArray(), $_isfav);
-                $_favorite = array_merge($_favorite, $_name);
-                unset($_favorite["pivot"]);
-                $f_data[$count] = $_favorite;
-                $count += 1;
-            }
-        }
-        if($favorites->count() < 10){
-            $isfull = true;
-        }
-        return response([
-                        "favorite_data" => $f_data,
-                        "isfull" => $isfull,
-                        ]);
-    }
-    
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    //ユーザ操作 関係
     
     public function add_to_favorite(Request $request){//ok
         $user_id = request()->us_id;
@@ -269,50 +145,6 @@ class UserController extends Controller
     }
     
     
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
-    //comment 関係
-    
-    public function fetch_usercomments(Request $request){//ok
-        $token = Cookie::get('my_token');
-        if(!User::isTokenValid_full($token)){
-            return $this->errorResponse->errorResponse();
-        }
-        $lguser = User::getUserByToken($token);
-        
-        $user = User::getUserById(request()->id);
-        
-        $isfull = false;
-        $c_data = array();
-        $_comment = array();
-        $count = 0;
-        
-        if(request()->count == 0){
-            $comments = $user->get_comments(10);
-        }else{
-            $comments = $user->get_comments_offset(10, request()->count);
-        }
-        if($comments->count()>0){
-            foreach ($comments as $comment){
-                $_comment = array_merge($comment->toArray(), Illust::where('id', $comment->illust_id)->select(["path", "title", "user_id"])->first()->toArray());
-                $_isfav["isfav"] = $lguser->is_favorited($comment->illust_id);
-                $_comment = array_merge($_comment, $_isfav);
-                unset($_comment["user_id"]);
-                $c_data[$count] = $_comment;
-                $count += 1;
-            }
-        }
-        
-        if($comments->count() < 10){
-            $isfull = true;
-        }
-        
-        return response([
-                        "comment_data" => $c_data,
-                        "isfull" => $isfull,
-                        ]);
-    }
-    
-    
     public function add_comment(Request $request){//ok
         $user_id = request()->us_id;
         $illust_id = request()->il_id;
@@ -323,16 +155,12 @@ class UserController extends Controller
             if(User::isTokenValid($token) && User::isMe($token, $user_id)){ // check token valid?, user-token relation
             
                 //============main function===========
-                $comment = new Comment;
-                $comment->user_id = $user_id;
-                $comment->illust_id = $illust_id;
-                $comment->comment = request()->comment;
+                $com = request()->comment;
                 
-                $comment->save();
+                $comment = Comment::create_comment();
+                $comment->update_comment($user_id, $illust_id, $com);
                 
-                return response(['message'=>'success',
-                                 'comment'=>$comment,
-                                ]);
+                return response(['message'=>'success']);
             }
             return response(['message'=>'token validation fail or ur token and id have no relation']);
         }
