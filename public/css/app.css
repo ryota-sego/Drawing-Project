@@ -32000,6 +32000,41 @@ video {
           animation: rotation 2s linear infinite;
 }
 
+.submit-popup {
+  font-size: 20px;
+  font-weight: bold;
+  -webkit-animation-name: fadein;
+          animation-name: fadein;
+  -webkit-animation-duration: 2s;
+          animation-duration: 2s;
+  -webkit-animation-iteration-count: 1;
+          animation-iteration-count: 1;
+}
+
+@-webkit-keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @-webkit-keyframes rotation {
   0% {
     transform: scale(1) rotate(0deg);
@@ -32081,6 +32116,12 @@ textarea {
 .pane-share {
   width: 100vw;
   height: calc(100vh - 34px - 40px);
+}
+
+.wrap-color {
+  background: rgb(249,255,72);
+  background: radial-gradient(circle, rgba(249,255,72,1) 0%, rgba(255,176,130,1) 29%, rgba(255,101,101,0.682741116751269) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f9ff48",endColorstr="#ff6565",GradientType=1);
 }
 
 .borderbox4 {
@@ -187675,5 +187716,3 @@ textarea {
     --tw-backdrop-sepia: sepia(100%);
   }
 }
-
-

@@ -1,5 +1,7 @@
-import React  from 'react';
 import {NavLink} from "react-router-dom";
+
+import FaceIcon from '@material-ui/icons/Face';
+import { blue } from '@material-ui/core/colors';
 
 //各種類のサイドパネルを定義する
 export default function SidePane(props) {
@@ -22,7 +24,7 @@ function UserSidePane(props){
         <div className="px-2 md:px-4 pt-2 border-4 border-green-600 bg-black">
             <div className="mx-4 my-4 border-green-200 bg-gray-100">
                 <div className="flex flex-col justify-items-center items-center border-4 border-green-600 bg-black-500">
-                    <img className="h-32 w-32 py-4 px-4" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="" />
+                    <FaceIcon style={{ color: blue[500], fontSize: 80 }} />
                     <p>{props.user_data.name}</p>
                 </div>
                 <div className="">
@@ -42,7 +44,7 @@ function GuestSidePane(props){
         <div className="mr-8 mt-8 border-4 border-green-600 bg-black-500">
             <div className="w-32 mx-8 my-8">
                 <div className="flex flex-col justify-items-center items-center border-4 border-green-600 bg-black-500 my-8">
-                    <img className="h-32 w-32 pt-4 py-2 px-4" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="" />
+                    <FaceIcon style={{ color: blue[500], fontSize: 80 }} />
                     <p>Guest</p>
                 </div>
                 <div className="">
@@ -61,7 +63,7 @@ function DrawingSidePane(props){
         <div className="mr-8 mt-8 border-4 border-green-600 bg-black-500">
             <div className="w-32 mx-8 my-8">
                 <div className="flex flex-col justify-items-center items-center border-4 border-green-600 bg-black-500">
-                    <img className="h-32 w-32 py-4 px-4" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="" />
+                    <FaceIcon style={{ color: blue[500], fontSize: 80 }} />
                     <p>{props.user_data.name}</p>
                 </div>
                 <div className="">
@@ -82,7 +84,7 @@ function TimelineSidePane(props){
         <div className="mr-8 mt-8 border-4 border-green-600 bg-black-500">
             <div className="w-32 mx-8 my-8">
                 <div className="flex flex-col justify-items-center items-center border-4 border-green-600 bg-black-500">
-                    <img className="h-32 w-32 py-4 px-4" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="" />
+                    <FaceIcon style={{ color: blue[500], fontSize: 80 }} />
                     <p>{props.user_data.name}</p>
                 </div>
                 <div className="">

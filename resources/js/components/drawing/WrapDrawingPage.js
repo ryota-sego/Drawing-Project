@@ -156,27 +156,26 @@ export default class WrapDrawingPage extends React.Component {
     	}
     	
         return(
-            <div id="drawing_page_wrap" className="wrap-page-share border-b-2 w-full h-full border-black">
+            <div id="drawing_page_wrap" className="w-full h-full wrap-page-share">
             	
-            	<div className="relative px-2 py-4 h-full w-full bg-blue-500">
+            	<div className="wrap-color relative px-1 sm:px-2 py-1 sm:py-2 h-full w-full bg-red-200">
             		{this.state.before_submit?<PopupBeforeSubmit user_id={this.props.user_data.id} closePopup={this.closePopup} submitIllust={this.illustStore_blob} />: <div className="hidden"></div>}
-			    	<div className="mb-3 border-4 border-black flex">
-			            <div className="w-3/4 flex flex-row justify-around content-center bg-blue-200">
-			                <div className="w-40">
-			                    <p className="px-2 py-3 bg-red-200">illust title</p>
+			    	<div className="mb-1 sm:mb-2 flex bg-white bg-opacity-20">
+			            <div className="w-3/4 flex flex-row justify-around content-center rounded-lg">
+			                <div className="w-80">
+			                    <p className="text-xl px-1 py-1 sm:py-2 md:px-2 md:py-4 rounded-tl-full rounded-br-full rounded-tr-lg rounded-bl-lg ring-blue-500 ring-4 ring-opacity-50 ring-inset bg-blue-200 text-center cursor-default truncate">illust title</p>
 			                </div>
-			                <div className="w-40">
-			                    <p className="px-2 py-3 bg-red-200">created at</p>
+			                <div className="w-80 hidden sm:block">
+			                    <p className="text-xl px-1 py-1 sm:py-2 md:px-2 md:py-4 rounded-tl-full rounded-br-full rounded-tr-lg rounded-bl-lg bg-blue-200 ring-4 ring-blue-500 ring-opacity-50 ring-inset text-center cursor-default truncate">created at</p>
 			                </div>
 			            </div>
-			            <div className="w-1/4 flex flex-row justify-around content-center bg-blue-400">
-			            	{this.props.guest?<span className="py-3 px-2 bg-red-500">登録すると投稿と保存ができます。</span>: <button className="py-3 px-2 bg-red-500" onClick={this.showPopup}>保存へ進む</button>}
+			            <div className="w-1/4 flex flex-row justify-around content-center">
+			            	{this.props.guest?<span className=" px-1 py-1 md:px-2 md:py-4">登録すると投稿と保存ができます。</span>: <button className="outline-none w-32 px-1 py-1 md:px-2 md:py-4 rounded-3xl transition duration-300 ease-in-out transform hover:scale-110 bg-gradient-to-r from-blue-400 to-green-400 hover:from-green-500 hover:to-blue-500" onClick={this.showPopup}>保存へ進む</button>}
 			            </div>
 	                </div>
 	                <div className="flex flex-row justify-center md:justify-between content-center border-2 border-red min-width-550">
 	                    <div className="border-white border-3">
 	                        {/*DrawingArea*/}
-	                        {/*<SketchP5 setDrawing={this.setDrawing} drawing={this.state.drawing} color={this.state.color}/>*/}
 	                    	<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing}/>
 	                    </div>
 	                    <div className="hidden md:block">
@@ -265,6 +264,7 @@ const SketchP5 = (props) => {
 		const canvas = p5.createCanvas(500, 500).parent(canvasParentRef);
 		canvas.style('height', '500px');
 		canvas.style('width', '500px');
+		canvas.style('border', 'thick double #32a1ce');
 		canvas.mousePressed(startPath);
 		canvas.mouseReleased(endPath);
 		started = false;
