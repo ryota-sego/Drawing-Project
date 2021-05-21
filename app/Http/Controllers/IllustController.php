@@ -101,6 +101,3 @@ class IllustController extends Controller
         return response(['message'=>'user or token doesn`t exists']);
     }
 }
-
-
-

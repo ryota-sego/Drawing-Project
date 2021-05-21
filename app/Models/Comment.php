@@ -13,6 +13,14 @@ class Comment extends Model
         'comment',
     ];
     
+    static function create_comment(){
+        return new Comment;
+    }
+    
+    static function delete_comment($comment_id){
+        Comment::destroy($comment_id);
+    }
+    
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -23,10 +31,6 @@ class Comment extends Model
         return $this->belongsTo(Illust::class);
     }
     
-    static function create_comment(){
-        return new Comment;
-    }
-    
     public function update_comment($user_id, $illust_id, $comment){
         $this->user_id = $user_id;
         $this->illust_id = $illust_id;
@@ -35,8 +39,6 @@ class Comment extends Model
         $this->save();
     }
     
-    public function delete_comment(){
-        
-    }
+
 
 }

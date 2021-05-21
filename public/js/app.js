@@ -1966,6 +1966,8 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
  */
 
 
+__webpack_require__(/*! ./html */ "./resources/js/html.js");
+
 __webpack_require__(/*! ./components/App */ "./resources/js/components/App.js");
 
 /***/ }),
@@ -2080,29 +2082,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
- //window.addEventListener('resize', function (e) {
-//        const width = window.innerWidth;
-//        const marginLeft = window.innerWidth - width;
-//        const height = window.innerHeight;
-//        const marginTop = window.innerHeight - height;
-//        if(width < 740){
-//            //document.getElementsByClassName('app')[0].style.transform = 'scale(' + width / 740 + ')';
-//            document.getElementById('app').style.transform = 'scale(' + width / 740 + ')';
-//            //document.getElementsByClassName('antialiased')[0].style.marginLeft = marginLeft / 2 + 'px';
-//            //document.getElementsByClassName('antialiased')[0].style.marginTop = marginTop / 2 + 'px';
-//            console.log('yeah, yeah')
-//        }else{
-//            document.getElementsByClassName('antialiased')[0].style.transform = 'scale(' + 1 + ')';
-//        }
-//        console.log("height")
-//        console.log(height)
-//        console.log("width")
-//        console.log(width)
-//        if(height < 800){
-//            window.resizeTo(width, 800)
-//            console.log('oh, nooo')
-//        }
-//});
 
 
 
@@ -7107,6 +7086,38 @@ var UserFavoritePane = /*#__PURE__*/function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UserFavoritePane);
+
+/***/ }),
+
+/***/ "./resources/js/html.js":
+/*!******************************!*\
+  !*** ./resources/js/html.js ***!
+  \******************************/
+/***/ (() => {
+
+//window.addEventListener('resize', function (e) {
+//        const width = window.innerWidth;
+//        const marginLeft = window.innerWidth - width;
+//        const height = window.innerHeight;
+//        const marginTop = window.innerHeight - height;
+//        if(width < 740){
+//            //document.getElementsByClassName('app')[0].style.transform = 'scale(' + width / 740 + ')';
+//            document.getElementById('app').style.transform = 'scale(' + width / 740 + ')';
+//            //document.getElementsByClassName('antialiased')[0].style.marginLeft = marginLeft / 2 + 'px';
+//            //document.getElementsByClassName('antialiased')[0].style.marginTop = marginTop / 2 + 'px';
+//            console.log('yeah, yeah')
+//        }else{
+//            document.getElementsByClassName('antialiased')[0].style.transform = 'scale(' + 1 + ')';
+//        }
+//        console.log("height")
+//        console.log(height)
+//        console.log("width")
+//        console.log(width)
+//        if(height < 800){
+//            window.resizeTo(width, 800)
+//            console.log('oh, nooo')
+//        }
+//});
 
 /***/ }),
 

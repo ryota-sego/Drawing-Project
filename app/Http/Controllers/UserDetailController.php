@@ -193,6 +193,4 @@ class UserDetailController extends Controller
                         "isfull" => $isfull,
                         ]);
     }
-    
-    
 }
