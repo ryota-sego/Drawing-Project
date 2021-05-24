@@ -182,7 +182,7 @@ export default class WrapEditPage extends React.Component {
 							</div>
 						</div>
 						<div className="w-1/4 flex flex-row justify-around content-center">
-							<button className="outline-none w-32 px-1 my-1 md:my-2 py-0 sm:py-1 md:px-2 md:py-2 rounded-3xl transition duration-300 ease-in-out transform hover:scale-110 bg-gradient-to-r from-blue-400 to-green-400 hover:from-green-500 hover:to-blue-500" onClick={this.showPopup}>更新へ進む</button>
+							<button className="outline-none text-base font-mono font-bold w-32 px-1 my-1 md:my-2 py-0 sm:py-1 md:px-2 md:py-2 rounded-3xl transition duration-300 ease-in-out transform hover:scale-110 bg-gradient-to-r from-blue-400 to-green-400 hover:from-green-500 hover:to-blue-500" onClick={this.showPopup}>更新へ進む</button>
 						</div>
 					</div>
 					<div className="flex flex-row justify-center md:justify-between content-center border-2 border-red min-width-550">

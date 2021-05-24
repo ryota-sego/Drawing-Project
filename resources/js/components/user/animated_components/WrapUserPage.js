@@ -71,7 +71,7 @@ export default class WrapUserPage extends React.Component {
             <Loading />
             ):(
             <div className="wrap-color-yellow flex flex-row w-full bg-blue-300 h-full">
-                <div id="user_side_pane" className="hidden md:block flex-none h-full bg-blue-500">
+                <div id="user_side_pane" className="hidden md:block flex-none h-full">
                     {/*side*/}
                     <SidePane side_pane_type="userpage" base_url={`${url}`} user_data={this.state.user_data} />
                 </div>
