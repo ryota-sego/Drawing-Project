@@ -5,7 +5,7 @@ import { Api_FetchTimeLineData } from '../../api/Api'
 
 import Loading from '../../common/Loading'
 import SidePane from '../../common/SidePane'
-
+import LoadButton from "../../common/LoadButton"
 import { Post_Timeline } from "../../post_parts/Post"
 
 let ISLOADING = false;
@@ -52,7 +52,10 @@ export default class WrapTimelinePage extends React.Component {
     }
     
     loadNewTimelinePosts(){
-        Api_FetchTimeLineData(this.state.loaded_count, this.setNewPosts_BraekLoading)
+        if(!ISLOADING){
+            ISLOADING = true;
+            Api_FetchTimeLineData(this.state.loaded_count, this.setNewPosts_BraekLoading)
+        }
     }
     
     setNewPosts_BraekLoading(posts, is_full){
@@ -71,7 +74,6 @@ export default class WrapTimelinePage extends React.Component {
         if(!this.state.isfull){
             if(!ISLOADING){
                 if(this.node.scrollHeight - this.node.scrollTop - this.node.clientHeight < 1){
-                    ISLOADING = true;
                     this.loadNewTimelinePosts()
                 }
             }else{
@@ -104,11 +106,12 @@ export default class WrapTimelinePage extends React.Component {
                 
                 <div className="box-border timeline-main w-full flex flex-row justify-center md:justify-between content-center bg-white bg-opacity-40">
                     <div id="scrolll" className={`h-full w-full py-2 sm:py-4 px-2 sm:px-4 ${this.state.loaded_posts.length ?"flex flex-wrap justify-around content-start": ""} overflow-auto gap-1 sm:gap-2 md:gap-4 pd-2`} onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
-                    {this.state.loaded_posts.length? 
+                    {this.state.loaded_posts.length || this.state.isfull? 
                         this.state.loaded_posts.map(n => <Post_Timeline key={n.id} data={n} user_id={this.props.user_data.id} login_user_id={this.props.user_data.id} setNameAndTitle={this.setNameAndTitle} />)
                     : 
-                    <Loading />
+                        <Loading />
                     }
+                    {!this.state.isfull && this.state.loaded_posts.length? <LoadButton LoadData={this.loadNewTimelinePosts} />: <div />}
                     </div>
                 </div>
             </div>

@@ -3,6 +3,7 @@ import throttle from 'lodash.throttle';
 
 import { Api_FetchUserFavorites } from "../../../api/Api";
 import {Post_userfavoritepane} from "../../../post_parts/Post"
+import LoadButton from "../../../common/LoadButton"
 
 import Loading from "../../../common/Loading"
 
@@ -45,17 +46,17 @@ class UserFavoritePane extends React.Component{
     }
     
     loadNewFavorites(){
-        Api_FetchUserFavorites(this.state.loaded_count, this.props.user_id, this.setNewFavorites_BraekLoading)
+        if(!ISLOADING){
+            ISLOADING = true;
+            Api_FetchUserFavorites(this.state.loaded_count, this.props.user_id, this.setNewFavorites_BraekLoading)
+        }
     }
     
     handleScroll = (e) => {
         console.log("scroool");
         if(!this.state.isfull){
             if(!ISLOADING){
-                
                 if(this.node.scrollHeight - this.node.scrollTop - this.node.clientHeight < 1){
-                    ISLOADING = true;
-                    console.log(ISLOADING)
                     this.loadNewFavorites()
                 }
             }else{
@@ -69,9 +70,10 @@ class UserFavoritePane extends React.Component{
         console.log(this.state.loaded_favorites)
         
         return (
-            <div className="w-full h-full bg-white">
+            <div className="w-full h-full">
                 <div id="scroll" className="pane-share pt-2 sm:pt-4 px-2 sm:px-4 flex flex-wrap justify-around content-start overflow-auto gap-1 sm:gap-2 md:gap-4 pb-2" onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
                     {this.state.loaded_favorites.length?this.state.loaded_favorites.map(n => <Post_userfavoritepane key={n.id} user_id={this.props.user_id} data={n} userUnMount={this.props.userUnMount} login_user_id={this.props.login_user_id} />): <Loading />}
+                    {!this.state.isfull && this.state.loaded_posts.length? <LoadButton LoadData={this.loadNewTimelinePosts} />: <div />}
                 </div>
             </div>
         );

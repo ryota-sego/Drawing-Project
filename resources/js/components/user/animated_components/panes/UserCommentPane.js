@@ -3,6 +3,7 @@ import throttle from 'lodash.throttle';
 
 import { Api_FetchUserComments } from "../../../api/Api";
 import {Post_usercommentpane} from "../../../post_parts/Post"
+import LoadButton from "../../../common/LoadButton"
 
 import Loading from "../../../common/Loading"
 
@@ -45,7 +46,10 @@ class UserCommentPane extends React.Component{
     }
     
     loadNewComments(){
-        Api_FetchUserComments(this.state.loaded_count, this.props.user_id, this.setNewComments_BraekLoading)
+        if(!ISLOADING){
+            ISLOADING = true;
+            Api_FetchUserComments(this.state.loaded_count, this.props.user_id, this.setNewComments_BraekLoading)
+        }
     }
     
     handleScroll = (e) => {
@@ -53,8 +57,6 @@ class UserCommentPane extends React.Component{
         if(!this.state.isfull){
             if(!ISLOADING){
                 if(this.node.scrollHeight - this.node.scrollTop - this.node.clientHeight < 1){
-                    ISLOADING = true;
-                    console.log(ISLOADING)
                     this.loadNewComments()
                 }
             }else{
@@ -65,12 +67,11 @@ class UserCommentPane extends React.Component{
     
     
     render(){
-        console.log(this.state.loaded_comments)
-        
         return (
-            <div className="w-full h-full bg-white">
+            <div className="w-full h-full">
                 <div id="scroll" className="pane-share pt-2 sm:pt-4 px-2 sm:px-4 flex flex-wrap justify-around content-start overflow-auto gap-1 sm:gap-2 md:gap-4 pb-2" onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
                     {this.state.loaded_comments.length?this.state.loaded_comments.map(n => <Post_usercommentpane key={n.id} data={n} user_id={this.props.user_id} userUnMount={this.props.userUnMount} login_user_id={this.props.login_user_id} />): <Loading />}
+                    {!this.state.isfull && this.state.loaded_posts.length? <LoadButton LoadData={this.loadNewTimelinePosts} />: <div />}
                 </div>
             </div>
         );

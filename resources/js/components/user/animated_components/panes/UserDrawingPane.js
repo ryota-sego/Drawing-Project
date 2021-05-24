@@ -3,6 +3,7 @@ import throttle from 'lodash.throttle';
 
 import { Api_FetchUserIllusts } from "../../../api/Api";
 import {Post_userdrawingpane} from "../../../post_parts/Post"
+import LoadButton from "../../../common/LoadButton"
 
 import Loading from "../../../common/Loading"
 
@@ -45,7 +46,10 @@ class UserDrawingPane extends React.Component{
     }
     
     loadNewPosts(){
-        Api_FetchUserIllusts(this.state.loaded_count, this.props.user_id, this.setNewPosts_BraekLoading)
+        if(!ISLOADING){
+            ISLOADING = true;
+            Api_FetchUserIllusts(this.state.loaded_count, this.props.user_id, this.setNewPosts_BraekLoading)
+        }
     }
     
     handleScroll = (e) => {
@@ -54,8 +58,6 @@ class UserDrawingPane extends React.Component{
             if(!ISLOADING){
                 
                 if(this.node.scrollHeight - this.node.scrollTop - this.node.clientHeight < 1){
-                    ISLOADING = true;
-                    console.log(ISLOADING)
                     this.loadNewPosts()
                 }
             }else{
@@ -69,9 +71,10 @@ class UserDrawingPane extends React.Component{
         console.log(this.state.loaded_illusts)
         
         return (
-            <div className="w-full h-full bg-white">
+            <div className="w-full h-full">
                 <div id="scroll" className="pane-share pt-2 sm:pt-4 px-2 sm:px-4 flex flex-wrap justify-around content-start overflow-auto gap-1 sm:gap-2 md:gap-4 pd-2" onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
                     {this.state.loaded_illusts.length?this.state.loaded_illusts.map(n => <Post_userdrawingpane key={n.id} data={n} user_id={this.props.user_id} userUnMount={this.props.userUnMount} login_user_id={this.props.login_user_id} />): <Loading />}
+                    {!this.state.isfull && this.state.loaded_posts.length? <LoadButton LoadData={this.loadNewTimelinePosts} />: <div />}
                 </div>
             </div>
         );

@@ -21,11 +21,11 @@ export default function SidePane(props) {
 
 function UserSidePane(props){
     return(
-        <div className="px-2 md:px-4 pt-2 border-4 border-green-600 bg-black">
-            <div className="mx-4 my-4 border-green-200 bg-gray-100">
-                <div className="flex flex-col justify-items-center items-center border-4 border-green-600 bg-black-500">
+        <div className="px-2 md:px-4 pt-2 border-4 border-green-600">
+            <div className="mx-4 my-4 border-green-200">
+                <div className="flex flex-col justify-items-center items-center border-4 border-green-600">
                     <FaceIcon style={{ color: blue[500], fontSize: 80 }} />
-                    <p>{props.user_data.name}</p>
+                    <p className="text-white text-lg font-bold">{props.user_data.name}</p>
                 </div>
                 <div className="">
                     <ul className="px-2 py-1 flex flex-col justify-items-center items-center">
@@ -41,11 +41,11 @@ function UserSidePane(props){
 
 function GuestSidePane(props){
     return(
-        <div className="mr-8 mt-8 border-4 border-green-600 bg-black-500">
+        <div className="mr-8 mt-8 border-4 border-green-600">
             <div className="w-32 mx-8 my-8">
-                <div className="flex flex-col justify-items-center items-center border-4 border-green-600 bg-black-500 my-8">
+                <div className="flex flex-col justify-items-center items-center border-4 border-green-600 my-8">
                     <FaceIcon style={{ color: blue[500], fontSize: 80 }} />
-                    <p>Guest</p>
+                    <p className="text-white text-lg font-bold">Guest</p>
                 </div>
                 <div className="">
                     <ul className="px-2 py-1 flex flex-col justify-items-center items-center">
@@ -60,11 +60,11 @@ function GuestSidePane(props){
 
 function DrawingSidePane(props){
     return(
-        <div className="mr-8 mt-8 border-4 border-green-600 bg-black-500">
+        <div className="mr-8 mt-8 border-4 border-green-600">
             <div className="w-32 mx-8 my-8">
-                <div className="flex flex-col justify-items-center items-center border-4 border-green-600 bg-black-500">
+                <div className="flex flex-col justify-items-center items-center border-4 border-green-600">
                     <FaceIcon style={{ color: blue[500], fontSize: 80 }} />
-                    <p>{props.user_data.name}</p>
+                    <p className="text-white text-lg font-bold">{props.user_data.name}</p>
                 </div>
                 <div className="">
                     <ul className="px-2 py-1 flex flex-col justify-items-center items-center">
@@ -81,11 +81,11 @@ function DrawingSidePane(props){
 
 function TimelineSidePane(props){
     return(
-        <div className="mr-8 mt-8 border-4 border-green-600 bg-black-500">
+        <div className="mr-8 mt-8 border-4 border-green-600">
             <div className="w-32 mx-8 my-8">
-                <div className="flex flex-col justify-items-center items-center border-4 border-green-600 bg-black-500">
+                <div className="flex flex-col justify-items-center items-center border-4 border-green-600">
                     <FaceIcon style={{ color: blue[500], fontSize: 80 }} />
-                    <p>{props.user_data.name}</p>
+                    <p className="text-white text-lg font-bold">{props.user_data.name}</p>
                 </div>
                 <div className="">
                     <ul className="px-2 py-1 flex flex-col justify-items-center items-center">
