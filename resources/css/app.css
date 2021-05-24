@@ -246,7 +246,7 @@ textarea {
     
     .pane-share {
     width: 100%;
-    height: calc(100vh - 82px - 48px);
+    height: calc(100vh - 86px - 48px);
     }
     
     .timeline-info{
@@ -280,7 +280,7 @@ textarea {
     
     .pane-share {
     width: calc(100vw - 200px);
-    height: calc(100vh - 94px - 72px);
+    height: calc(100vh - 99px - 72px);
     }
     
     .timeline-info{
@@ -292,5 +292,4 @@ textarea {
         padding-bottom: 40px;
         margin-bottom: -40px;
     }
-
 }
