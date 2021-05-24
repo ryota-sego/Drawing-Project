@@ -69,7 +69,7 @@ class UserDrawingPane extends React.Component{
     render(){
         return (
             <div className="box-border w-full h-full bg-gradient-to-l from-red-100 bg-opacity-40 border-t-2 border-gray-200 box-border">
-                <div id="scroll" className="w-full h-full pb-2 px-2 sm:px-4 flex flex-wrap justify-center sm:justify-start content-start overflow-auto gap-1 sm:gap-2 md:gap-4" onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
+                <div id="scroll" className="w-full h-full py-2 px-2 sm:px-4 flex flex-wrap justify-center sm:justify-start content-start overflow-auto gap-1 sm:gap-2 md:gap-4" onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
                     {this.state.loaded_illusts.length ||this.state.isfull?this.state.loaded_illusts.map(n => <Post_userdrawingpane key={n.id} data={n} user_id={this.props.user_id} userUnMount={this.props.userUnMount} login_user_id={this.props.login_user_id} />): <Loading />}
                     {!this.state.isfull && this.state.loaded_illusts.length? <LoadButton LoadData={this.loadNewTimelinePosts} />: <div />}
                 </div>
