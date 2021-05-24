@@ -77,11 +77,11 @@ export default class WrapUserPage extends React.Component {
                 </div>
                 <div className="w-full h-full">
                     {/*content*/}
-                    <div className="w-full h-auto">
+                    <div className="box-border w-full h-auto">
                         {/*nav*/}
                         <Nav />
                     </div>
-                    <div className="h-auto w-full">
+                    <div className="pane-share w-full">
                         {/*Panes*/}
                         <Switch location={this.props.location} key={`user_${location_user_page}`}>
                             <Route path={`${url}/detail`} render={(routeProps)=><UserDetailPane guest={this.props.guest} user_data={this.state.user_data} user_id={this.props.match.params.userid} login_user_id={this.props.user_data.id} userUnMount={this.userUnMount} {...routeProps} />}/>

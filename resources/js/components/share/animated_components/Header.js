@@ -29,7 +29,6 @@ export default class Header extends React.Component{
     }
     //bg-gradient-to-r from-red-500
     render(){
-        console.log(this.props.location)
         let color_theme = "bg-white"
         switch(this.props.loc){
             case "timeline":
@@ -63,7 +62,7 @@ export default class Header extends React.Component{
                     
                     <div className=""> {/* +++++++中央の要素++++++++ */}
                         <div className="flex-shrink-0 flex items-baseline">
-                            <p className="font-serif text-blue-700 text-center text-2xl overflow-clip cursor-default">Drawing Project</p>
+                            <p className="font-serif text-white text-center text-2xl overflow-clip cursor-default">Drawing Project</p>
                         </div>
                     </div>
                    

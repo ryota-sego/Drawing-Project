@@ -85,7 +85,7 @@ export const Post_usercommentpane = React.memo(props => {
     return (
         <div className="w-80 h-48 bg-red-100 box-border border-2 border-black flex flex-row">
             <div className="w-36 h-auto">
-                <div className="h-36 w-36 mx-auto my-1 bg-green-100 text-lg break-words">
+                <div className="h-36 w-36 mx-auto py-1 bg-green-100 text-lg break-words">
                     <NavLink to={`/illust/${props.data.illust_id}`}><img src={`${props.data.path}`} width="300"/></NavLink>
                 </div>
                 <div className="flex justify-between content-center">
@@ -94,7 +94,7 @@ export const Post_usercommentpane = React.memo(props => {
                 </div>
             </div>    
             <div className="h-auto px-1 py-1 usercomment box-border border-4 border-red-500">
-                    <p className="w-full break-words text-sm">{props.data.comment}</p>
+                    <p className="w-full break-words text-sm overflow-auto">{props.data.comment}</p>
             </div>
         </div>
     );
@@ -105,18 +105,17 @@ export const Post_userfavoritepane = props => {
     const [isfav, setIsfav] = useState(props.data.isfav);
 
     useEffect(() => {
-      if(mounted.current) {
-        const add_fav = async () => {
-                                try{
-                                    Api_AddToFavorite(props.data.illust_id, props.login_user_id)
-                                }catch (e){
-                                    console.log(e);
-                                }};
-        add_fav()
-      } else {
-        mounted.current = true
-      }
-      
+         if(mounted.current) {
+            const add_fav = async () => {
+                                    try{
+                                        Api_AddToFavorite(props.data.illust_id, props.login_user_id)
+                                    }catch (e){
+                                        console.log(e);
+                                    }};
+            add_fav()
+        } else {
+            mounted.current = true
+        }
     }, [isfav])
     
     return (
@@ -144,21 +143,18 @@ export const Post_userdrawingpane = props => {
     const [isfav, setIsfav] = useState(props.data.isfav);
 
     useEffect(() => {
-      if(mounted.current) {
-        const add_fav = async () => {
-                                try{
-                                    Api_AddToFavorite(props.data.id, props.login_user_id)
-                                }catch (e){
-                                    console.log(e);
-                                }};
-        add_fav()
-      } else {
-        mounted.current = true
-      }
-      
+        if(mounted.current) {
+            const add_fav = async () => {
+                                    try{
+                                        Api_AddToFavorite(props.data.id, props.login_user_id)
+                                    }catch (e){
+                                        console.log(e);
+                                    }};
+            add_fav()
+        } else {
+            mounted.current = true
+        }
     }, [isfav])
-    
-    
     
     return (
         <div className="w-72 h-96 bg-red-100 box-border border-2 border-black">

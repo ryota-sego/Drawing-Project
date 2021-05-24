@@ -38,7 +38,4 @@ class Comment extends Model
         
         $this->save();
     }
-    
-
-
 }

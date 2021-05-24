@@ -32028,6 +32028,7 @@ video {
 
 html {
   overflow-x: hidden;
+  overflow-y: hidden;
   font-size: 16px
 }
 
@@ -32188,7 +32189,7 @@ textarea {
   }
 
   .pane-share {
-    width: 100vw;
+    width: 100%;
     height: calc(100vh - 82px - 48px);
   }
 
@@ -32221,7 +32222,7 @@ textarea {
 
   .pane-share {
     width: calc(100vw - 200px);
-    height: calc(100vh - 90px - 72px);
+    height: calc(100vh - 94px - 72px);
   }
 
   .timeline-info{

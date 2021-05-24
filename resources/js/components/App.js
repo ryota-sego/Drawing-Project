@@ -77,8 +77,6 @@ class App extends React.Component {
     }
     
     render(){
-        console.log(this.props.location);
-        console.log(this.props);
         let location_init = "/";
         let _ = "home";
         if(this.props.location.pathname!="/"){
