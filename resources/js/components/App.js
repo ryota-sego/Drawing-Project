@@ -1,23 +1,23 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import Cookies from 'js-cookie';
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from "react-router-dom";
 
-import Header from './common/Header';
-import Footer from './common/Footer';
+import Header from './share/AnimateWrapper_Header';
+import Footer from './share/AnimateWrapper_Footer';
 
-import WrapDetailPage from './detail/WrapDetailPage';
-import WrapEditPage from './edit/WrapEditPage';
-import WrapDrawingPage from './drawing/WrapDrawingPage';
-import WrapTimelinePage from './timeline/WrapTimelinePage';
-import WrapUserPage from './user/WrapUserPage';
-import Login from './auth/Login';
-import Signup from './auth/Signup';
+import { AnimatePresence } from "framer-motion"
+
+import DetailPage from './detail/AnimateWrapper_DetailPage';
+import EditPage from './edit/AnimateWrapper_EditPage';
+import DrawingPage from './drawing/AnimateWrapper_DrawingPage';
+import TimelinePage from './timeline/AnimateWrapper_TimelinePage';
+import UserPage from './user/AnimateWrapper_UserPage';
+import Login from './auth/AnimateWrapper_Login';
+import Signup from './auth/AnimateWrapper_Signup';
 
 import { Api_LoginWithToken } from "./api/Api"
 
@@ -46,8 +46,6 @@ class App extends React.Component {
         
         if(Cookies.get('loggedin') != null){
             Api_LoginWithToken(this.setIsGuest);
-        }else{
-            this.setState({guest: true});
         }
     }
     
@@ -57,12 +55,11 @@ class App extends React.Component {
     
     setGuest(){
         this.setState({guest: true,
-                        user_data:GUESTDATA
+                       user_data:GUESTDATA
         })
     }
     
     setIsGuest(data){
-        console.log(data);
         if(data !== -1){
             this.setState({guest: false,
                            user_data: data
@@ -80,40 +77,31 @@ class App extends React.Component {
     }
     
     render(){
+        console.log(this.props.location);
+        console.log(this.props);
+        let location_init = "/";
+        let _ = "home";
+        if(this.props.location.pathname!="/"){
+            _ =  this.props.location.pathname.split("/")
+            location_init = _.length > 2 ? _[1] + _[2] : _[1];
+        }
         return(
-            <Router>
-                <div className="h-full w-screen">
-{/*share (header) styled, not routed, not lastchecked*/}
-                    <Header guest={this.state.guest} setIsGuest={this.setIsGuest} setGuest={this.setGuest} user_data={this.state.user_data} />
-                    <Switch>
-{/*drawing page*/}
-                        <Route exact path="/home" render={(routeProps)=> <WrapDrawingPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
-{/*edit page*/}
-                        <Route exact path="/edit/:userid/:illustid" render={(routeProps)=> <WrapEditPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
-{/*timeline page*/}
-                        <Route path="/timeline" render={(routeProps)=> <WrapTimelinePage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
-{/*detail page*/}
-                        <Route path="/illust/:illust_id" render={(routeProps)=> <WrapDetailPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
-{/*user page*/}                                                     
-                        <Route path="/user/:userid" render={(routeProps)=> <WrapUserPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} />
-{/*login page*/}
-                        <Route exact path="/login" render={(routeProps)=> <Login setIsGuest={this.setIsGuest} guest={this.state.guest} {...routeProps} />} />
-{/*signup page*/}
-                        <Route exact path="/signup" render={(routeProps)=> <Signup setIsGuest={this.setIsGuest} guest={this.state.guest} {...routeProps} />} />
-{/*default (drawing page)*/}
-                        <Route>
-                            <Redirect to="/home" />
-                        </Route>
+                <AnimatePresence exitBeforeEnter initial={false}>
+                    <Header key={`${location_init}_header`} guest={this.state.guest} setIsGuest={this.setIsGuest} setGuest={this.setGuest} user_data={this.state.user_data} loc={_[1]} /> {/*share (header) styled, not routed, not lastchecked*/}
+                    <Switch location={this.props.location} key={`${location_init}_main`}>
+                        <Route exact path="/home" render={(routeProps)=> <DrawingPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} /> {/*drawing page*/}
+                        <Route exact path="/edit/:userid/:illustid" render={(routeProps)=> <EditPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} /> {/*edit page*/}
+                        <Route path="/timeline" render={(routeProps)=> <TimelinePage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} /> {/*timeline page*/}
+                        <Route path="/illust/:illust_id" render={(routeProps)=> <DetailPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} /> {/*detail page*/}
+                        <Route path="/user/:userid" render={(routeProps)=> <UserPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} /> {/*user page*/} 
+                        <Route exact path="/login" render={(routeProps)=> <Login setIsGuest={this.setIsGuest} guest={this.state.guest} {...routeProps} />} /> {/*login page*/}
+                        <Route exact path="/signup" render={(routeProps)=> <Signup setIsGuest={this.setIsGuest} guest={this.state.guest} {...routeProps} />} /> {/*signup page*/}
+                        <Route> <Redirect to="/home" /> </Route> {/*default (drawing page)*/}
                     </Switch>
-{/*sahre (footer)*/}
-                    <Footer />
-                </div>
-            </Router>
+                    <Footer key={`${_[1]}_footer`} loc={_[1]} />{/*sahre (footer)*/}
+                </AnimatePresence>
         )
-        
     }
 }
 
-if (document.getElementById('app')) {
-    ReactDOM.render(<App />, document.getElementById('app'));
-}
+export default App;

@@ -23,9 +23,9 @@ class TimelineController extends Controller
         $isfull = false;
         
         $token = Cookie::get('my_token');
-        if(!User::isTokenValid_full($token)){
-            return $this->errorResponse->errorResponse();
-        }
+        //if(!User::isTokenValid_full($token)){
+        //    return $this->errorResponse->errorResponse();
+        //}
         $lguser = User::getUserByToken($token);
         
         $p_data = array();

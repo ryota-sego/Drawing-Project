@@ -26,9 +26,9 @@ class UserDetailController extends Controller
     
     public function fetch_userdetails(Request $request){ //ok
         $token = Cookie::get('my_token');
-        if(!User::isTokenValid_full($token)){
-            return $this->errorResponse->errorResponse();
-        }
+        //if(!User::isTokenValid_full($token)){
+        //    return $this->errorResponse->errorResponse();
+        //}
         
         $lguser = User::getUserByToken($token);
         
@@ -83,9 +83,9 @@ class UserDetailController extends Controller
     
     public function fetch_userillusts(Request $request){//ok
         $token = Cookie::get('my_token');
-        if(!User::isTokenValid_full($token)){
-            return $this->errorResponse->errorResponse();
-        }
+        //if(!User::isTokenValid_full($token)){
+        //    return $this->errorResponse->errorResponse();
+        //}
         $lguser = User::getUserByToken($token);
         
         $isfull = false;
@@ -117,13 +117,13 @@ class UserDetailController extends Controller
     
     public function fetch_userfavorites(Request $request){//ok
         $token = Cookie::get('my_token');
-        if(!User::isTokenValid_full($token)){
-            return $this->errorResponse->errorResponse();
-        }
+        //if(!User::isTokenValid_full($token)){
+        //    return $this->errorResponse->errorResponse();
+        //}
         $lguser = User::getUserByToken($token);
         
         $user = User::getUserById(request()->id);
-        
+        $isfull = false;
         $f_data = array();
         $count = 0;
         
@@ -156,9 +156,9 @@ class UserDetailController extends Controller
     
     public function fetch_usercomments(Request $request){//ok
         $token = Cookie::get('my_token');
-        if(!User::isTokenValid_full($token)){
-            return $this->errorResponse->errorResponse();
-        }
+        //if(!User::isTokenValid_full($token)){
+        //    return $this->errorResponse->errorResponse();
+        //}
         $lguser = User::getUserByToken($token);
         
         $user = User::getUserById(request()->id);

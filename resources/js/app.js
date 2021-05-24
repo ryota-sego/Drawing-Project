@@ -13,4 +13,6 @@ require('./bootstrap');
  */
 require('./html');
 
-require('./components/App');
+//require('./components/Test');
+
+require('./exportWrappers/RouterWrapper');
