@@ -1,7 +1,6 @@
 import {NavLink} from "react-router-dom";
 
-import FaceIcon from '@material-ui/icons/Face';
-import { blue } from '@material-ui/core/colors';
+import FaceIcon from './FaceIcon';
 
 //各種類のサイドパネルを定義する
 export default function SidePane(props) {
@@ -24,7 +23,7 @@ function UserSidePane(props){
         <div className="px-2 md:px-4 pt-2 border-4 border-green-600">
             <div className="mx-4 my-4 border-green-200">
                 <div className="flex flex-col justify-items-center items-center border-4 border-green-600">
-                    <FaceIcon style={{ color: blue[500], fontSize: 80 }} />
+                    <FaceIcon size="80"/>
                     <p className="text-white text-lg font-bold">{props.user_data.name}</p>
                 </div>
                 <div className="">
@@ -44,7 +43,7 @@ function GuestSidePane(props){
         <div className="mr-8 mt-8 border-4 border-green-600">
             <div className="w-32 mx-8 my-8">
                 <div className="flex flex-col justify-items-center items-center border-4 border-green-600 my-8">
-                    <FaceIcon style={{ color: blue[500], fontSize: 80 }} />
+                    <FaceIcon size="80" />
                     <p className="text-white text-lg font-bold">Guest</p>
                 </div>
                 <div className="">
@@ -63,7 +62,7 @@ function DrawingSidePane(props){
         <div className="mr-8 mt-8 border-4 border-green-600">
             <div className="w-32 mx-8 my-8">
                 <div className="flex flex-col justify-items-center items-center border-4 border-green-600">
-                    <FaceIcon style={{ color: blue[500], fontSize: 80 }} />
+                    <FaceIcon size="80" />
                     <p className="text-white text-lg font-bold">{props.user_data.name}</p>
                 </div>
                 <div className="">
@@ -84,7 +83,7 @@ function TimelineSidePane(props){
         <div className="mr-8 mt-8 border-4 border-green-600">
             <div className="w-32 mx-8 my-8">
                 <div className="flex flex-col justify-items-center items-center border-4 border-green-600">
-                    <FaceIcon style={{ color: blue[500], fontSize: 80 }} />
+                    <FaceIcon size="80" />
                     <p className="text-white text-lg font-bold">{props.user_data.name}</p>
                 </div>
                 <div className="">

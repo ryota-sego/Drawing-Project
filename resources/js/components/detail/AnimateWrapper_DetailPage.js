@@ -9,7 +9,7 @@ const AnimateWrapper_DetailPage = (props) => (
             initial={{opacity: 0.5}}
             exit={{opacity: 0.2}}
             transition={{duration: 0.5}}
-        className="wrap-page-share h-full w-full overflow-auto"
+        className="wrap-page-share h-full w-full"
     >
        <Route render={routeProps => <WrapDetailPage  guest={props.guest} user_data={props.user_data} {...routeProps} />} />
     </motion.div>

@@ -75,12 +75,6 @@ textarea {
     width: calc(100% - 9rem)
 }
 
-.detail-commentlist {
-    height: calc(100% - 12rem);
-    margin-bottom: -12rem;
-    padding-bottom: 12rem;
-}
-
 .post-timeline:hover + .comment-timeline {
     display: block;
 }
@@ -227,6 +221,12 @@ textarea {
     margin-bottom: 0px;
 }
 
+.detail-commentlist {
+    height: auto;
+    margin-bottom: -8rem;
+    padding-bottom: 8rem;
+}
+
 @media screen and (min-width : 640px) {
 
     .wrap-page-share{
@@ -291,5 +291,11 @@ textarea {
         height: calc(100vh - 50px - 88px);
         padding-bottom: 40px;
         margin-bottom: -40px;
+    }
+    
+    .detail-commentlist {
+    height: calc(100% - 12rem);
+    margin-bottom: -12rem;
+    padding-bottom: 12rem;
     }
 }
