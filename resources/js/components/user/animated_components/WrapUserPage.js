@@ -14,7 +14,6 @@ import { AnimateWrapper_UserFavoritePane as UserFavoritePane }from '../AnimateWr
 let ISLOADING=true;
 
 export default class WrapUserPage extends React.Component {
-    _isMounted = false;
     
     constructor(props){
         super(props);
@@ -41,7 +40,7 @@ export default class WrapUserPage extends React.Component {
     }
     
     fetchUserData(userid){
-        Api_FetchUserData( userid,this.setUserData);
+        Api_FetchUserData( userid, this.setUserData);
     }
     
     userUnMount(){
@@ -53,19 +52,17 @@ export default class WrapUserPage extends React.Component {
                        user_mount:true
         });
         ISLOADING = false;
+        console.log(data)
     }
     
     render(){
         let url = this.props.match.url;
-        if(!ISLOADING && !this.state.user_mount){
-            ISLOADING=true;
-            this.fetchUserData(this.props.match.params.userid)
-        }
+        
         let location_user_page = "/";
         if(this.props.location.pathname!="/"){
             location_user_page = this.props.location.pathname.match(/^\/([a-zA-Z]+)\/?/)[1];
         }
-        
+
         return !this.state.user_mount?
             (
             <Loading />
