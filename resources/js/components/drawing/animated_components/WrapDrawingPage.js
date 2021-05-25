@@ -42,13 +42,6 @@ const getBlobedCnv = () => {
 	return dataurl;
 };
 
-let _cnv = document.getElementsByClassName('p5Canvas')
-
-_cnv.addEventListener('touchmove', function(event) {
-  event.preventDefault(); // タッチによる画面スクロールを止める
-}, false);
-
-
 export default class WrapDrawingPage extends React.Component {
     
     constructor(props){
@@ -177,10 +170,10 @@ export default class WrapDrawingPage extends React.Component {
 					</div>
 				</div>
 				<div className="flex flex-row justify-center md:justify-between content-center">
-					<div className="mx-0 md:mx-auto">
+					<div className="mx-0 md:mx-auto" onTouchStart={(e)=>e.preventDefault()} onTouchMove={(e)=>e.preventDefault()}>
 						{this.state.saved==2?<Loading />
 						:
-						<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing} />}{/*DrawingArea*/}
+						<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing} onTouchStart={(e)=>e.preventDefault()} onTouchMove={(e)=>e.preventDefault()} />}{/*DrawingArea*/}
 					</div>
 					<div className="hidden md:block">
 						<SidePane side_pane_type={'drawing'} is_guest={this.props.guest} user_data={this.props.user_data}/> {/*SidePaneArea*/}
