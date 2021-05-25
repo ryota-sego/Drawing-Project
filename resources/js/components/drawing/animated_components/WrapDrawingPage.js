@@ -42,6 +42,12 @@ const getBlobedCnv = () => {
 	return dataurl;
 };
 
+let _cnv = document.getElementsByClassName('p5Canvas')
+
+_cnv.addEventListener('touchmove', function(event) {
+  event.preventDefault(); // タッチによる画面スクロールを止める
+}, false);
+
 
 export default class WrapDrawingPage extends React.Component {
     
@@ -171,7 +177,7 @@ export default class WrapDrawingPage extends React.Component {
 					</div>
 				</div>
 				<div className="flex flex-row justify-center md:justify-between content-center">
-					<div className="mx-0 md:mx-auto" onTouchMove={(e)=>e.preventDefault()}>
+					<div className="mx-0 md:mx-auto">
 						{this.state.saved==2?<Loading />
 						:
 						<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing} />}{/*DrawingArea*/}
@@ -257,6 +263,8 @@ const SketchP5 = (props) => {
 		canvas.style('border', 'thick double #32a1ce');
 		canvas.mousePressed(startPath);
 		canvas.mouseReleased(endPath);
+		canvas.touchStarted(startPath);
+		canvas.touchEnded(endPath);
 		started = false;
 	};
 	

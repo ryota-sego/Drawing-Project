@@ -42,6 +42,12 @@ const getBlobedCnv = () => {
 	return dataurl;
 };
 
+let _cnv = document.getElementsByClassName('p5Canvas')
+
+_cnv.addEventListener('touchmove', function(event) {
+  event.preventDefault();
+}, false);
+
 
 export default class WrapEditPage extends React.Component {
     
@@ -175,17 +181,17 @@ export default class WrapEditPage extends React.Component {
 					<div className="mb-1 sm:mb-2 flex bg-white bg-opacity-30 rounded-md">
 						<div className="w-3/4 flex flex-row justify-around content-center rounded-lg">
 							<div className="w-80">
-								<p className="text-xl px-1 py-1 sm:py-2 md:px-2 md:py-4 rounded-tl-3xl rounded-br-3xl rounded-tr-lg rounded-bl-lg ring-blue-200 ring-4 ring-opacity-80 ring-inset bg-white text-center cursor-default truncate">{this.state.illust_title}</p>
+								<p className="text-base sm:text-xl px-1 py-1 sm:py-2 md:px-2 md:py-4 rounded-tl-3xl rounded-br-3xl rounded-tr-lg rounded-bl-lg ring-blue-200 ring-4 ring-opacity-80 ring-inset bg-white text-center cursor-default truncate">{this.state.illust_title}</p>
 							</div>
 							<div className="w-80">
-								<p className="text-xl px-1 py-1 sm:py-2 md:px-2 md:py-4 rounded-tl-3xl rounded-br-3xl rounded-tr-lg rounded-bl-lg bg-white ring-4 ring-blue-200 ring-opacity-80 ring-inset text-center cursor-default truncate">{this.state.illust_updated.replace(/\..*$/, '').replace(/[T]/, ' ')}</p>
+								<p className="text-xl hidden sm:block px-1 py-1 sm:py-2 md:px-2 md:py-4 rounded-tl-3xl rounded-br-3xl rounded-tr-lg rounded-bl-lg bg-white ring-4 ring-blue-200 ring-opacity-80 ring-inset text-center cursor-default truncate">{this.state.illust_updated.replace(/\..*$/, '').replace(/[T]/, ' ')}</p>
 							</div>
 						</div>
 						<div className="w-1/4 flex flex-row justify-around content-center">
-							<button className="outline-none text-base font-mono font-bold w-32 px-1 my-1 md:my-2 py-0 sm:py-1 md:px-2 md:py-2 rounded-3xl transition duration-300 ease-in-out transform hover:scale-110 bg-gradient-to-r from-blue-400 to-green-400 hover:from-green-500 hover:to-blue-500" onClick={this.showPopup}>更新へ進む</button>
+							<button className="outline-none text-sm sm:text-base font-mono font-bold w-32 px-1 my-1 md:my-2 py-0 sm:py-1 md:px-2 md:py-2 rounded-3xl transition duration-300 ease-in-out transform hover:scale-110 bg-gradient-to-r from-blue-400 to-green-400 hover:from-green-500 hover:to-blue-500" onClick={this.showPopup}>更新へ進む</button>
 						</div>
 					</div>
-					<div className="flex flex-row justify-center md:justify-between content-center border-2 border-red min-width-550">
+					<div className="flex flex-row justify-center md:justify-between content-center min-width-550">
 						<div className="mx-0 md:mx-auto">
 							<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing} />{/*DrawingArea*/}
 						</div>
@@ -270,6 +276,8 @@ const SketchP5 = (props) => {
 		canvas.style('border', 'thick double #32a1ce');
 		canvas.mousePressed(startPath);
 		canvas.mouseReleased(endPath);
+		canvas.touchStarted(startPath);
+		canvas.touchEnded(endPath);
 		started = false;
 	};
 	
