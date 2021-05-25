@@ -125,15 +125,15 @@ export default class WrapDetailPage extends React.Component {
         // {this.state.isfav? <button onClick={this.clickHandle_favorite} href="" className="block btn btn-primary h-8 w-20 bg-blue-100 z-50">Unfavorite</button>: <button onClick={this.clickHandle_favorite} href="" className="block btn btn-primary h-8 w-20 bg-red-200 z-50">Favorite</button>}
         return !this.state.il_loading?(
                 <div className="wrap-color-purple flex flex-wrap w-full h-full box-border px-1 py-1 sm:px-2 sm:py-3 overflow-auto">
-                    <div className="w-full md:w-2/3 h-full bg-gradient-to-tl from-white rounded-xl">
+                    <div className="w-full md:w-2/3 sm:h-full bg-gradient-to-tl from-white rounded-xl">
                         {/*content*/}
-                        <div className="relative w-full h-full">
-                            <div className="h-2/3 w-full px-8 py-2 box-border border-b-2 border-black">{/*IllustArea*/}
+                        <div className="sm:relative w-full sm:h-full">
+                            <div className="sm:h-2/3 w-full px-8 py-2 box-border border-b-2 border-black">{/*IllustArea*/}
                                 <img className="mx-auto max-w-full max-h-full ring-1 ring-blue-500 ring-offset-1" src={`${this.state.illust_data.path}`} alt="detail_illust"/>
                             </div>
-                            <div className="absolute h-1/3 inset-x-0 bottom-0 px-8 py-2">{/*InfoArea*/}
+                            <div className="sm:absolute h-1/3 inset-x-0 bottom-0 px-8 py-2">{/*InfoArea*/}
                                 <p className="text-2xl font-serif truncate">{this.state.illust_data.title}</p>
-                                <div className="w-full flex content-center justify-between pb-2">{/*UserInfo*/}
+                                <div className="w-full flex flex-wrap sm:flex-nowrap gap-3 sm:gap-0 content-center justify-between pb-2">{/*UserInfo*/}
                                     <div className="w-full flex content-center items-center justify-left">
                                         <div className="h-8 w-8">
                                             <NavLink to={`/user/${this.state.illust_data.user_id}/detail`}><FaceIcon size="40" /></NavLink>
@@ -155,16 +155,16 @@ export default class WrapDetailPage extends React.Component {
                         </div>
                     </div>
                     <div className="w-full h-full pl-2 pt-4 md:pt-0 w-full md:w-1/3">
-                        <div className="box-border rounded-xl md:border-2 md:border-white md:relative md:h-full w-full px-4 py-2 bg-white bg-opacity-20">
-                                {/*Comments*/}
-                                <div className="detail-commentlist">
-                                    <div className="h-full w-full pr-2 overflow-y-auto overflow-x-hidden" onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
-                                    {!this.state.com_loading? this.state.loaded_comments.map(n=> <Comment_illustDetail key={n.id} data={n} />): <Loading />}
-                                    </div>
+                        <div className="box-border rounded-xl md:border-2 md:border-white flex flex-col-reverse md:flex-col md:relative md:h-full w-full px-4 py-2 bg-white bg-opacity-20">
+                            {/*Comments*/}
+                            <div className="detail-commentlist">
+                                <div className="h-full w-full pr-2 overflow-y-auto overflow-x-hidden" onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
+                                {!this.state.com_loading? this.state.loaded_comments.map(n=> <Comment_illustDetail key={n.id} data={n} />): <Loading />}
                                 </div>
-                                <div className="static md:absolute md:inset-x-0 md:bottom-0 h-48 w-full border-t-2 border-black">
-                                    <CommentSubmitForm user_id={this.props.user_data.id} illust_id={this.props.match.params.illust_id} CommentRefresh={this.CommentRefresh} />
-                                </div>
+                            </div>
+                            <div className="static md:absolute md:inset-x-0 md:bottom-0 h-48 w-full border-t-2 border-black">
+                                <CommentSubmitForm user_id={this.props.user_data.id} illust_id={this.props.match.params.illust_id} CommentRefresh={this.CommentRefresh} />
+                            </div>
                         </div>
                     </div>
                 </div>

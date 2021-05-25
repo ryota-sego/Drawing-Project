@@ -160,21 +160,21 @@ export default class WrapDrawingPage extends React.Component {
 				<div className="mb-1 sm:mb-2 flex bg-white bg-opacity-30 rounded-md">
 					<div className="w-3/4 flex flex-row justify-around content-center rounded-lg">
 						<div className="w-80">
-							<p className="text-xl px-1 py-1 sm:py-2 md:px-2 md:py-4 rounded-tl-3xl rounded-br-3xl rounded-tr-lg rounded-bl-lg ring-blue-200 ring-4 ring-opacity-80 ring-inset bg-white text-center cursor-default truncate">illust title</p>
+							<p className="text-base sm:text-xl px-1 py-1 sm:py-2 md:px-2 md:py-4 rounded-tl-3xl rounded-br-3xl rounded-tr-lg rounded-bl-lg ring-blue-200 ring-4 ring-opacity-80 ring-inset bg-white text-center cursor-default truncate">illust title</p>
 						</div>
 						<div className="w-80 hidden sm:block">
-							<p className="text-xl px-1 py-1 sm:py-2 md:px-2 md:py-4 rounded-tl-3xl rounded-br-3xl rounded-tr-lg rounded-bl-lg bg-white ring-4 ring-blue-200 ring-opacity-80 ring-inset text-center cursor-default truncate">created at</p>
+							<p className="text-base sm:text-xl px-1 py-1 sm:py-2 md:px-2 md:py-4 rounded-tl-3xl rounded-br-3xl rounded-tr-lg rounded-bl-lg bg-white ring-4 ring-blue-200 ring-opacity-80 ring-inset text-center cursor-default truncate">created at</p>
 						</div>
 					</div>
 					<div className="w-1/4 flex flex-row justify-around content-center">
-						{this.props.guest?<span className="px-1 py-1 md:px-2 md:py-4">登録すると投稿と保存ができます。</span>: <button className="outline-none text-base font-mono font-bold w-32 px-1 my-1 md:my-2 py-0 sm:py-1 md:px-2 md:py-2 rounded-3xl transition duration-300 ease-in-out transform hover:scale-110 bg-gradient-to-r from-blue-400 to-green-400 hover:from-green-500 hover:to-blue-500" onClick={this.showPopup}>保存へ進む</button>}
+						{this.props.guest?<span className="px-1 py-1 text-sm sm:text-base trancate md:px-2 md:py-4">登録しよう</span>: <button className="outline-none text-sm sm:text-base font-mono font-bold w-32 px-1 my-1 md:my-2 py-0 sm:py-1 md:px-2 md:py-2 rounded-3xl transition duration-300 ease-in-out transform hover:scale-110 bg-gradient-to-r from-blue-400 to-green-400 hover:from-green-500 hover:to-blue-500" onClick={this.showPopup}>保存へ進む</button>}
 					</div>
 				</div>
 				<div className="flex flex-row justify-center md:justify-between content-center">
-					<div className="mx-0 md:mx-auto">
+					<div className="mx-0 md:mx-auto" onTouchMove={(e)=>e.preventDefault()}>
 						{this.state.saved==2?<Loading />
 						:
-						<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing}/>}{/*DrawingArea*/}
+						<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing} />}{/*DrawingArea*/}
 					</div>
 					<div className="hidden md:block">
 						<SidePane side_pane_type={'drawing'} is_guest={this.props.guest} user_data={this.props.user_data}/> {/*SidePaneArea*/}

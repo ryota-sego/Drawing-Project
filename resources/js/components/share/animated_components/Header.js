@@ -61,8 +61,8 @@ export default class Header extends React.Component{
                     <LeftHeaderComponent isGuest={this.props.guest} loc={this.props.loc}/>    {/* ++++++++左寄せの要素++++++++++ */}
                     
                     <div className=""> {/* +++++++中央の要素++++++++ */}
-                        <div className="flex-shrink-0 flex items-baseline">
-                            <p className="font-serif text-white text-center text-2xl overflow-clip cursor-default">Drawing Project</p>
+                        <div className="flex items-baseline">
+                            <p className="font-serif text-white text-center text-base sm:text-2xl overflow-clip truncate cursor-default">Drawing Project</p>
                         </div>
                     </div>
                    
