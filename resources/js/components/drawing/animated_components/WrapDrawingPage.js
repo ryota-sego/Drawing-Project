@@ -173,7 +173,7 @@ export default class WrapDrawingPage extends React.Component {
 					<div className="mx-0 md:mx-auto" onTouchStart={(e)=>e.preventDefault()} onTouchMove={(e)=>e.preventDefault()}>
 						{this.state.saved==2?<Loading />
 						:
-						<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing} onTouchStart={(e)=>e.preventDefault()} onTouchMove={(e)=>e.preventDefault()} />}{/*DrawingArea*/}
+						<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing} onTouchStart={(e)=>e.preventDefault()} onTouchMove={(e)=>e.preventDefault()} onTouchEnd={(e)=>e.preventDefault()} />}{/*DrawingArea*/}
 					</div>
 					<div className="hidden md:block">
 						<SidePane side_pane_type={'drawing'} is_guest={this.props.guest} user_data={this.props.user_data}/> {/*SidePaneArea*/}

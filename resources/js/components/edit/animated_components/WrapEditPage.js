@@ -190,7 +190,7 @@ export default class WrapEditPage extends React.Component {
 							<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing} />{/*DrawingArea*/}
 						</div>
 						<div className="hidden md:block">
-							<SidePane side_pane_type={'drawing'} is_guest={this.props.guest} user_data={this.props.user_data} onTouchStart={(e)=>e.preventDefault()} onTouchMove={(e)=>e.preventDefault()} />{/*SidePaneArea*/}
+							<SidePane side_pane_type={'drawing'} is_guest={this.props.guest} user_data={this.props.user_data} onTouchStart={(e)=>e.preventDefault()} onTouchMove={(e)=>e.preventDefault()} onTouchEnd={(e)=>e.preventDefault()} />{/*SidePaneArea*/}
 						</div>
 					</div>
 					<div className="bg-red-200 bg-opacity-40 rounded-xl mt-3">
