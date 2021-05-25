@@ -9,8 +9,7 @@
         "prod": "npm run production",
         "production": "mix --production",
         "compile": [
-          "php app/console assetic:dump --env=prod --no-debug",
-          "MyVendor\\MyClass::postDeployComposerCallback"
+          "php app/console assetic:dump --env=prod --no-debug"
         ]
     },
     "devDependencies": {
