@@ -294,8 +294,6 @@ textarea {
     }
     
     .detail-commentlist {
-    height: calc(100% - 12rem);
-    margin-bottom: -12rem;
-    padding-bottom: 12rem;
+    height: calc(100% - 3.5rem);
     }
 }

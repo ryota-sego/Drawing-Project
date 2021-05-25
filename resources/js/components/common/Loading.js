@@ -16,7 +16,7 @@ export default function Loading(props){
             repeatDelay: 1
             }}
             className="m-auto mt-20 h-20 w-20 bg-white opacity-40 flex justify-center content-center">
-                <p className="m-auto text-gray-600 font-mono font-bold">Loading</p>
+                <p className="m-auto text-gray-600 font-mono font-bold cursor-default">Loading</p>
             </motion.div>
     );
 }

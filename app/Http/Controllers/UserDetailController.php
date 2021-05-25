@@ -178,7 +178,6 @@ class UserDetailController extends Controller
                 $_comment = array_merge($comment->toArray(), Illust::get_illust_p_t_u($comment->illust_id));
                 $_isfav["isfav"] = $lguser->is_favorited($comment->illust_id);
                 $_comment = array_merge($_comment, $_isfav);
-                unset($_comment["user_id"]);
                 $c_data[$count] = $_comment;
                 $count += 1;
             }

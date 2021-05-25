@@ -83,29 +83,28 @@ export default class WrapTimelinePage extends React.Component {
     };
     
     render(){
-        console.log(this.props.history);
         if(this.props.user_data.id === 'guest' || this.props.guest){
             <Redirect to="/home" />
         }
         
         return(
-            <div className="wrap-color-green px-1 md:px-2 py-2 md:py-4 h-full w-full">
+            <div className="wrap-color-green px-0 md:px-1 md:px-2 py-2 md:py-4 h-full w-full">
 		    	<div className="timeline-info w-full mb-1 md:mb-3 border-4 border-black flex">
 		            <div className="w-full h-full flex flex-row justify-around content-center">
-		                <div className="h-full w-1/3 sm:w-64">
-		                    <span className="inline-block h-full w-full text-center align-middle">{this.state.title}</span>
+		                <div className="h-full w-1/3 sm:w-64 flex items-center content-center border-l-2 border-r-2 border-black">
+		                    <p className="block text-xl font-serif w-full text-center align-middle truncate">{this.state.title}</p>
 		                </div>
-		                <div className="h-full w-1/3 sm:w-64">
-		                    <span className="inline-block h-full w-full text-center align-middle">{this.state.name}</span>
+		                <div className="h-full w-1/3 sm:w-64 flex items-center content-center border-l-2 border-r-2 border-black">
+		                    <p className="block text-2xl font-serif w-full text-center align-middle truncate">{this.state.name}</p>
 		                </div>
-		                <div className="h-full w-1/3 sm:w-64">
-		                    <span className="inline-block h-full w-full text-center align-middle">{this.state.created_at}</span>
+		                <div className="h-full w-1/3 sm:w-64 flex items-center content-center border-l-2 border-r-2 border-black">
+		                    <p className="block text-2xl font-serif w-full text-center align-middle truncate">{this.state.created_at}</p>
 		                </div>
 		            </div>
                 </div>{/*this.state.loaded_posts.length*/}
                 
                 <div className="box-border timeline-main w-full flex flex-row justify-center md:justify-between content-center bg-white bg-opacity-40">
-                    <div id="scrolll" className={`h-full w-full py-2 sm:py-4 px-2 sm:px-4 ${this.state.loaded_posts.length ?"flex flex-wrap justify-start content-start": ""} overflow-auto gap-1 sm:gap-2 md:gap-4 pd-2`} onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
+                    <div id="scrolll" className={`h-full w-full py-2 sm:py-4 px-2 sm:px-4 ${this.state.loaded_posts.length ?"flex flex-wrap justify-center md:justify-start content-start": ""} overflow-auto gap-1 sm:gap-2 md:gap-4 pd-2`} onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
                     {this.state.loaded_posts.length || this.state.isfull? 
                         this.state.loaded_posts.map(n => <Post_Timeline key={n.id} data={n} user_id={this.props.user_data.id} login_user_id={this.props.user_data.id} setNameAndTitle={this.setNameAndTitle} />)
                     : 

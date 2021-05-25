@@ -18,6 +18,7 @@ import TimelinePage from './timeline/AnimateWrapper_TimelinePage';
 import UserPage from './user/AnimateWrapper_UserPage';
 import Login from './auth/AnimateWrapper_Login';
 import Signup from './auth/AnimateWrapper_Signup';
+import Loading from './common/Loading'
 
 import { Api_LoginWithToken } from "./api/Api"
 
@@ -84,7 +85,7 @@ class App extends React.Component {
             location_init = _.length > 2 ? _[1] + _[2] : _[1];
         }
         return(
-                <AnimatePresence exitBeforeEnter initial={false}>
+                <AnimatePresence exitBeforeEnter initial={true}>
                     <Header key={`${location_init}_header`} guest={this.state.guest} setIsGuest={this.setIsGuest} setGuest={this.setGuest} user_data={this.state.user_data} loc={_[1]} /> {/*share (header) styled, not routed, not lastchecked*/}
                     <Switch location={this.props.location} key={`${location_init}_main`}>
                         <Route exact path="/home" render={(routeProps)=> <DrawingPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} /> {/*drawing page*/}
@@ -94,6 +95,7 @@ class App extends React.Component {
                         <Route path="/user/:userid" render={(routeProps)=> <UserPage guest={this.state.guest} user_data={this.state.user_data} {...routeProps} />} /> {/*user page*/} 
                         <Route exact path="/login" render={(routeProps)=> <Login setIsGuest={this.setIsGuest} guest={this.state.guest} {...routeProps} />} /> {/*login page*/}
                         <Route exact path="/signup" render={(routeProps)=> <Signup setIsGuest={this.setIsGuest} guest={this.state.guest} {...routeProps} />} /> {/*signup page*/}
+                        <Route exact path="/loading" render={(routeProps)=> <Loading />} />
                         <Route> <Redirect to="/home" /> </Route> {/*default (drawing page)*/}
                     </Switch>
                     <Footer key={`${_[1]}_footer`} loc={_[1]} />{/*sahre (footer)*/}

@@ -148,17 +148,19 @@ export default class WrapDetailPage extends React.Component {
                                         {this.state.is_my_illust?<p className="block align-middle text-center px-2 w-20 hover:bg-white rounded-xl"><NavLink to={`/edit/${this.state.illust_data.user_id}/${this.props.match.params.illust_id}`}>編集する</NavLink></p>:<div className="hidden" />}
                                     </div>
                                 </div>
-                                <div className={`px-2 pt-1 w-100 min-h-32 box-border border-t-2 border-black  ${this.state.open_description? "h-auto overflow-y-auto": "h-32 overflow-hidden"}`} onClick={this.openDescription}>{/*IllustDetail*/}
-                                    <p className={`break-all text-lg text-black  ${this.state.open_description? "": "trancate"}`}>{this.state.illust_data.description}</p>
+                                <div className={`px-2 pt-1 w-100 min-h-32 box-border border-t-2 border-black  ${this.state.open_description? "h-36 overflow-auto": "h-32"}`} onClick={this.openDescription}>{/*IllustDetail*/}
+                                    <p className="break-all text-lg text-black cursor-default">{this.state.open_description || this.state.illust_data.description.length < 300? this.state.illust_data.description: this.state.illust_data.description.substring(0,298) + "..."}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="w-full h-full pl-2 pt-4 md:pt-0 w-full md:w-1/3">
-                        <div className="box-border rounded-xl md:border-2 md:border-white md:relative md:h-full w-full px-4 py-4 bg-white bg-opacity-20">
+                        <div className="box-border rounded-xl md:border-2 md:border-white md:relative md:h-full w-full px-4 py-2 bg-white bg-opacity-20">
                                 {/*Comments*/}
-                                <div className="detail-commentlist w-full overflow-auto" onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
+                                <div className="detail-commentlist">
+                                    <div className="h-full w-full pr-2 overflow-y-auto overflow-x-hidden" onScroll={this.handleScroll_throttled} ref={(node)=>{this.node = node;}}>
                                     {!this.state.com_loading? this.state.loaded_comments.map(n=> <Comment_illustDetail key={n.id} data={n} />): <Loading />}
+                                    </div>
                                 </div>
                                 <div className="static md:absolute md:inset-x-0 md:bottom-0 h-48 w-full border-t-2 border-black">
                                     <CommentSubmitForm user_id={this.props.user_data.id} illust_id={this.props.match.params.illust_id} CommentRefresh={this.CommentRefresh} />

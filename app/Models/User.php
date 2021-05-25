@@ -143,7 +143,7 @@ class User extends Authenticatable
     //illust 関係
     
     public function getIllusts_detail($amount){//oooo
-        return $this->illusts()->orderBy('created_at', 'desc')->select(["id","path","title"])->limit($amount)->get();
+        return $this->illusts()->orderBy('created_at', 'desc')->select(["id","path","title", "description"])->limit($amount)->get();
     }
     
     

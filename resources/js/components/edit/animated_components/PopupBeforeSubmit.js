@@ -54,7 +54,7 @@ export default class WrapDrawingPage extends React.Component {
         if (this.state.description.length<1000){
             this.setState({description: e.target.value})
         }else{
-            this.setState({description: this.state.title.substr(0,999)})
+            this.setState({description: this.state.description.substr(0,999)})
         }
     }
     

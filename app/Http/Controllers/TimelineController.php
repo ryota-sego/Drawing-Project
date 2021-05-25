@@ -40,7 +40,7 @@ class TimelineController extends Controller
         if($illusts->count()>0){
             foreach($illusts as $illust){
                 $user_name['name'] = $illust->user()->select(['name'])->first()->name;
-                $_comments = $illust->comments()->orderBy('created_at', "desc")->limit(5)->select(['id','comment', 'user_id'])->get();
+                $_comments = $illust->comments()->orderBy('created_at', "desc")->limit(1)->select(['id','comment', 'user_id'])->get();
                 $_comment_with_key["comment"] = $_comments->toArray();
                 $_isfav["isfav"] = $lguser->is_favorited($illust->id);
                 $_illust = $illust->toArray();
