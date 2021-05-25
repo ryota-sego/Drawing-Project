@@ -250,15 +250,21 @@ const SketchP5 = (props) => {
 	const setup = (p5, canvasParentRef) => {
 		// use parent to render the canvas in this ref
 		// (without that p5 will render the canvas outside of your component)
+		
 		const canvas = p5.createCanvas(500, 500).parent(canvasParentRef);
-		canvas.style('height', '500px');
-		canvas.style('width', '500px');
+
 		canvas.style('border', 'thick double #32a1ce');
 		canvas.mousePressed(startPath);
 		canvas.mouseReleased(endPath);
 		canvas.touchStarted(startPath);
 		canvas.touchEnded(endPath);
 		started = false;
+		
+		if (window.matchMedia && window.matchMedia('(max-device-width: 640px)').matches) {
+			const _c = document.getElementsByClassName("p5Canvas");
+			_c[0].style.width="400px"
+			_c[0].style.height="400px"
+		}
 	};
 	
 	function startPath(){
