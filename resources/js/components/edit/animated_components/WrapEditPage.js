@@ -62,6 +62,10 @@ export default class WrapEditPage extends React.Component {
             'loading':true,
             'saved':false
         }
+        GB_SIZE=4;
+        GB_COLOR = 'BLACK';
+		GB_TOOL = 'PEN';
+		SAVECANVAS = false;
         
         this.illustStore_blob = this.illustStore_blob.bind(this)
         this.setDrawing = this.setDrawing.bind(this)
@@ -186,10 +190,10 @@ export default class WrapEditPage extends React.Component {
 					</div>
 					<div className="flex flex-row justify-center md:justify-between content-center min-width-550">
 						<div className="mx-0 md:mx-auto">
-							<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing} />{/*DrawingArea*/}
+							<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing} onTouchStart={(e)=>e.preventDefault()} onTouchMove={(e)=>e.preventDefault()} onTouchEnd={(e)=>e.preventDefault()} />{/*DrawingArea*/}
 						</div>
 						<div className="hidden md:block">
-							<SidePane side_pane_type={'drawing'} is_guest={this.props.guest} user_data={this.props.user_data} onTouchStart={(e)=>e.preventDefault()} onTouchMove={(e)=>e.preventDefault()} onTouchEnd={(e)=>e.preventDefault()} />{/*SidePaneArea*/}
+							<SidePane side_pane_type={'drawing'} is_guest={this.props.guest} user_data={this.props.user_data} />{/*SidePaneArea*/}
 						</div>
 					</div>
 					<div className="bg-red-200 bg-opacity-40 rounded-xl mt-3">
@@ -233,7 +237,7 @@ const Toolbar = (props) => {
 				<ul className="flex justify-center items-center box-border border-t-2 gap-1 px-2 py-1">
 					<li className="flex justify-center content-center"><button id="SIZE" className="h-8 px-2 text-gray-500 outline-none bg-white rounded-md text-xs hover:text-gray-900" onClick={props.sizeUp}>SizeUp</button></li>
 					<li className="flex justify-center content-center"><button id="SIZE" className="h-8 px-2 text-gray-500 outline-none bg-white rounded-md text-xs hover:text-gray-900" onClick={props.sizeDown}>SizeDown</button></li>
-					<li className="flex justify-center content-center"><button id="REDO" className="h-8 px-2 text-gray-500 outline-none bg-white rounded-md text-xs hover:text-gray-900" onClick={props.reDo}>Redo</button></li>
+					<li className="flex justify-center content-center"><button id="REDO" className="h-8 px-2 text-gray-500 outline-none bg-white rounded-md text-xs hover:text-gray-900" onClick={props.reDo}>Undo</button></li>
 				</ul>
 			</div>
 			<div className="bg-white bg-opacity-40 box-border border-4 border-yellow-100 rounded-xl">
