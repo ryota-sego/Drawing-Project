@@ -50,7 +50,7 @@ export default class WrapEditPage extends React.Component {
         this.state={
             'pen':'',
             'color':'BLACK',
-            'tool':'',
+            'tool':'PEN',
             'illust_title':'',
             'illust_updated':'',
             'illust_description':'',
@@ -140,12 +140,12 @@ export default class WrapEditPage extends React.Component {
     }
     
     setColor(c){
-    	this.setState((state)=>{return {color : c};});
+    	this.setState({color : c});
     	GB_COLOR = c;
     }
     
     setTool(t){
-    	this.setState((state)=>{tool:t});
+    	this.setState({tool:t});
     	GB_TOOL = t;
     }
     
