@@ -76,7 +76,6 @@ export default class WrapDetailPage extends React.Component {
     
     
     setIllustData(ill_data){
-        console.log(ill_data);
         this.setState({illust_data: ill_data,
                        il_loading: false,
                        is_my_illust: ill_data.user_id == this.props.user_data.id,
@@ -91,7 +90,6 @@ export default class WrapDetailPage extends React.Component {
     setNewComments_BraekLoading(comments, is_full){
         const com = this.state.loaded_comments.concat([]);
         com.push(...comments);
-        console.log(comments)
         this.setState({loaded_comments: [...com],
                        com_loading:false,
                        loaded_count: this.state.loaded_count + 1,
@@ -149,7 +147,7 @@ export default class WrapDetailPage extends React.Component {
                                     </div>
                                 </div>
                                 <div className={`px-2 pt-1 w-100 min-h-32 box-border border-t-2 border-black  ${this.state.open_description? "h-36 overflow-auto": "h-32"}`} onClick={this.openDescription}>{/*IllustDetail*/}
-                                    <p className="break-all text-lg text-black cursor-default">{this.state.open_description || this.state.illust_data.description.length < 300? this.state.illust_data.description: this.state.illust_data.description.substring(0,298) + "..."}</p>
+                                    <p className="break-all text-lg text-black cursor-default">{this.state.open_description || this.state.illust_data.description.length < 200? this.state.illust_data.description: this.state.illust_data.description.substring(0,298) + "..."}</p>
                                 </div>
                             </div>
                         </div>

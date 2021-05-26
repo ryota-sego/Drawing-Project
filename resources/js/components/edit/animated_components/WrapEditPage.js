@@ -131,7 +131,6 @@ export default class WrapEditPage extends React.Component {
         				   illust_updated:res.data.updated_at
     		})
     	}catch(e){
-    		console.log(e.response)
     		console.log(e)
     	}
     }

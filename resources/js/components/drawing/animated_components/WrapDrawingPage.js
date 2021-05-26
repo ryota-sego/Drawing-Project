@@ -110,7 +110,6 @@ export default class WrapDrawingPage extends React.Component {
     		this.setState({saved:1,
     					   illust_id:res.data.illust_id
     					 })
-    		console.log(res.data)
     	}catch (e){
     		console.log(e);
     	}
