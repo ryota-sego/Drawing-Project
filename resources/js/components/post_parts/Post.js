@@ -168,7 +168,7 @@ export const Post_userdrawingpane = props => {
             <div className="px-4 box-border">
                 <p className="text-2xl font-serif truncate pb-1 box-border border-b-2 border-black">{props.data.title}</p>
                 <div className="w-full">
-                    <p className="w-full break-words text-xs">{props.data.description.substring(0,27)}{props.data.description.length>27?"...": ""}</p>
+                    <p className="w-full break-words text-xs">{props.data.description!=null? props.data.description.substring(0,27) + props.data.description.length>27?"...": "": ""}</p>
                 </div>
                 <div className="pr-2 pb-2 md:pr-4 md:pb-4 absolute bottom-0 right-0">
                     <FavoriteButton favoriteHandle={favoriteHandle} isfav={isfav}/>

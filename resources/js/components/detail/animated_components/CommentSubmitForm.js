@@ -14,9 +14,11 @@ export default function CommentSubmitForm(props){
     }
     
     const handleClick = () =>{
-        Api_AddComment(props.illust_id, props.user_id, text);
-        props.CommentRefresh()
-        setText("")
+        if(text.length>1){
+            Api_AddComment(props.illust_id, props.user_id, text);
+            props.CommentRefresh()
+            setText("")
+        }
     }
     
     return(

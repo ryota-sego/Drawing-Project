@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Sketch from "react-p5";
 import { Redirect } from "react-router-dom";
 
@@ -13,6 +13,7 @@ import ShowChartIcon from '@material-ui/icons/ShowChart';
 import CreateIcon from '@material-ui/icons/Create';
 import StopRoundedIcon from '@material-ui/icons/StopRounded';
 import { green } from '@material-ui/core/colors';
+import LoopIcon from '@material-ui/icons/Loop';
 
 import Cursor from '../../common/Cursor/CursorA.png'
 
@@ -23,6 +24,8 @@ let GB_TOOL = 'PEN';
 let SAVECANVAS = false;
 let GB_SIZE = 4;
 
+let CUSTOMCOLOR = "rgba(0,0,0,1)"
+
 const COLORCODE = {
  RED : 'rgba(255,0,0,1)',
  BLUE : 'rgba(0,0,255,1)',
@@ -32,6 +35,10 @@ const COLORCODE = {
  ORANGE : 'rgba(255,165,0,1)',
  TURQUOISE : 'rgba(64,224,208,1)',
  YELLOW : 'rgba(255,255,0,1)',
+}
+
+const SETCUSTOMCOLOR = (r,g,b) => {
+	CUSTOMCOLOR = "rgba(" + r +"," + g +"," + b + ",1)";
 }
 
 // @ const TOOL =[PEN, LINE CIRCLE]
@@ -61,16 +68,23 @@ export default class WrapEditPage extends React.Component {
             'before_submit':false,
             'size':4,
             'loading':true,
-            'saved':false
+            'saved':false,
+            'r':0,
+            'g':0,
+            'b':0
         }
         GB_SIZE=4;
         GB_COLOR = 'BLACK';
 		GB_TOOL = 'PEN';
 		SAVECANVAS = false;
+		CUSTOMCOLOR = "rgba(0,0,0,1)"
         
         this.illustStore_blob = this.illustStore_blob.bind(this)
         this.setDrawing = this.setDrawing.bind(this)
-        this.setColor = this.setColor.bind(this)
+        this.setColorByButton = this.setColorByButton.bind(this)
+        this.setColorB = this.setColorB.bind(this)
+        this.setColorG = this.setColorG.bind(this)
+        this.setColorR = this.setColorR.bind(this)
         this.setTool = this.setTool.bind(this)
         this.saveCanvas = this.saveCanvas.bind(this)
         
@@ -140,9 +154,40 @@ export default class WrapEditPage extends React.Component {
     	}
     }
     
-    setColor(c){
-    	this.setState({color : c});
+    setColorByButton(c){
+    	const [ r, g, b, _ ] = COLORCODE[c].match(/\d+/g);
+    	console.log(COLORCODE[c].match(/\d+/g))
+    	this.setState({r : r,
+    				   g : g,
+    				   b : b,
+    				   custom:false
+    				 });
     	GB_COLOR = c;
+    	SETCUSTOMCOLOR(r,g,b)
+    }
+    
+    setColorR(r){
+    	this.setState({r : r,
+    				   custom:true
+    				 });
+
+    	SETCUSTOMCOLOR(r ,this.state.g, this.state.b)
+    }
+    
+    setColorG(g){
+    	this.setState({g : g,
+    				   custom:true
+    				 });
+
+    	SETCUSTOMCOLOR(this.state.r ,g, this.state.b)
+    }
+    
+    setColorB(b){
+    	this.setState({b : b,
+    				   custom:true
+    				 });
+
+    	SETCUSTOMCOLOR(this.state.r ,this.state.g, b)
     }
     
     setTool(t){
@@ -199,7 +244,7 @@ export default class WrapEditPage extends React.Component {
 					</div>
 					<div className="bg-red-200 bg-opacity-40 rounded-xl mt-3">
 						<span className="ml-2 text-white hidden md:block">Drawing Toolbar</span>
-						<Toolbar setColor={this.setColor} size={this.state.size} sizeDown={this.sizeDown} sizeUp={this.sizeUp} reDo={this.reDo} setTool={this.setTool} color={this.state.color} tool={this.state.tool} saveCanvas={this.saveCanvas} illustStore={this.illustStore_blob}/>
+						<Toolbar  setColorB={this.setColorB} setColorG={this.setColorG} setColorR={this.setColorR} setColorByButton={this.setColorByButton} size={this.state.size} sizeDown={this.sizeDown} sizeUp={this.sizeUp} reDo={this.reDo} setTool={this.setTool} r={this.state.r} g={this.state.g} b={this.state.b} tool={this.state.tool} saveCanvas={this.saveCanvas} illustStore={this.illustStore_blob}/>
 					</div>
 				</div>);
     }
@@ -207,20 +252,29 @@ export default class WrapEditPage extends React.Component {
 }
 //=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+= Toolbar Component +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 const Toolbar = (props) => {
-	let rgb = COLORCODE[props.color].match(/\d+/g);
+	const [palette, setPalette] = useState(false);
+	
 	return(
 		<div className="flex w-full flex-wrap justify-center md:justify-start gap-2 pb-0 md:pb-2">
 			<div className="bg-white bg-opacity-40 box-border border-4 border-yellow-100 rounded-xl">
-				<p className="ml-2 text-white"><PaletteIcon color="primary" fontSize="small"/> Colors (<StopRoundedIcon color="secondary" style={{ fontSize: 8 }} />:{rgb[0]},<StopRoundedIcon style={{ fontSize: 8, color: green[500] }} />:{rgb[1]},<StopRoundedIcon color="primary" style={{ fontSize: 8 }} />:{rgb[2]} )</p>
-				<ul className="flex justify-center items-center box-border border-t-2 gap-1 px-2 py-1">
-					<li className="flex justify-center content-center"><button id="RED" className={`w-8 h-8 sm:rounded-full ${props.color=="RED"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColor("RED")}></button></li>
-					<li className="flex justify-center content-center"><button id="BLUE" className={`w-8 h-8 sm:rounded-full ${props.color=="BLUE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColor("BLUE")}></button></li>
-					<li className="flex justify-center content-center"><button id="WHITE" className={`w-8 h-8 sm:rounded-full ${props.color=="WHITE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColor("WHITE")}></button></li>
-					<li className="flex justify-center content-center"><button id="BLACK" className={`w-8 h-8 sm:rounded-full ${props.color=="BLACK"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColor("BLACK")}></button></li>
-					<li className="flex justify-center content-center"><button id="PURPLE" className={`w-8 h-8 sm:rounded-full ${props.color=="PURPLE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColor("PURPLE")}></button></li>
-					<li className="flex justify-center content-center"><button id="ORANGE" className={`w-8 h-8 sm:rounded-full ${props.color=="ORANGE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColor("ORANGE")}></button></li>
-					<li className="flex justify-center content-center"><button id="TURQUOISE" className={`w-8 h-8 sm:rounded-full ${props.color=="TURQUOISE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColor("TURQUOISE")}></button></li>
-					<li className="flex justify-center content-center"><button id="YELLOW" className={`w-8 h-8 sm:rounded-full ${props.color=="YELLOW"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColor("YELLOW")}></button></li>
+				<div className="px-2 flex justify-between">
+					<p className="text-white"><PaletteIcon color="primary" fontSize="small"/> Colors (<StopRoundedIcon color="secondary" style={{ fontSize: 8 }} />:{props.r},<StopRoundedIcon style={{ fontSize: 8, color: green[500] }} />:{props.g},<StopRoundedIcon color="primary" style={{ fontSize: 8 }} />:{props.b} )</p>
+					<button className="text-sm box-border text-white bg-gray-500 rounded-md" onClick={()=>{setPalette(!palette)}}>パレット<LoopIcon style={{ fontSize: 20 }} /></button>
+				</div>
+				<ul className={`${palette? "hidden": "block"} flex justify-center items-center box-border border-t-2 gap-1 px-2 py-1`}>
+					<li className="flex justify-center content-center"><button id="RED" className={`w-8 h-8 sm:rounded-full ${props.color=="RED"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton("RED")}></button></li>
+					<li className="flex justify-center content-center"><button id="BLUE" className={`w-8 h-8 sm:rounded-full ${props.color=="BLUE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton("BLUE")}></button></li>
+					<li className="flex justify-center content-center"><button id="WHITE" className={`w-8 h-8 sm:rounded-full ${props.color=="WHITE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton("WHITE")}></button></li>
+					<li className="flex justify-center content-center"><button id="BLACK" className={`w-8 h-8 sm:rounded-full ${props.color=="BLACK"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton("BLACK")}></button></li>
+					<li className="flex justify-center content-center"><button id="PURPLE" className={`w-8 h-8 sm:rounded-full ${props.color=="PURPLE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton("PURPLE")}></button></li>
+					<li className="flex justify-center content-center"><button id="ORANGE" className={`w-8 h-8 sm:rounded-full ${props.color=="ORANGE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton("ORANGE")}></button></li>
+					<li className="flex justify-center content-center"><button id="TURQUOISE" className={`w-8 h-8 sm:rounded-full ${props.color=="TURQUOISE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton("TURQUOISE")}></button></li>
+					<li className="flex justify-center content-center"><button id="YELLOW" className={`w-8 h-8 sm:rounded-full ${props.color=="YELLOW"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton("YELLOW")}></button></li>
+				</ul>
+				<ul className={`${palette? "block": "hidden"} box-border border-t-2 px-2 py-1`}>
+					<li className="flex justify-center content-center"><StopRoundedIcon color="secondary" style={{ fontSize: 12 }} /><input type="range" value={props.r} max="255" min="0" id="RED-bar" className={`w-64 h-2`} onChange={(e)=>props.setColorR(e.target.value)}></input></li>
+					<li className="flex justify-center content-center -m-t-2"><StopRoundedIcon style={{ fontSize: 12, color: green[500] }} /><input type="range" value={props.g} max="255" min="0" id="GREEN-bar" className={`w-64 h-2`} onChange={(e)=>props.setColorG(e.target.value)}></input></li>
+					<li className="flex justify-center content-center -m-t-2"><StopRoundedIcon color="primary" style={{ fontSize: 12 }} /><input type="range" value={props.b} max="255" min="0" id="BLUE-bar" className={`w-64 h-2`} onChange={(e)=>props.setColorB(e.target.value)}></input></li>
 				</ul>
 			</div>
 			<div className="bg-white bg-opacity-40 box-border border-4 border-yellow-100 rounded-xl">
@@ -319,7 +373,8 @@ const SketchP5 = (props) => {
 		}
 		
 		
-		p5.stroke(p5.color(COLORCODE[GB_COLOR]));
+		let color = p5.color(CUSTOMCOLOR);
+		p5.stroke(color);
 		p5.strokeWeight(GB_SIZE);
 		p5.noFill();
 		if(started){
@@ -329,7 +384,7 @@ const SketchP5 = (props) => {
 				    point = {
 				        'x': p5.mouseX,
 				        'y': p5.mouseY,
-				        'c': COLORCODE[GB_COLOR],
+				        'c': color,
 				        's': GB_SIZE
 				    };
 				    init = false;
@@ -348,7 +403,7 @@ const SketchP5 = (props) => {
 					point = {
 			        'x': p5.mouseX,
 			        'y': p5.mouseY,
-			        'c': COLORCODE[GB_COLOR],
+			        'c': color,
 			        's': GB_SIZE
 			    	}
 			    	current_line.push(point)
