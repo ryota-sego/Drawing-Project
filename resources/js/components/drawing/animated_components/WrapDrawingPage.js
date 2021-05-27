@@ -4,7 +4,6 @@ import { Redirect } from "react-router-dom";
 
 import SidePane from '../../common/SidePane';
 import Loading from "../../common/Loading"
-
 import { Api_StoreIllust_url } from '../../api/Api'
 import PopupBeforeSubmit from './PopupBeforeSubmit'
 
@@ -14,6 +13,9 @@ import ShowChartIcon from '@material-ui/icons/ShowChart';
 import CreateIcon from '@material-ui/icons/Create';
 import StopRoundedIcon from '@material-ui/icons/StopRounded';
 import { green } from '@material-ui/core/colors';
+
+import Cursor from '../../common/Cursor/CursorA.png'
+//const blobCursor = window.URL.createObjectURL( Cursor )
 
 //システムTier1（ピクセル単位でのカラーリングではなく、色と位置に応じたカラーリング(消しゴム不可)
 
@@ -173,7 +175,10 @@ export default class WrapDrawingPage extends React.Component {
 					</div>
 				</div>
 				<div className="flex flex-row justify-center md:justify-between content-center">
-					<div className="mx-0 md:mx-auto" onTouchStart={(e)=>e.preventDefault()} onTouchMove={(e)=>e.preventDefault()}>
+					<div className="relative mx-0 md:mx-auto" onTouchStart={(e)=>e.preventDefault()} onTouchMove={(e)=>e.preventDefault()}>
+
+						
+
 						{this.state.saved==2?<Loading />
 						:
 						<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing} onTouchStart={(e)=>e.preventDefault()} onTouchMove={(e)=>e.preventDefault()} onTouchEnd={(e)=>e.preventDefault()} />}{/*DrawingArea*/}
@@ -263,8 +268,11 @@ const SketchP5 = (props) => {
 		canvas.touchEnded(endPath);
 		started = false;
 		
+		const _c = document.getElementsByClassName("p5Canvas");
+		_c[0].style.cursor = "none";
+		_c[0].style.cursor = `url(${Cursor}), auto`;
+		
 		if (window.matchMedia && window.matchMedia('(max-device-width: 640px)').matches) {
-			const _c = document.getElementsByClassName("p5Canvas");
 			_c[0].style.width="400px"
 			_c[0].style.height="400px"
 		}

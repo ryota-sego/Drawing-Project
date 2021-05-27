@@ -14,6 +14,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import StopRoundedIcon from '@material-ui/icons/StopRounded';
 import { green } from '@material-ui/core/colors';
 
+import Cursor from '../../common/Cursor/CursorA.png'
 
 //システムTier1（ピクセル単位でのカラーリングではなく、色と位置に応じたカラーリング(消しゴム不可)）
 
@@ -274,8 +275,15 @@ const SketchP5 = (props) => {
 		canvas.touchEnded(endPath);
 		started = false;
 		
+		const _c = document.getElementsByClassName("p5Canvas");
+		_c[0].style.cursor = `url(${Cursor}), auto`;
+		
+		_c[0].addEventListener('mousemove',(e)=>{
+			let x = e.offsetX;
+			let y = e.offsetY;
+			
+		})
 		if (window.matchMedia && window.matchMedia('(max-device-width: 640px)').matches) {
-			const _c = document.getElementsByClassName("p5Canvas");
 			_c[0].style.width="400px"
 			_c[0].style.height="400px"
 		}
