@@ -77,6 +77,7 @@ export default class WrapDrawingPage extends React.Component {
         GB_COLOR = 'BLACK';
 		GB_TOOL = 'PEN';
 		SAVECANVAS = false;
+		CUSTOMCOLOR = "rgba(0,0,0,1)"
         
         this.illustStore_blob = this.illustStore_blob.bind(this)
         this.setDrawing = this.setDrawing.bind(this)
