@@ -147,7 +147,7 @@ export default class WrapDetailPage extends React.Component {
                                     </div>
                                 </div>
                                 <div className={`px-2 pt-1 w-100 min-h-32 box-border border-t-2 border-black  ${this.state.open_description? "h-36 overflow-auto": "h-32"}`} onClick={this.openDescription}>{/*IllustDetail*/}
-                                    <p className="break-all text-lg text-black cursor-default">{this.state.open_description || this.state.illust_data.description.length < 60? this.state.illust_data.description: this.state.illust_data.description.substring(0,60) + "..."}</p>
+                                    <p className="break-all text-lg text-black cursor-default">{this.state.illust_data.description? this.state.open_description || this.state.illust_data.description.length < 60? this.state.illust_data.description: this.state.illust_data.description.substring(0,60) + "...": ""}</p>
                                 </div>
                             </div>
                         </div>
