@@ -24,7 +24,9 @@ export default class WrapDrawingPage extends React.Component {
         e.preventDefault();
         if(this.state.title.length){
             let tit = this.state.title.length>20? this.state.title.substr(0,20): this.state.title;
-            let desc = this.state.description.length>1000? this.state.title.substr(0,1000): this.state.description;
+            
+            let desc = ""
+            if(this.state.description!=null) desc=this.state.description.length>1000? this.state.title.substr(0,1000): this.state.description;
             this.props.submitIllust(tit, desc);
             this.props.closePopup()
         }
@@ -39,10 +41,14 @@ export default class WrapDrawingPage extends React.Component {
     }
     
     setDescription(e){
-        if (this.state.description.length<1000){
-            this.setState({description: e.target.value})
+        if(this.state.description!=null){
+            if (this.state.description.length<1000){
+                this.setState({description: e.target.value})
+            }else{
+                this.setState({description: this.state.description.substr(0,999)})
+            }
         }else{
-            this.setState({description: this.state.description.substr(0,999)})
+            this.setState({description: e.target.value})
         }
     }
     
