@@ -25,8 +25,6 @@ let GB_TOOL = 'PEN';
 let SAVECANVAS = false;
 let GB_SIZE = 4;
 
-let CUSTOMCOLOR = "rgba(0,0,0,1)"
-
 const COLORCODE = {
  RED : 'rgba(255,0,0,1)',
  BLUE : 'rgba(0,0,255,1)',
@@ -37,6 +35,8 @@ const COLORCODE = {
  TURQUOISE : 'rgba(64,224,208,1)',
  YELLOW : 'rgba(255,255,0,1)'
 }
+
+let CUSTOMCOLOR;
 
 const SETCUSTOMCOLOR = (r,g,b) => {
 	CUSTOMCOLOR = "rgba(" + r +"," + g +"," + b + ",1)";
@@ -69,6 +69,7 @@ export default class WrapDrawingPage extends React.Component {
             'saved':0,
             'illust_id':-1,
             'CUSTOM':false,
+            'history':[],
             'r':0,
             'g':0,
             'b':0
@@ -77,7 +78,7 @@ export default class WrapDrawingPage extends React.Component {
         GB_COLOR = 'BLACK';
 		GB_TOOL = 'PEN';
 		SAVECANVAS = false;
-		CUSTOMCOLOR = "rgba(0,0,0,1)"
+		CUSTOMCOLOR = COLORCODE["BLACK"]
         
         this.illustStore_blob = this.illustStore_blob.bind(this)
         this.setDrawing = this.setDrawing.bind(this)
@@ -91,6 +92,7 @@ export default class WrapDrawingPage extends React.Component {
         this.sizeDown = this.sizeDown.bind(this);
         this.sizeUp = this.sizeUp.bind(this);
         this.reDo = this.reDo.bind(this);
+        this.setColorHistory = this.setColorHistory.bind(this);
         
         this.closePopup = this.closePopup.bind(this);
         this.showPopup = this.showPopup.bind(this);
@@ -98,7 +100,7 @@ export default class WrapDrawingPage extends React.Component {
     
     componentWillUnmount() {
         this.setState = (state,callback)=>{
-        return;
+        	return;
         };
     }
     
@@ -135,9 +137,21 @@ export default class WrapDrawingPage extends React.Component {
     	}
     }
     
+    setColorHistory(){
+    	if(!this.state.history.length || !this.state.history.filter(i => i[0]==this.state.r && i[1]==this.state.g && i[2]==this.state.b).length){
+    		
+	    	if(this.state.history.length < 8){
+				this.setState({history:[...this.state.history, [this.state.r, this.state.g, this.state.b]]});
+			}else{
+				let _history = [...this.state.history];
+				_history.shift();
+				this.setState({history:[..._history, [this.state.r, this.state.g, this.state.b]]});
+			}
+    	}
+    }
+    
     setColorByButton(c){
-    	const [ r, g, b, _ ] = COLORCODE[c].match(/\d+/g);
-    	console.log(COLORCODE[c].match(/\d+/g))
+    	const [ r, g, b, _ ] = c.match(/\d+/g);
     	this.setState({r : r,
     				   g : g,
     				   b : b,
@@ -179,7 +193,7 @@ export default class WrapDrawingPage extends React.Component {
     }
     
     sizeUp(){
-    	if(this.state.size<15){
+    	if(this.state.size<25){
 	    	this.setState({size: this.state.size + 1});
 	    	GB_SIZE = GB_SIZE+1;
     	}
@@ -222,10 +236,10 @@ export default class WrapDrawingPage extends React.Component {
 					</div>
 				</div>
 				<div className="flex flex-row justify-center md:justify-between content-center">
-					<div className="relative mx-0 md:mx-auto" onTouchStart={(e)=>e.preventDefault()} onTouchMove={(e)=>e.preventDefault()}>
+					<div className="relative mx-0 md:mx-auto" onTouchStart={(e)=>e.preventDefault()} onTouchMove={(e)=>e.preventDefault()} onTouchEnd={(e)=>e.preventDefault()} onMouseDown={this.setColorHistory}>
 						{this.state.saved==2?<Loading />
 						:
-						<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing} onTouchStart={(e)=>e.preventDefault()} onTouchMove={(e)=>e.preventDefault()} onTouchEnd={(e)=>e.preventDefault()} custom={this.state.custom} r={this.state.r} g={this.state.g} b={this.state.b} />}{/*DrawingArea*/}
+						<Sketch_Memo setDrawing={this.setDrawing} drawing={this.state.drawing} onTouchStart={(e)=>e.preventDefault()} onTouchMove={(e)=>e.preventDefault()} />}{/*DrawingArea*/}
 					</div>
 					<div className="hidden md:block">
 						<SidePane side_pane_type={'drawing'} is_guest={this.props.guest} user_data={this.props.user_data}/> {/*SidePaneArea*/}
@@ -233,7 +247,7 @@ export default class WrapDrawingPage extends React.Component {
 				</div>
 				<div className="bg-red-200 bg-opacity-40 rounded-xl mt-3 pl-0 md:pl-8">
 					<span className="ml-2 text-white hidden md:block">Drawing Toolbar</span>
-					<Toolbar setColorB={this.setColorB} setColorG={this.setColorG} setColorR={this.setColorR} setColorByButton={this.setColorByButton} size={this.state.size} sizeDown={this.sizeDown} sizeUp={this.sizeUp} reDo={this.reDo} setTool={this.setTool} r={this.state.r} g={this.state.g} b={this.state.b} tool={this.state.tool} saveCanvas={this.saveCanvas} illustStore={this.illustStore_blob}/>
+					<Toolbar history={this.state.history} setColorB={this.setColorB} setColorG={this.setColorG} setColorR={this.setColorR} setColorByButton={this.setColorByButton} size={this.state.size} sizeDown={this.sizeDown} sizeUp={this.sizeUp} reDo={this.reDo} setTool={this.setTool} r={this.state.r} g={this.state.g} b={this.state.b} tool={this.state.tool} saveCanvas={this.saveCanvas} illustStore={this.illustStore_blob}/>
 				</div>
 			</div>
 		);
@@ -241,29 +255,45 @@ export default class WrapDrawingPage extends React.Component {
 }
 //=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+= Toolbar Component +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 const Toolbar = (props) => {
-	const [palette, setPalette] = useState(false);
+	const [palette, setPalette] = useState("base");
+	
+	const managePalette = () => {
+		if(palette === "base"){
+			setPalette("custom");
+		}else if(palette === "custom"){
+			setPalette("history");
+		}else if(palette === "history"){
+			setPalette("base");	
+		}
+	}
 	
 	return(
 		<div className="flex w-full flex-wrap justify-center md:justify-start gap-2 pb-0 md:pb-2">
 			<div className="bg-white bg-opacity-40 box-border border-4 border-yellow-100 rounded-xl">
-				<div className="px-2 flex justify-between">
-					<p className="text-white"><PaletteIcon color="primary" fontSize="small"/> Colors (<StopRoundedIcon color="secondary" style={{ fontSize: 8 }} />:{props.r},<StopRoundedIcon style={{ fontSize: 8, color: green[500] }} />:{props.g},<StopRoundedIcon color="primary" style={{ fontSize: 8 }} />:{props.b} )</p>
-					<button className="text-sm box-border text-white bg-gray-500 rounded-md" onClick={()=>{setPalette(!palette)}}>パレット<LoopIcon style={{ fontSize: 20 }} /></button>
+				<div className="px-2  w-80 h-8 flex justify-between">
+					<div className="flex h-8 justify-start content-center items-center gap-2">
+						<p><PaletteIcon color="primary" fontSize="small"/> Color {palette==="base"? "基本": palette==="custom"? "カスタム": "履歴"}</p>
+						<div className="h-4 w-8 rounded-full" style={{ 'backgroundColor': `rgb(${props.r},${props.g},${props.b})` }} />
+					</div>
+					<button className="text-sm box-border text-white bg-gray-500 rounded-md box-border border-2 border-white" onClick={managePalette}>パレット<LoopIcon style={{ fontSize: 20 }} /></button>
 				</div>
-				<ul className={`${palette? "hidden": "block"} flex justify-center items-center box-border border-t-2 gap-1 px-2 py-1`}>
-					<li className="flex justify-center content-center"><button id="RED" className={`w-8 h-8 sm:rounded-full ${props.color=="RED"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton("RED")}></button></li>
-					<li className="flex justify-center content-center"><button id="BLUE" className={`w-8 h-8 sm:rounded-full ${props.color=="BLUE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton("BLUE")}></button></li>
-					<li className="flex justify-center content-center"><button id="WHITE" className={`w-8 h-8 sm:rounded-full ${props.color=="WHITE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton("WHITE")}></button></li>
-					<li className="flex justify-center content-center"><button id="BLACK" className={`w-8 h-8 sm:rounded-full ${props.color=="BLACK"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton("BLACK")}></button></li>
-					<li className="flex justify-center content-center"><button id="PURPLE" className={`w-8 h-8 sm:rounded-full ${props.color=="PURPLE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton("PURPLE")}></button></li>
-					<li className="flex justify-center content-center"><button id="ORANGE" className={`w-8 h-8 sm:rounded-full ${props.color=="ORANGE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton("ORANGE")}></button></li>
-					<li className="flex justify-center content-center"><button id="TURQUOISE" className={`w-8 h-8 sm:rounded-full ${props.color=="TURQUOISE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton("TURQUOISE")}></button></li>
-					<li className="flex justify-center content-center"><button id="YELLOW" className={`w-8 h-8 sm:rounded-full ${props.color=="YELLOW"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton("YELLOW")}></button></li>
+				<ul className={`${palette === "base"? "block": "hidden"} flex justify-center items-center box-border border-t-2 gap-1 px-2 py-1`}>
+					<li className="flex justify-center content-center"><button id="RED" className={`w-8 h-8 sm:rounded-full ${props.color=="RED"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton(COLORCODE["RED"])}></button></li>
+					<li className="flex justify-center content-center"><button id="BLUE" className={`w-8 h-8 sm:rounded-full ${props.color=="BLUE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton(COLORCODE["BLUE"])}></button></li>
+					<li className="flex justify-center content-center"><button id="WHITE" className={`w-8 h-8 sm:rounded-full ${props.color=="WHITE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton(COLORCODE["WHITE"])}></button></li>
+					<li className="flex justify-center content-center"><button id="BLACK" className={`w-8 h-8 sm:rounded-full ${props.color=="BLACK"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton(COLORCODE["BLACK"])}></button></li>
+					<li className="flex justify-center content-center"><button id="PURPLE" className={`w-8 h-8 sm:rounded-full ${props.color=="PURPLE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton(COLORCODE["PURPLE"])}></button></li>
+					<li className="flex justify-center content-center"><button id="ORANGE" className={`w-8 h-8 sm:rounded-full ${props.color=="ORANGE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton(COLORCODE["ORANGE"])}></button></li>
+					<li className="flex justify-center content-center"><button id="TURQUOISE" className={`w-8 h-8 sm:rounded-full ${props.color=="TURQUOISE"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton(COLORCODE["TURQUOISE"])}></button></li>
+					<li className="flex justify-center content-center"><button id="YELLOW" className={`w-8 h-8 sm:rounded-full ${props.color=="YELLOW"? "ring-2 ring-offset-1 ring-black ring-inset": ""}`} onClick={()=>props.setColorByButton(COLORCODE["YELLOW"])}></button></li>
 				</ul>
-				<ul className={`${palette? "block": "hidden"} box-border border-t-2 px-2 py-1`}>
+				<ul className={`${palette === "custom"? "block": "hidden"} box-border border-t-2 px-4 py-1`}>
 					<li className="flex justify-center content-center"><StopRoundedIcon color="secondary" style={{ fontSize: 12 }} /><input type="range" value={props.r} max="255" min="0" id="RED-bar" className={`w-64 h-2`} onChange={(e)=>props.setColorR(e.target.value)}></input></li>
 					<li className="flex justify-center content-center -m-t-2"><StopRoundedIcon style={{ fontSize: 12, color: green[500] }} /><input type="range" value={props.g} max="255" min="0" id="GREEN-bar" className={`w-64 h-2`} onChange={(e)=>props.setColorG(e.target.value)}></input></li>
 					<li className="flex justify-center content-center -m-t-2"><StopRoundedIcon color="primary" style={{ fontSize: 12 }} /><input type="range" value={props.b} max="255" min="0" id="BLUE-bar" className={`w-64 h-2`} onChange={(e)=>props.setColorB(e.target.value)}></input></li>
+				</ul>
+				<ul className={`${palette === "history"? "block": "hidden"} flex justify-center items-center box-border border-t-2 gap-1 px-2 py-1`}>
+					{props.history.map(c => <li key={`rgb(${c[0]}_${c[1]}_${c[2]})`} className="flex justify-center content-center"><button style={{ 'backgroundColor': `rgb(${c[0]},${c[1]},${c[2]})` }} value={`rgb(${c[0]},${c[1]},${c[2]})`} className={`w-8 h-8 sm:rounded-full`} onClick={(e)=>props.setColorByButton(e.target.value)}></button></li>)}
 				</ul>
 			</div>
 			<div className="bg-white bg-opacity-40 box-border border-4 border-yellow-100 rounded-xl">
@@ -367,7 +397,7 @@ const SketchP5 = (props) => {
 				    point = {
 				        'x': p5.mouseX,
 				        'y': p5.mouseY,
-				        'c': color,
+				        'c': CUSTOMCOLOR,
 				        's': GB_SIZE
 				    };
 				    init = false;
@@ -386,7 +416,7 @@ const SketchP5 = (props) => {
 					point = {
 			        'x': p5.mouseX,
 			        'y': p5.mouseY,
-			        'c': color,
+			        'c': CUSTOMCOLOR,
 			        's': GB_SIZE
 			    	}
 			    	current_line.push(point)

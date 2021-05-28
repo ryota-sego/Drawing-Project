@@ -19,7 +19,6 @@ export default class Signup extends React.Component {
         e.preventDefault();
         await Api_Signup(this.state.email, this.state.name, this.state.password, this.props.setIsGuest);
         console.log(this.props.isGuest);
-        console.log(6);
     };
     
     render(){
@@ -39,15 +38,16 @@ export default class Signup extends React.Component {
               <div className="rounded-md shadow-sm -space-y-px">
                 <div>
                   <label htmlFor="email-address" className="sr-only">
-                    Email address
+                    Email address(@example.com)
                   </label>
                   <input
                     id="email-address"
                     name="email"
                     type="email"
                     required
+                    pattern="\S+@example\.com$"
                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    placeholder="Email address"
+                    placeholder="Email address(@example.com)"
                     onChange={e => this.setState({'email':e.target.value})}
                   />
                 </div>
@@ -73,9 +73,10 @@ export default class Signup extends React.Component {
                     id="password"
                     name="password"
                     type="password"
+                    pattern="\S{5,20}"
                     required
                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    placeholder="Password"
+                    placeholder="Password (5-20)"
                     onChange={e => this.setState({'password':e.target.value})}
                   />
                 </div>
